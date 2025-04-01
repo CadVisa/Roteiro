@@ -75,3 +75,33 @@ export default defineConfig({
         },
     },
 });
+
+## inicial o git
+git init
+
+## verificar a branch 
+git branch
+
+## criar uma nova branch
+git checkout -b minha-branch
+
+## adicionar as aletarções
+git add .
+
+## Faz o commit das alterações
+git commit -m "Descrição..."
+
+## Atualize sua branch local com o repositório remoto (evita conflitos)
+git pull origin main
+
+## Envie (push) suas alterações para o GitHub
+
+## verifique as alterações feitas 
+git status
+
+
+git checkout main
+git pull origin main
+git add .
+git commit -m "Mensagem do commit"
+git push origin main   

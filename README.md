@@ -99,7 +99,7 @@ git pull origin main
 ## verifique as alterações feitas 
 git status
 
-
+### Resumo
 git checkout main
 git pull origin main
 git add .

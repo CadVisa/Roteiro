@@ -8,7 +8,7 @@
             <h4 class="ms-2 mt-3 me-3"><i class="fa-brands fa-creative-commons-share me-1"></i>Atividades Econômicas</h4>
         </div>
 
-        <div class="card border-primary mb-4 border-ligth shadow col-md-12">
+        <div class="card border-primary mb-3 mt-3 border-ligth shadow col-md-12">
 
             <div class="card-header space-between-elements border-primary text-light bg-primary">
                 <span>Pesquisar</span>
@@ -37,15 +37,11 @@
                         <label for="grau_pesquisa" class="form-label mb-1">Grau de risco: </label>
                         <select class="form-control" name="grau_pesquisa" id="grau_pesquisa">
                             <option value="" @if (old('grau_pesquisa', $grau_pesquisa ?? '') == '') selected @endif>Selecione</option>
+                            <option value="Baixo risco" @if ($grau_pesquisa == 'Baixo risco') selected @endif>Baixo risco</option>
+                            <option value="Médio risco" @if ($grau_pesquisa == 'Médio risco') selected @endif>Médio risco</option>
                             <option value="Alto risco" @if ($grau_pesquisa == 'Alto risco') selected @endif>Alto risco</option>
-                            <option value="Baixo risco" @if ($grau_pesquisa == 'Baixo risco') selected @endif>Baixo risco
-                            </option>
-                            <option value="Médio risco" @if ($grau_pesquisa == 'Médio risco') selected @endif>Médio risco
-                            </option>
-                            <option value="Depende de informação" @if ($grau_pesquisa == 'Depende de informação') selected @endif>Depende
-                                de informação</option>
-                            <option value="CNAE isento" @if ($grau_pesquisa == 'CNAE isento') selected @endif>CNAE isento
-                            </option>
+                            <option value="Depende de informação" @if ($grau_pesquisa == 'Depende de informação') selected @endif>Depende de informação</option>
+                            <option value="CNAE isento" @if ($grau_pesquisa == 'CNAE isento') selected @endif>Isento</option>
                         </select>
                     </div>
 
@@ -53,22 +49,19 @@
                         <label for="competencia_pesquisa" class="form-label mb-1">Competência: </label>
                         <select class="form-control" name="competencia_pesquisa" id="competencia_pesquisa">
                             <option value="" @if (old('competencia_pesquisa', $competencia_pesquisa ?? '') == '') selected @endif>Selecione</option>
+                            <option value="Municipal" @if ($competencia_pesquisa == 'Municipal') selected @endif>Municipal</option>
                             <option value="Estadual" @if ($competencia_pesquisa == 'Estadual') selected @endif>Estadual</option>
-                            <option value="Municipal" @if ($competencia_pesquisa == 'Municipal') selected @endif>Municipal
-                            </option>
-                            <option value="Depende de informação" @if ($competencia_pesquisa == 'Depende de informação') selected @endif>Depende
-                                de informação</option>
-                            <option value="CNAE isento" @if ($competencia_pesquisa == 'CNAE isento') selected @endif>CNAE isento
-                            </option>
+                            <option value="Depende de informação" @if ($competencia_pesquisa == 'Depende de informação') selected @endif>Depende de informação</option>
+                            <option value="CNAE isento" @if ($competencia_pesquisa == 'CNAE isento') selected @endif>Isento</option>
                         </select>
                     </div>
 
                     <div class="col-sm-12 col-md-4 col-lg-3 mt-3 d-flex align-items-end p-lg-1">
                         <div class="d-flex justify-content-start">
-                            <button class="spinnerA btn btn-outline-primary btn-sm me-1" type="submit">
-                                <i class="fa-solid fa-magnifying-glass"></i><span class="d-none d-sm-inline"> Filtrar</span>
+                            <button class="spinner-primary btn btn-outline-primary btn-sm me-1" type="submit">
+                                <i class="fa-solid fa-magnifying-glass"></i><span class="d-none d-sm-inline"> Pesquisar</span>
                             </button>
-                            <a href="{{ route('cnae.index') }}" class="spinnerB btn btn-outline-secondary btn-sm">
+                            <a href="{{ route('cnae.index') }}" class="spinner-secondary btn btn-outline-secondary btn-sm">
                                 <i class="fa-solid fa-broom"></i><span class="d-none d-sm-inline"> Limpar</span>
                             </a>
                         </div>
@@ -79,13 +72,13 @@
 
         <div class="card-body">
 
-            <div class="card mb-4 border-ligth shadow col-md-12 border-primary">
+            <div class="card border-primary mb-3 mt-3 border-ligth shadow col-md-12">
 
                 <div class="card-header d-flex justify-content-between align-items-center border-primary text-light bg-primary">
                     <span>Lista de atividades econômicas</span>
 
                     <div>
-                        <a href="#" class="spinnerC btn btn-sm btn-outline-light">
+                        <a href="{{ route('cnae.create') }}" class="spinner-light btn btn-sm btn-outline-light">
                             <i class="fa-solid fa-plus"></i>
                             <span class="d-none d-sm-inline"> Adicionar</span>
                         </a>
@@ -120,8 +113,8 @@
 
                                 @foreach ($cnaes as $cnae)
                                     <tr>
-                                        <td style="width: 90px;">{{ $cnae->codigo_cnae }}</td>
-                                        <td class="text-truncate d-none d-md-table-cell" style="max-width: 300px;">
+                                        <td style="width: 90px;" title="{{ $cnae->descricao_cnae }}">{{ $cnae->codigo_cnae }}</td>
+                                        <td class="text-truncate d-none d-md-table-cell" style="max-width: 300px;" title="{{ $cnae->descricao_cnae }}">
                                             {{ $cnae->descricao_cnae }}</td>
                                         <td class="text-truncate d-none d-sm-table-cell text-center"
                                             style="max-width: 100px;">
@@ -140,7 +133,7 @@
                                                     bg-light text-dark @endif">
 
                                                 @if ($cnae->grau_cnae == 'CNAE isento')
-                                                    C I
+                                                    IS
                                                 @elseif ($cnae->grau_cnae == 'Depende de informação')
                                                     DI
                                                 @elseif ($cnae->grau_cnae == 'Alto risco')
@@ -178,10 +171,9 @@
                                                     {{ $cnae->competencia }}
                                                 @endif
                                             </span>
-
                                         </td>
                                         <td class="text-end">
-                                            <a href="#" class="spinnerA btn btn-outline-primary btn-sm"><i
+                                            <a href="{{ route('cnae.show', ['cnae' => $cnae]) }}" class="spinner-primary btn btn-outline-primary btn-sm"><i
                                                     class="fa-regular fa-folder-open"></i><span class="d-none d-sm-inline">
                                                     Abrir</span></a>
                                         </td>

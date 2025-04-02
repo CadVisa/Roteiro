@@ -11,7 +11,7 @@ class Pergunta extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'cnae_id ',
+        'cnae_id',
         'pergunta',
         'competencia',
         'grau_sim',

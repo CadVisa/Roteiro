@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="d-flex justify-content-center align-items-center">
-        <div class="card shadow mt-5 col-12 col-sm-10 col-md-8 col-lg-6">
-            <div class="card-header text-center bg-primary text-white">
-                <div class="mb-0 p-1 h5">Área restrita</div>
+        <div class="card shadow mt-5 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+            <div class="card-header text-center align-items-center border-primary text-light bg-primary">
+                <span>Área restrita</span>
             </div>
             <div class="card-body">
                 <form action="{{ route('login.process') }}" method="POST" class="row g-3 needs-validation" novalidate>
@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-sm btn-primary">Acessar</button>
+                        <button type="submit" class="spinner-primary btn btn-sm btn-outline-primary">Acessar</button>
                     </div>
                 </form>
             </div>

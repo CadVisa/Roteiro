@@ -73,7 +73,6 @@ footer .d-flex>div {
     color: #ffc404 !important;
 }
 
-
 .navbar-toggler {
     border: none !important;
     color: #fff !important;
@@ -98,4 +97,19 @@ footer .d-flex>div {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath stroke='%23ffc404' stroke-linecap='round' stroke-width='1.5' d='M1 4h14M1 8h14M1 12h14'/%3e%3c/svg%3e") !important;
         }
     }
+}
+
+textarea {
+    resize: none;
+    transition: height 0.2s ease;
+}
+
+textarea.autosize-expanded {
+    min-height: 100px;
+}
+
+.mandatory::after {
+    content: "*";
+    color: red;
+    
 }

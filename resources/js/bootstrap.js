@@ -8,4 +8,7 @@ window.jQuery = $;
 
 import 'bootstrap';
 import 'jquery-mask-plugin';
+import autosize from 'autosize';
+
+window.autosize = autosize;
 

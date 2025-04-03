@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="d-flex justify-content-center align-items-center">
-        <div class="card shadow mt-5 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+        <div class="card border-primary border-ligth shadow mb-3 mt-5 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+            
             <div class="card-header text-center align-items-center border-primary text-light bg-primary">
                 <span>Área restrita</span>
             </div>
@@ -10,7 +11,6 @@
                 <form action="{{ route('login.process') }}" method="POST" class="row g-3 needs-validation" novalidate>
                     @csrf
                     @method('POST')
-
                     <x-alert />
 
                     <div class="col-12">

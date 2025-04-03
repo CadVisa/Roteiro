@@ -7,7 +7,7 @@
             <h4 class="ms-2 mt-3 me-3"><i class="fa-brands fa-creative-commons-share me-1"></i>Atividades Econômicas</h4>
         </div>
 
-        <div class="card border-primary mb-3 mt-3 border-ligth shadow col-md-12">
+        <div class="card border-primary border-ligth shadow mb-3 mt-3 col-md-12">
 
             <div class="card-header d-flex justify-content-between align-items-center border-primary text-light bg-primary">
                 <span>Editar notas explicativas</span>

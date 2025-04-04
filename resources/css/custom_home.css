@@ -8,17 +8,14 @@
             var(--primary-color) 0%,
             var(--secondary-color) 100%);
     color: white;
-    padding-top: 1rem;
+    padding: 1rem 0;
     margin-top: -1rem;
     margin-bottom: 1rem;
     border-radius: 0 0 20px 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100vw;
     position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    left: calc(-50vw + 50%);
 }
 
 .card .card-header {
@@ -49,6 +46,11 @@
     outline: none;
     box-shadow: 0 0 0 2px rgba(87, 150, 245, 0.25);
     border-color: #7da4e0;
+}
+
+.invalid-cv {
+    margin-bottom: -0.7rem;
+
 }
 
 .features-section {

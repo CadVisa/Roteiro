@@ -4,4 +4,4 @@ import './mascaras';
 import './spinner';
 import './autosize';
 import './modal';
-import './alerts';
+//import './alerts';

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Externo\EstabelecimentoController;
 use App\Http\Controllers\Externo\HomeController;
 use App\Http\Controllers\Externo\LoginController;
 use App\Http\Controllers\Interno\AdministradorController;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'loginProcess'])->name('login.process');
+
+Route::post('/consultar_cnpj', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
 
 // ROTAS PROTEGIDAS
 Route::group(['middleware' => 'auth'], function () {

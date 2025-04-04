@@ -22,4 +22,8 @@ $(document).ready(function() {
     $('.spinner-success').click(function(event) {
         $(this).html('<span class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></span>');
     });
+
+    $('.spinner-light-cv').click(function(event) {
+        $(this).html('<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span> Aguarde...');
+    });
 });

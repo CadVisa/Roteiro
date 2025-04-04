@@ -8,7 +8,7 @@
                 roteiro de
                 classificação de
                 risco sanitário</p>
-                <div class="base-cv">Resolução SES/RJ nº 2191 de 02/12/2020</div>
+            <div class="base-cv">Resolução SES/RJ nº 2191 de 02/12/2020</div>
         </div>
     </section>
 
@@ -18,7 +18,8 @@
                 <span>Informe o CNPJ da empresa</span>
             </div>
             <div class="card-body pb-1">
-                <form action="#" method="POST" class="row g-3 needs-validation" novalidate>
+                <form action="{{ route('estabelecimento.store') }}" method="POST" class="row g-3 needs-validation"
+                    novalidate>
                     @csrf
                     @method('POST')
 
@@ -30,16 +31,16 @@
                             <input type="text" class="form-control @error('cnpj') is-invalid @enderror" name="cnpj"
                                 id="cnpj" placeholder="00.000.000/0000-00" value="{{ old('cnpj') }}"
                                 autocomplete="off">
-                        </div>
-                        <div class="invalid-feedback">
                             @error('cnpj')
-                                {{ $message }}
+                                <div class="invalid-feedback invalid-cv d-flex justify-content-center align-items-center">
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i><div>{{ $message }}</div>
+                                </div>
                             @enderror
                         </div>
                     </div>
 
                     <div class="col-12 mb-2">
-                        <button type="submit" class="w-100 spinner-primary btn btn-sm btn-primary">
+                        <button type="submit" class="w-100 spinner-light-cv btn btn-sm btn-primary">
                             <i class="fas fa-search me-1"></i>Consultar empresa
                         </button>
                     </div>
@@ -121,8 +122,9 @@
                     podem apresentar defasagem de até 45 dias em relação à base
                     oficial da Receita Federal. A data da última atualização será exibida junto aos resultados.
                     <strong>Alterações cadastrais são incomuns para a maioria das empresas, portanto a defasagem
-                        raramente impacta a utilidade dos dados</strong>. Para detalhes adicionais, consulte os <a class="text-decoration-none" href="#">Termos de
-                    uso</a> e <a class="text-decoration-none" href="#">Política de Privacidade</a>.
+                        raramente impacta a utilidade dos dados</strong>. Para detalhes adicionais, consulte os <a
+                        class="text-decoration-none" href="#">Termos de
+                        uso</a> e <a class="text-decoration-none" href="#">Política de Privacidade</a>.
                 </p>
             </div>
         </div>

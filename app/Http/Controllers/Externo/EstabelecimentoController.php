@@ -11,6 +11,11 @@ use App\Services\CnpjWsService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
+use Throwable;
 
 class EstabelecimentoController extends Controller
 {
@@ -45,53 +50,33 @@ class EstabelecimentoController extends Controller
 
                 // Verifica se a API retornou vazia
                 if (empty($dadosEmpresa)) {
+                    DB::rollBack();
                     return back()->withInput()->with('error', 'Nenhuma informação foi retornada pela consulta');
                 }
 
-                // Se não existir um estabelecimento, retorna com a informação
-                if (!isset($dadosEmpresa["estabelecimento"])) {
-                    return back()->withInput()->with('error', 'Não foi possível obter as informações do estabelecimento');
-                }
-
-                // Se não existir uma situação cadastral, retorna com a informação
-                if (!isset($dadosEmpresa["estabelecimento"]["situacao_cadastral"])) {
-                    return back()
-                        ->withInput()
-                        ->with('error', 'A situação cadastral desta empresa não está disponível');
-                }
-
-                // Converte a data da última atualização desta empresa para formato brasileiro
-                try {
-                    $dataAtualizacao = Carbon::parse($dadosEmpresa["estabelecimento"]["atualizado_em"] ?? now())
-                        ->format('d/m/Y H:i');
-                } catch (\Exception $e) {
-                    $dataAtualizacao = 'data indisponível';
-                }
-
-                // Torna as letras da situação do estabelecimento em minúsculas
-                $situacao = strtolower($dadosEmpresa["estabelecimento"]["situacao_cadastral"]);
-
-                // Opções de situações
-                $mensagensSituacao = [
-                    'baixada' => 'baixada',
-                    'inapta' => 'inapta',
-                    'suspensa' => 'suspensa',
-                    'nula' => 'nula',
-                    'cancelada' => 'cancelada',
-                    'irregular' => 'irregular',
-                    'pendente' => 'pendente',
+                $situacoesInvalidas = [
+                    'baixada',
+                    'inapta',
+                    'suspensa',
+                    'nula',
+                    'cancelada',
+                    'irregular',
+                    'pendente',
                 ];
 
-                // Pega a razão do social do estabelecimento para usar no retorno
-                $razaoSocial = $dadosEmpresa["razao_social"] ?? 'Não informada';
+                $situacao = strtolower(trim($dadosEmpresa['estabelecimento']['situacao_cadastral'] ?? ''));
 
-                // Verifica se a situação atual da empresa encontra-se dentro das opções
-                if (array_key_exists($situacao, $mensagensSituacao)) {
+                if (in_array($situacao, $situacoesInvalidas)) {
+                    $razaoSocial = ucwords(strtolower($dadosEmpresa["razao_social"] ?? 'Não informada'));
+                    $dataAtualizacao = Carbon::parse($dadosEmpresa['atualizado_em'] ?? now())->format('d/m/Y H:i');
+
+                    DB::rollBack();
                     return back()
                         ->withInput()
-                        ->with('error', "A empresa {$razaoSocial} ecnontra-se com a situação cadastral '{$mensagensSituacao[$situacao]}' 
-                              junto à Receita Federal. A última atualização no banco de dados ocorreu em $dataAtualizacao");
+                        ->with('error', "A empresa {$razaoSocial} encontra-se com a situação cadastral '{$situacao}' 
+                            junto à Receita Federal. A última atualização no banco de dados ocorreu em $dataAtualizacao");
                 }
+
 
                 // Concatena o tipo de logradouro com logradouro
                 $logradouro = $dadosEmpresa['estabelecimento']['tipo_logradouro'] . ' ' . $dadosEmpresa['estabelecimento']['logradouro'];
@@ -199,15 +184,19 @@ class EstabelecimentoController extends Controller
 
                     if ($possuiCnaeNaoIsento) {
                         // Caso 1: Existe pelo menos um CNAE com grau de risco diferente de "CNAE isento"
-                        $resultado = "A empresa é licenciável!";
+                        $resultado = 1;
                     } else {
                         // Caso 2: Todos os CNAEs são isentos (ou não tem CNAEs cadastrados)
-                        $resultado = "A empresa não é licenciável!";
+                        $resultado = 0;
                     }
                     // Atualiza os dados do estabelecimento com as informações do CNAE
                     DB::commit();
 
-                    dd($resultado);
+                    $estabAtual = Estabelecimento::with('cnaes.perguntas')->findOrFail($estabelecimentoId);
+
+                    return redirect()->route('estabelecimento.show', ['estabelecimento' => $estabAtual, 'resultado' => $resultado]);
+
+                    //dd($resultado);
 
                     // Caso não tenho atividade principal, algo está errado no cadastro desta empresa
                 } else {
@@ -215,17 +204,45 @@ class EstabelecimentoController extends Controller
                     return back()->withInput()->with('error', 'Estabelecimento com informações incompletas na Receita Federal!');
                 }
                 // Caso não tenha sido possível cadastrar o estabelecimento, retorna com a informação
-            } catch (Exception $e) {
-                if ($e->getCode() == 404) {
-                    return back()->withInput()->with('error', 'CNPJ não encontrado!');
-                } elseif ($e->getCode() == 429) {
-                    return back()->withInput()->with('error', 'Limite de requisições atingido! Tente novamente após 1 minuto.');
-                } else {
-                    return back()->withInput()->with('error', 'Erro 466. Entre em contato com o suporte.');
-                }
+            } catch (RequestException $e) {
+                return $this->tratarErroCnpj($e);
             }
         } else {
             return back()->withInput()->with('error', 'API não disponível no momento. Tente mais tarde...');
         }
+    }
+
+    public function tratarErroCnpj($e)
+    {
+        try {
+            $response = $e->getResponse();
+            $statusCode = $response ? $response->getStatusCode() : null;
+            $bodyContent = $response ? $response->getBody()->getContents() : null;
+            $body = json_decode($bodyContent, true);
+
+            DB::rollBack();
+
+            if ($statusCode === 404) {
+                return back()->withInput()->with('error', 'CNPJ não encontrado!');
+            } elseif ($statusCode === 429) {
+                return back()->withInput()->with('error', 'Limite de requisições atingido! Tente novamente após 1 minuto.');
+            } else {
+                return back()->withInput()->with('error', 'Erro inesperado. Entre em contato!.');
+            }
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return back()->withInput()->with('error', 'Erro crítico. Contate o suporte.');
+        }
+    }
+
+
+
+    public function show(Estabelecimento $estabelecimento, $resultado)
+    {
+        return view('externo.show', [
+            'estabelecimento' => $estabelecimento,
+            'resultado' => $resultado,
+            'menu' => 'home',
+        ]);
     }
 }

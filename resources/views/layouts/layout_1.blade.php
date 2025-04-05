@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse p-0" id="navbarNavDropdown">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item me-2">
-                        <a class="nav-link" aria-current="page" href="#"><i
+                        <a class="nav-link @if (isset($menu) && $menu === 'home') active @endif" aria-current="page" href="{{ route('home') }}"><i
                                 class="fa-solid fa-file-pdf me-1"></i>Gerar roteiro</a>
                     </li>
                     <li class="nav-item me-2">

@@ -1,0 +1,28 @@
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.accordion-item {
+    overflow: hidden;
+    /* border-radius: 0.375rem; */
+}
+
+.accordion-body {
+    background-color: #e7f1ff;
+    margin: 0;
+    padding: 1rem;
+}
+.accordion-button:not(.collapsed) {
+    background-color: #e7f1ff;
+    color: #0c63e4;
+}
+
+.tabela-azul-claro, .tabela-azul-claro th, .tabela-azul-claro td {
+    background-color: #e7f1ff !important;
+}
+
+@media (min-width: 576px) {
+    .border-left-sm {
+        border-left: 1px solid #dee2e6;
+    }
+}

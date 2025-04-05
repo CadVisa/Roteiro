@@ -8,6 +8,7 @@ use App\Models\Configuration;
 use App\Models\EstabCnae;
 use App\Models\Estabelecimento;
 use App\Services\CnpjWsService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -235,8 +236,6 @@ class EstabelecimentoController extends Controller
         }
     }
 
-
-
     public function show(Estabelecimento $estabelecimento, $resultado)
     {
         return view('externo.show', [
@@ -244,5 +243,53 @@ class EstabelecimentoController extends Controller
             'resultado' => $resultado,
             'menu' => 'home',
         ]);
+    }
+
+    public function gerarRoteiro(Estabelecimento $estabelecimento, $resultado)
+    {
+        if ($resultado == 0) {
+            return back()->withInput()->with('error', 'Não é possível gerar o roteiro, pois esta empresa não possui atividades econômicas sujeitas a licenciamento.');
+        }
+
+        $cnpjLimpo = preg_replace('/[^0-9]/', '', trim($estabelecimento->cnpj));
+
+        $cnpjFormatado = substr($cnpjLimpo, 0, 2) . '_' .
+                 substr($cnpjLimpo, 2, 3) . '_' .
+                 substr($cnpjLimpo, 5, 3) . '_' .
+                 substr($cnpjLimpo, 8, 4) . '_' .
+                 substr($cnpjLimpo, 12, 2);
+
+        $namePdf = 'Roteiro_' . $cnpjFormatado . '.pdf';
+
+        $grausDefinidos = $estabelecimento->cnaes()
+            ->where('grau_cnae', '!=', 'Depende de informação')
+            ->where('grau_cnae', '!=', 'CNAE isento')
+            ->get();
+
+        $grausDepende = $estabelecimento->cnaes()
+            ->where('grau_cnae', 'Depende de informação')
+            ->with('perguntas')
+            ->get();
+
+        $data = ['estabelecimento' => $estabelecimento->load('cnaes.perguntas'), 'grausDefinidos' => $grausDefinidos, 'grausDepende' => $grausDepende];
+
+        $pdf = Pdf::loadView('externo.roteiro', $data);
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+            'defaultFont' => 'sans-serif',
+            'dpi' => 96,
+            'isPhpEnabled' => true,
+        ]);
+
+        // Salva o PDF em storage
+        $pdf->save(storage_path("app/public/{$namePdf}"));
+
+        // Redireciona para home com a mensagem e nome do PDF
+        return redirect()->route('home')->with('success_pdf', 'O roteiro da empresa ' . $estabelecimento->razao_social . ' foi gerado com sucesso! Agora você pode abrir o arquivo baixado, imprimir se desejar ou fazer uma nova consulta informando o CNPJ abaixo.')->with('pdf_file', $namePdf);
+
+        //return $pdf->download($namePdf);
+        //return $pdf->stream($namePdf);
     }
 }

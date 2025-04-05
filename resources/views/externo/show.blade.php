@@ -7,7 +7,7 @@
             <p class="lead description-card-cd fst-italic @if ($resultado == 0) text-warning @endif">
                 @if ($resultado == 0)
                     <i class="fa-solid fa-triangle-exclamation me-2"></i>Atenção! Esta empresa não possui atividades
-                    econômicas licenciáveis<i class="fa-solid fa-triangle-exclamation ms-2"></i>
+                    econômicas sujeitas a licenciamento<i class="fa-solid fa-triangle-exclamation ms-2"></i>
                 @else
                     <i class="text-warning fa-solid fa-face-smile-wink me-2"></i>Pronto! Agora é só conferir o resultado e
                     clicar em gerar roteiro<i class="text-warning fa-solid fa-face-smile-wink ms-2"></i>
@@ -17,9 +17,11 @@
         </div>
     </section>
 
+    <x-alert />
+
     @if ($resultado == 0)
         <div class="alert alert-warning p-2 lh-sm text-justify text-muted" role="alert">
-            A consulta indicou que esta empresa não possui atividades econômicas sujeitas a licenciamento, conforme a
+            A consulta indicou que esta empresa não possui atividades econômicas sujeitas a licenciamento sanitário, conforme a
             Resolução SES/RJ nº 2191, de 02/12/2020.
             A última atualização dos dados desta empresa ocorreu em
             {{ \Carbon\Carbon::parse($estabelecimento->atualizado_em)->format('d/m/Y') }}.
@@ -29,15 +31,20 @@
                 href="https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp" target="_blank"
                 class="text-decoration-none">aqui</a>.
         </div>
-    @else
-        <div class="d-flex justify-content-center align-items-center">
-            <div>
-                <a href="#" class="btn btn-sm btn-success spinner-light-cv">
+    @endif
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div>
+            @if ($resultado != 0)
+                <a href="{{ route('estabelecimento.gerarRoteiro', ['estabelecimento' => $estabelecimento->id, 'resultado' => $resultado]) }}" class="btn btn-sm btn-success spinner-light-cv">
                     <i class="fa-solid fa-file-pdf me-2"></i>Gerar roteiro
                 </a>
-            </div>
+            @endif
+            <a href="{{ route('home') }}" class="btn btn-sm btn-warning spinner-warning-cv">
+                <i class="fas fa-search me-2"></i>Nova consulta
+            </a>
         </div>
-    @endif
+    </div>
 
     <div class="card border-primary border-ligth shadow mb-3 mt-3 col-md-12">
 
@@ -46,8 +53,6 @@
         </div>
 
         <div class="card-body">
-
-            <x-alert />
 
             <div class="row">
 

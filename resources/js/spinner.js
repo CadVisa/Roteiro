@@ -26,4 +26,8 @@ $(document).ready(function() {
     $('.spinner-light-cv').click(function(event) {
         $(this).html('<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span> Aguarde...');
     });
+
+    $('.spinner-warning-cv').click(function(event) {
+        $(this).html('<span class="spinner-border spinner-border-sm text-dark" role="status" aria-hidden="true"></span> Aguarde...');
+    });
 });

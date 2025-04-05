@@ -13,6 +13,7 @@ Route::post('/login', [LoginController::class, 'loginProcess'])->name('login.pro
 
 Route::post('/consultar_cnpj', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
 Route::get('/{estabelecimento}/{resultado}/dados_empresa', [EstabelecimentoController::class, 'show'])->name('estabelecimento.show');
+Route::get('/{estabelecimento}/{resultado}/gerar_roteiro', [EstabelecimentoController::class, 'gerarRoteiro'])->name('estabelecimento.gerarRoteiro');
 
 // ROTAS PROTEGIDAS
 Route::group(['middleware' => 'auth'], function () {

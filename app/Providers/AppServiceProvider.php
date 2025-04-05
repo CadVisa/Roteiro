@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Session;
+use App\Models\Configuration;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,5 +23,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+
+        if (!Session::has('config')) {
+            $config = Configuration::first();
+            Session::put('config', $config);
+        }
     }
 }

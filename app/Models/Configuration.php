@@ -12,5 +12,10 @@ class Configuration extends Model
 
     protected $fillable = [
         'usa_api',
+        'versao_sistema',
+        'status_sistema',
+        'email_sistema',
+        'exibe_card',
+        'exibe_info_rodape'
     ];
 }

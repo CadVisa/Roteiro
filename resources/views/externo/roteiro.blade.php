@@ -384,8 +384,18 @@
                     </tr>
                     <tr>
                         <td class="compreende" colspan="3">
-                            <span class="titulo_compreende">Compreende: </span>{{ $item->notas_s_compreende }}
-                            <span class="titulo_compreende"> / Não compreende: </span>{{ $item->notas_n_compreende }}
+                            <span class="titulo_compreende">Compreende: </span>
+                            @if ($item->notas_s_compreende == 'NI')
+                                Sem informação
+                            @else
+                                {{ $item->notas_s_compreende }}
+                            @endif
+                            <span class="titulo_compreende"> / Não compreende: </span>
+                            @if ($item->notas_n_compreende == 'NI')
+                                Sem informação
+                            @else
+                                {{ $item->notas_n_compreende }}
+                            @endif
                         </td>
                     </tr>
                 </table>
@@ -437,8 +447,18 @@
                     @endforeach
                     <tr>
                         <td class="compreende" colspan="2">
-                            <span class="titulo_compreende">Compreende: </span>{{ $item->notas_s_compreende }}
-                            <span class="titulo_compreende"> / Não compreende: </span>{{ $item->notas_n_compreende }}
+                            <span class="titulo_compreende">Compreende: </span>
+                            @if ($item->notas_s_compreende == 'NI')
+                                Sem informação
+                            @else
+                                {{ $item->notas_s_compreende }}
+                            @endif
+                            <span class="titulo_compreende"> / Não compreende: </span>
+                            @if ($item->notas_n_compreende == 'NI')
+                                Sem informação
+                            @else
+                                {{ $item->notas_n_compreende }}
+                            @endif
                         </td>
                     </tr>
                 </table>
@@ -466,7 +486,7 @@
             </tr>
             <tr>
                 <td></td>
-            </tr>  
+            </tr>
         </table>
 
         <div class="subtitulo">
@@ -477,7 +497,9 @@
             <tr>
                 <td class="linha_conclusao">
                     {{-- <span class="cx_ultima">Competência:</span><span class="cx_1">Estadual</span> <span class="cx_2">Municipal</span> --}}
-                    <span class="cx_ultima" id="espaco">Grau de risco empresa:</span><span class="cx_1">Alto risco</span> <span class="cx_2">Médio risco</span> <span class="cx_2">Baixo risco</span>
+                    <span class="cx_ultima" id="espaco">Grau de risco da empresa:</span><span class="cx_1">Alto
+                        risco</span> <span class="cx_2">Médio risco</span> <span class="cx_2">Baixo risco</span> <span
+                        class="cx_2">Não exerce atividade sujeita a licenciamento</span>
                 </td>
             </tr>
         </table>
@@ -489,7 +511,9 @@
 
         <table id="tabela_assinatura">
             <tr>
-                <td id="cidade" colspan="4">{{ $estabelecimento->cidade ? mb_strtoupper($estabelecimento->cidade) : 'NÃO INFORMADA' }}, ____/____/____</td>
+                <td id="cidade" colspan="4">
+                    {{ $estabelecimento->cidade ? mb_strtoupper($estabelecimento->cidade) : 'NÃO INFORMADA' }},
+                    ____/____/____</td>
             </tr>
             <tr>
                 <td class="linha_assinatura">______________________________</td>

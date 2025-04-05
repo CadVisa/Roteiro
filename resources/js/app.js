@@ -5,3 +5,5 @@ import './spinner';
 import './autosize';
 import './modal';
 //import './alerts';
+import './consents';
+import './infoMarketing';

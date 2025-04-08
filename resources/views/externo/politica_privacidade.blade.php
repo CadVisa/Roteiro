@@ -68,7 +68,7 @@
                 </ul>
                 <p>
                     Para exercer esses direitos, entre em contato preenchendo este <a class="text-decoration-none"
-                        href="#">formulário</a>.
+                        href="{{ route('contato.index') }}">formulário</a>.
                 </p>
 
                 <h6 class="mt-4">6. Cookies</h6>

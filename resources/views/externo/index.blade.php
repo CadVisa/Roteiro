@@ -50,7 +50,7 @@
                         Imagine o que podemos construir juntos para deixar tudo ainda mais eficiente e intuitivo!
                     </div>
                     <div class="mt-2 d-flex flex-column flex-sm-row justify-content-center gap-2">
-                        <a href="#" class="btn btn-success btn-sm">
+                        <a href="{{ route('contato.index') }}" class="btn btn-success btn-sm">
                             Fale com a gente e vamos conversar!
                         </a>
                         <a id="fecharInfo" class="btn btn-secondary btn-sm">
@@ -103,73 +103,15 @@
         @if (session('config')->exibe_card === 'Sim')
             <section class="features-section">
                 <div class="row text-center">
-                    <div class="col-sm-6 col-lg-4 mb-4">
-                        <div class="feature-icon">
-                            <i class="fas fa-bolt"></i>
+                    @foreach (session('cards') as $card)
+                        <div class="col-sm-6 col-lg-4 mb-4">
+                            <div class="feature-icon">
+                                <i class="{{ $card->card_icone }}"></i>
+                            </div>
+                            <h3>{{ $card->card_titulo }}</h3>
+                            <p class="text-muted">{{ $card->card_descricao }}</p>
                         </div>
-                        <h3>Rápido</h3>
-                        <p class="text-muted">Obtenha automaticamente um arquivo completo com todas as informações
-                            necessárias
-                            para
-                            a classificação do risco sanitário, em conformidade com a Resolução SES/RJ nº 2191 de
-                            02/12/2020.
-                        </p>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 mb-4">
-                        <div class="feature-icon">
-                            <i class="fa-solid fa-dollar-sign"></i>
-                        </div>
-                        <h3>Grátis</h3>
-                        <p class="text-muted">Todas as consultas e emissões de roteiros de classificação de risco sanitário
-                            são
-                            oferecidas sem custos*.</p>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 mb-4">
-                        <div class="feature-icon">
-                            <i class="fa-solid fa-battery-full"></i>
-                        </div>
-                        <h3>Completo</h3>
-                        <p class="text-muted">Contém todas as informações necessárias para classificação de risco da
-                            empresa,
-                            incluindo: dados cadastrais completos; atividades econômicas com notas explicativas detalhadas,
-                            conforme
-                            a CONCLA-IBGE.</p>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 mb-4">
-                        <div class="feature-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <h3>Confiável</h3>
-                        <p class="text-muted">Os dados da empresa são preenchidos automaticamente! As informações são
-                            coletadas
-                            em
-                            bancos de dados da Receita Federal*.</p>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 mb-4">
-                        <div class="feature-icon">
-                            <i class="fa-solid fa-arrows-to-circle"></i>
-                        </div>
-                        <h3>Padrão</h3>
-                        <p class="text-muted">O roteiro de classificação de risco sanitário pode ser adotado para
-                            uniformizar os
-                            critérios de avaliação entre todos os fiscais, garantir consistência nas inspeções sanitárias e
-                            agilizar
-                            o processo de fiscalização.</p>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 mb-4">
-                        <div class="feature-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3>Seguro</h3>
-                        <p class="text-muted">Você pode usar nosso sistema sem precisar fornecer seus dados pessoais ou
-                            informações
-                            do seu órgão.</p>
-                    </div>
+                    @endforeach
                 </div>
             </section>
         @endif

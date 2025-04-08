@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Card;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Session;
@@ -27,6 +28,13 @@ class AppServiceProvider extends ServiceProvider
         if (!Session::has('config')) {
             $config = Configuration::first();
             Session::put('config', $config);
+        }
+
+        if (!Session::has('cards')) {
+            $cards = Card::where('card_status', 'Ativo')
+                ->orderBy('card_ordem')
+                ->get();
+            Session::put('cards', $cards);
         }
     }
 }

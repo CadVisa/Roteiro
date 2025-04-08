@@ -10,7 +10,7 @@ $(document).ready(function() {
     $('.spinner-light').click(function(event) {
         $(this).html('<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span>');
     });
-
+    
     $('.spinner-info').click(function(event) {
         $(this).html('<span class="spinner-border spinner-border-sm text-info" role="status" aria-hidden="true"></span>');
     });
@@ -29,5 +29,9 @@ $(document).ready(function() {
 
     $('.spinner-warning-cv').click(function(event) {
         $(this).html('<span class="spinner-border spinner-border-sm text-dark" role="status" aria-hidden="true"></span> Aguarde...');
+    });
+
+    $('.spinner-light-email').click(function(event) {
+        $(this).html('<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span> Aguarde...');
     });
 });

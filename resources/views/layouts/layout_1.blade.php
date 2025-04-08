@@ -36,13 +36,13 @@
                                 CNAEs</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="nav-link" href="#"><i class="fa-solid fa-table-list me-2"></i>Contato</a>
+                            <a class="nav-link @if (isset($menu) && $menu === 'contato') active @endif" href="{{ route('contato.index') }}"><i class="fa-solid fa-table-list me-2"></i>Contato</a>
                         </li>
                     @endif
 
                     @if (auth()->check())
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao'])) active @endif"
+                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards'])) active @endif"
                                 href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <i class="fa-solid fa-gear me-1"></i>Administrador
@@ -64,6 +64,12 @@
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'configuracao') active @endif"
                                         href="{{ route('configuration.index') }}">
                                         <i class="fa-solid fa-gear me-1"></i>Configurações
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cards') active @endif"
+                                        href="{{ route('card.index') }}">
+                                        <i class="fa-solid fa-server me-1"></i>Cards
                                     </a>
                                 </li>
                             </ul>

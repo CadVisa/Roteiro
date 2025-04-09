@@ -42,7 +42,7 @@
 
                     @if (auth()->check())
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards'])) active @endif"
+                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards', 'contact'])) active @endif"
                                 href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <i class="fa-solid fa-gear me-1"></i>Administrador
@@ -55,9 +55,21 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cards') active @endif"
+                                        href="{{ route('card.index') }}">
+                                        <i class="fa-solid fa-server me-1"></i>Cards
+                                    </a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cnaes') active @endif"
                                         href="{{ route('cnae.index') }}">
                                         <i class="fa-brands fa-creative-commons-share me-1"></i>CNAEs
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'contact') active @endif"
+                                        href="#">
+                                        <i class="fa-solid fa-table-list me-1"></i>Painel de contatos
                                     </a>
                                 </li>
                                 <li>
@@ -66,12 +78,7 @@
                                         <i class="fa-solid fa-gear me-1"></i>Configurações
                                     </a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cards') active @endif"
-                                        href="{{ route('card.index') }}">
-                                        <i class="fa-solid fa-server me-1"></i>Cards
-                                    </a>
-                                </li>
+                                
                             </ul>
                         </li>
                     @endif

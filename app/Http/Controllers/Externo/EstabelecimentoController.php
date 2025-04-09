@@ -284,7 +284,12 @@ class EstabelecimentoController extends Controller
         ]);
 
         // Salva o PDF em storage
-        $pdf->save(storage_path("app/public/{$namePdf}"));
+        $pdf->save(storage_path("app/public/roteiros/{$namePdf}"));
+
+        // Remove o PDF do storage
+        // if (file_exists(storage_path($pdf))) {
+        //     unlink(storage_path($pdf));
+        // }
 
         // Redireciona para home com a mensagem e nome do PDF
         return redirect()->route('home')->with('success_pdf', 'O roteiro da empresa ' . $estabelecimento->razao_social . ' foi gerado com sucesso! Agora você pode abrir o arquivo baixado, imprimir se desejar ou fazer uma nova consulta informando o CNPJ abaixo.')->with('pdf_file', $namePdf);

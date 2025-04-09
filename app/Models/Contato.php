@@ -12,6 +12,7 @@ class Contato extends Model
 
     protected $fillable = [
         'ip',
+        'data_mensagem',
         'nome',
         'email',
         'telefone',

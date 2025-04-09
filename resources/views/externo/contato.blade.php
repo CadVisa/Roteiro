@@ -17,7 +17,7 @@
                 <span>Preeencha os campos abaixo</span>
             </div>
             <div class="card-body">
-                <form action="#" method="POST" class="row g-3 needs-validation" novalidate>
+                <form action="{{ route('contato.store') }}" method="POST" class="row g-3 needs-validation" novalidate>
                     @csrf
                     @method('POST')
                     <x-alert />

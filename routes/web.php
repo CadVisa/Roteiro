@@ -26,6 +26,7 @@ Route::get('/{estabelecimento}/{resultado}/dados_empresa', [EstabelecimentoContr
 Route::get('/{estabelecimento}/{resultado}/gerar_roteiro', [EstabelecimentoController::class, 'gerarRoteiro'])->name('estabelecimento.gerarRoteiro');
 
 Route::get('/contato', [ContatoController::class, 'index'])->name('contato.index');
+Route::post('/contato', [ContatoController::class, 'store'])->name('contato.store');
 
 
 

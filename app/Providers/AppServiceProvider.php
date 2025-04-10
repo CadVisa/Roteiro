@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Session;
 use App\Models\Configuration;
+use App\Models\Contato;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,12 @@ class AppServiceProvider extends ServiceProvider
                 ->orderBy('card_ordem')
                 ->get();
             Session::put('cards', $cards);
+        }
+
+        if (!Session::has('news_contacts')) {
+            $news_contacts = Contato::where('status', 'Pendente')
+                ->count();
+            Session::put('news_contacts', $news_contacts);
         }
     }
 }

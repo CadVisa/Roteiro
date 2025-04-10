@@ -9,6 +9,7 @@ use App\Http\Controllers\Interno\AdministradorController;
 use App\Http\Controllers\interno\CardController;
 use App\Http\Controllers\Interno\CnaeController;
 use App\Http\Controllers\interno\ConfigurationController;
+use App\Http\Controllers\interno\ContactsController;
 use App\Models\Configuration;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/cards/{card}/editar_card', [CardController::class, 'edit'])->name('card.edit');
     Route::post('/administrador/cards/{card}/editar_card', [CardController::class, 'update'])->name('card.update');
     Route::delete('/administrador/cards/{card}/excluir_card', [CardController::class, 'destroy'])->name('card.destroy');
+
+    Route::get('/administrador/contatos', [ContactsController::class, 'index'])->name('contact.index');
 
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

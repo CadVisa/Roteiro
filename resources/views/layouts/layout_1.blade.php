@@ -36,17 +36,28 @@
                                 CNAEs</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="nav-link @if (isset($menu) && $menu === 'contato') active @endif" href="{{ route('contato.index') }}"><i class="fa-solid fa-table-list me-2"></i>Contato</a>
+                            <a class="nav-link @if (isset($menu) && $menu === 'contato') active @endif"
+                                href="{{ route('contato.index') }}"><i
+                                    class="fa-solid fa-table-list me-2"></i>Contato</a>
                         </li>
                     @endif
 
                     @if (auth()->check())
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards', 'contact'])) active @endif"
+                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards', 'contacts'])) active @endif"
                                 href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
+
                                 <i class="fa-solid fa-gear me-1"></i>Administrador
+                                @if (session('news_contacts') > 0)
+                                    <span class="position-absolute badge rounded-pill bg-danger"
+                                        style="right: -0.4rem; top: 0rem; font-size: 0.6rem;">
+                                        {{ session('news_contacts') }}
+
+                                    </span>
+                                @endif
                             </a>
+
                             <ul class="dropdown-menu p-0 mb-0" aria-labelledby="navbarDropdownMenuLink">
                                 <li>
                                     <a class="dropdown-item dashboard-item @if (isset($menu) && $menu === 'dashboard') active @endif"
@@ -67,9 +78,14 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'contact') active @endif"
-                                        href="#">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'contacts') active @endif"
+                                        href="{{ route('contact.index') }}">
                                         <i class="fa-solid fa-table-list me-1"></i>Painel de contatos
+
+                                        @if (session('news_contacts') > 0)
+                                            <span class="badge rounded-pill bg-danger"
+                                                style="right: 0.2rem; top: -0.5rem; font-size: 0.6rem; position:relative;">{{ session('news_contacts') }}</span>
+                                        @endif
                                     </a>
                                 </li>
                                 <li>
@@ -78,7 +94,7 @@
                                         <i class="fa-solid fa-gear me-1"></i>Configurações
                                     </a>
                                 </li>
-                                
+
                             </ul>
                         </li>
                     @endif
@@ -124,9 +140,11 @@
                         <i class="fa-solid fa-cookie-bite me-2"></i>
                         O CadVisa utiliza cookies para melhorar sua experiência. Para maiores informações, consulte
                         nossa
-                        <a href="{{ route('politica_privacidade') }}" class="text-decoration-none" target="_blank">Política de privacidade</a> e
+                        <a href="{{ route('politica_privacidade') }}" class="text-decoration-none"
+                            target="_blank">Política de privacidade</a> e
                         nossos
-                        <a href="{{ route('termos_uso') }}" class="text-decoration-none" target="_blank">Termos de uso</a>.
+                        <a href="{{ route('termos_uso') }}" class="text-decoration-none" target="_blank">Termos de
+                            uso</a>.
                     </div>
                     <div class="col-12 col-sm-4 text-center text-md-end">
                         <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-sm-end gap-2">
@@ -142,7 +160,8 @@
     <footer class="footer mt-auto py-2 bg-light border-top">
         <div class="d-flex justify-content-between align-items-center flex-wrap">
             <div class="text-muted small pe-2 ms-3">
-                <span class="d-none d-md-inline">Copyright © {{ date('Y') }} | CadVisa | {{ session('config')->versao_sistema }}</span>
+                <span class="d-none d-md-inline">Copyright © {{ date('Y') }} | CadVisa |
+                    {{ session('config')->versao_sistema }}</span>
                 <span class="d-inline d-md-none">Copyright © {{ date('Y') }}</span>
             </div>
             @if (session('config')->status_sistema === 'Ativo')

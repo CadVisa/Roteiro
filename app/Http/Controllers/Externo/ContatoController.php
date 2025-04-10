@@ -43,7 +43,7 @@ class ContatoController extends Controller
 
             Mail::to($emailSistema)->send(new ContatoMail($contato));            
 
-            return redirect()->route('contato.index', ['menu' => 'contato'])->with('success', 'Obrigado por entrar em contato. Sua mensagem foi enviada com sucesso!');
+            return redirect()->route('contato.index', ['menu' => 'contato'])->with('success', 'Obrigado por entrar em contato! Sua mensagem foi enviada com sucesso!');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

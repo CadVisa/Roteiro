@@ -66,6 +66,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/administrador/cards/{card}/excluir_card', [CardController::class, 'destroy'])->name('card.destroy');
 
     Route::get('/administrador/contatos', [ContactsController::class, 'index'])->name('contact.index');
+    Route::get('/administrador/contatos/{contato}/visualizar_contato', [ContactsController::class, 'show'])->name('contact.show');
+    Route::get('/administrador/contatos/{contato}/editar_contato', [ContactsController::class, 'edit'])->name('contact.edit');
+    Route::post('/administrador/contatos/{contato}/editar_contato', [ContactsController::class, 'update'])->name('contact.update');
 
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

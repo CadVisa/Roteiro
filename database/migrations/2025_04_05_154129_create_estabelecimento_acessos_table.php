@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('ip', 45);
             $table->date('data');
-            $table->timestamps();
         });
     }
 

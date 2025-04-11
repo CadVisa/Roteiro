@@ -36,7 +36,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-3">
                         <label for="ip_pesquisa" class="form-label mb-1">IP: </label>
                         <select class="form-control" name="ip_pesquisa" id="ip_pesquisa">
-                            <option value="" @if (old('ip_pesquisa', $ip_pesquisa ?? '') == '') selected @endif>Selecione</option>
+                            <option value="" @if (old('ip_pesquisa', $ip_pesquisa ?? '') == '') selected @endif>Todos</option>
                             @foreach ($ips as $ip)
                                 <option value="{{ $ip }}" @if (old('ip_pesquisa', $ip_pesquisa ?? '') == $ip) selected @endif>
                                     {{ $ip }}</option>
@@ -47,7 +47,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-3">
                         <label for="status_pesquisa" class="form-label mb-1">Status: </label>
                         <select class="form-control" name="status_pesquisa" id="status_pesquisa">
-                            <option value="" @if (old('status_pesquisa', $status_pesquisa ?? '') == '') selected @endif>Selecione</option>
+                            <option value="" @if (old('status_pesquisa', $status_pesquisa ?? '') == '') selected @endif>Todos</option>
                             <option value="Finalizado" @if ($status_pesquisa == 'Finalizado') selected @endif>Finalizado</option>
                             <option value="Pendente" @if ($status_pesquisa == 'Pendente') selected @endif>Pendente</option>
                             <option value="Visualizado" @if ($status_pesquisa == 'Visualizado') selected @endif>Visualizado
@@ -97,6 +97,7 @@
                         <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th class="d-none d-sm-table-cell">Data</th>
                                     <th>Usuário</th>
                                     <th class="d-none d-md-table-cell">IP</th>
@@ -107,7 +108,8 @@
                             <tbody>
 
                                 @foreach ($contatos as $contato)
-                                    <tr>
+                                    <tr>                                        
+                                        <td>#{{ $contato->id }}</td>
                                         <td class="d-none d-sm-table-cell">{{ \Carbon\Carbon::parse($contato->data_mensagem)->format('d/m/Y') }}</td>
                                         <td>
                                             {{ $contato->nome }}</td>
@@ -126,7 +128,7 @@
                                         </td>
                                         
                                         <td class="text-end">
-                                            <a href="#"
+                                            <a href="{{ route('contact.show', $contato->id) }}"
                                                 class="spinner-primary btn btn-outline-primary btn-sm"><i
                                                     class="fa-regular fa-folder-open"></i><span class="d-none d-sm-inline">
                                                     Abrir</span></a>

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const cookieName = 'CadVisaConsents';
+    const cookieName = 'cadvisa_consent';
 
     function setCookie(name, value, days) {
         const d = new Date();

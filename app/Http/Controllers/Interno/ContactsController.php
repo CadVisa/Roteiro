@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\interno;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ContactRequest;
 use App\Models\Contato;
+use App\Services\LogService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ContactsController extends Controller
 {
@@ -38,6 +43,13 @@ class ContactsController extends Controller
 
         $ips = Contato::orderByDesc('id')->distinct()->pluck('ip');
 
+        //LOG DO SISTEMA
+        LogService::registrar([
+            'nivel' => '1',
+            'chave' => 'pg_contacts',
+            'descricao' => 'Usuário acessou a página inicial dos contatos.',
+        ]);
+
         return view('interno.contact.index', [
             'menu' => 'contacts',
             'data_pesquisa' => $data_pesquisa,
@@ -47,5 +59,86 @@ class ContactsController extends Controller
             'contatos' => $contatos,
             'ips' => $ips,
         ]);
+    }
+
+    public function show(Contato $contato)
+    {
+        if ($contato->status == 'Pendente') {
+            $contato->update([
+                'status' => 'Visualizado',
+            ]);
+            $news_contacts = Contato::where('status', 'Pendente')->count();
+            Session::put('news_contacts', $news_contacts);
+        }
+
+        //LOG DO SISTEMA
+        LogService::registrar([
+            'nivel' => '1',
+            'chave' => 'pg_contacts',
+            'descricao' => 'Usuário acessou a página para visualizar as informações de um contato.',
+            'observacoes' => 'Contato: ' . $contato->ip,
+        ]);
+
+        return view('interno.contact.show', [
+            'menu' => 'contacts',
+            'contato' => $contato,
+        ]);
+    }
+
+    public function edit(Contato $contato)
+    {
+        //LOG DO SISTEMA
+        LogService::registrar([
+            'nivel' => '1',
+            'chave' => 'pg_contacts',
+            'descricao' => 'Usuário acessou a página para editar as informações de um contato.',
+            'observacoes' => 'Contato: ' . $contato->ip,
+        ]);
+
+        return view('interno.contact.edit', ['menu' => 'contacts', 'contato' => $contato]);
+    }
+
+    public function update(ContactRequest $request, Contato $contato)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $request->validated();
+
+            $contato->update([
+                'observacoes' => $request->observacoes,
+                'status' => $request->status,
+            ]);
+
+            $news_contacts = Contato::where('status', 'Pendente')->count();
+            Session::put('news_contacts', $news_contacts);
+
+            DB::commit();
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '1',
+                'chave' => 'pg_contacts',
+                'descricao' => 'Usuário editou as informações de um contato.',
+                'observacoes' => 'Contato: ' . $contato->ip,
+            ]);
+
+            return redirect()->route('contact.show', ['contato' => $contato->id, 'menu' => 'contacts'])->with('success', 'Contato editado com sucesso!');
+        } catch (Exception $e) {
+
+            DB::rollBack();
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '3',
+                'chave' => 'pg_contacts',
+                'descricao' => 'Contato não editado.',
+                'observacoes' => 'ID: ' . $contato->id . ' | Erro: ' . $e->getMessage(),
+            ]);
+
+            return back()->withInput()->with('error', 'Contato não editado!');
+        }
     }
 }

@@ -27,6 +27,7 @@ class Estabelecimento extends Model
         'email',
         'criado_em',
         'criado_por',
+        'path_roteiro',
     ];
 
     protected $casts = [

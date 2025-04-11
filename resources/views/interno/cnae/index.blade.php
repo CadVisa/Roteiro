@@ -36,7 +36,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-3">
                         <label for="grau_pesquisa" class="form-label mb-1">Grau de risco: </label>
                         <select class="form-control" name="grau_pesquisa" id="grau_pesquisa">
-                            <option value="" @if (old('grau_pesquisa', $grau_pesquisa ?? '') == '') selected @endif>Selecione</option>
+                            <option value="" @if (old('grau_pesquisa', $grau_pesquisa ?? '') == '') selected @endif>Todos</option>
                             <option value="Baixo risco" @if ($grau_pesquisa == 'Baixo risco') selected @endif>Baixo risco</option>
                             <option value="Médio risco" @if ($grau_pesquisa == 'Médio risco') selected @endif>Médio risco</option>
                             <option value="Alto risco" @if ($grau_pesquisa == 'Alto risco') selected @endif>Alto risco</option>
@@ -48,7 +48,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-3">
                         <label for="competencia_pesquisa" class="form-label mb-1">Competência: </label>
                         <select class="form-control" name="competencia_pesquisa" id="competencia_pesquisa">
-                            <option value="" @if (old('competencia_pesquisa', $competencia_pesquisa ?? '') == '') selected @endif>Selecione</option>
+                            <option value="" @if (old('competencia_pesquisa', $competencia_pesquisa ?? '') == '') selected @endif>Todas</option>
                             <option value="Municipal" @if ($competencia_pesquisa == 'Municipal') selected @endif>Municipal</option>
                             <option value="Estadual" @if ($competencia_pesquisa == 'Estadual') selected @endif>Estadual</option>
                             <option value="Depende de informação" @if ($competencia_pesquisa == 'Depende de informação') selected @endif>Depende de informação</option>

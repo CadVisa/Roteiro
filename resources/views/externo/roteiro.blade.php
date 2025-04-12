@@ -68,9 +68,6 @@
         border-left: 0.5px solid #000;
     }
 
-
-
-
     #tabela_roteiro {
         width: 100%;
         font-size: 12px;

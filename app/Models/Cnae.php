@@ -24,4 +24,9 @@ class Cnae extends Model
     {
         return $this->hasMany(Pergunta::class);
     }
+
+    public function movimentos()
+    {
+        return $this->hasMany(Movimento::class, 'base_cnae_id');
+    }
 }

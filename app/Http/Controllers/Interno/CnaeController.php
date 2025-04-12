@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CnaeRequest;
 use App\Http\Requests\PerguntaRequest;
 use App\Models\Cnae;
+use App\Models\Movimento;
 use App\Models\Pergunta;
 use App\Services\LogService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CnaeController extends Controller
@@ -20,6 +23,7 @@ class CnaeController extends Controller
         $descricao_pesquisa = $request->descricao_pesquisa;
         $grau_pesquisa = $request->grau_pesquisa;
         $competencia_pesquisa = $request->competencia_pesquisa;
+        $revisao_pesquisa = $request->revisao_pesquisa;
 
         $query = Cnae::orderBy('descricao_cnae');
 
@@ -39,6 +43,20 @@ class CnaeController extends Controller
             $query->where('competencia', $competencia_pesquisa);
         }
 
+        if ($revisao_pesquisa) {
+            if ($revisao_pesquisa == 1) {
+                // CNAEs que possuem pelo menos um movimento do tipo "Edição"
+                $query->whereHas('movimentos', function ($q) {
+                    $q->where('tipo_movimento', 'Edição');
+                });
+            } elseif ($revisao_pesquisa == 2) {
+                // CNAEs que NÃO possuem movimentos do tipo "Edição"
+                $query->whereDoesntHave('movimentos', function ($q) {
+                    $q->where('tipo_movimento', 'Edição');
+                });
+            }
+        }
+
         $cnaes = $query->paginate(env('PAGINACAO'))->withQueryString();
 
         //LOG DO SISTEMA
@@ -54,6 +72,7 @@ class CnaeController extends Controller
             'descricao_pesquisa' => $descricao_pesquisa,
             'grau_pesquisa' => $grau_pesquisa,
             'competencia_pesquisa' => $competencia_pesquisa,
+            'revisao_pesquisa' => $revisao_pesquisa,
             'cnaes' => $cnaes
         ]);
     }
@@ -95,6 +114,14 @@ class CnaeController extends Controller
 
             ]);
 
+            Movimento::create([
+                'base_cnae_id' => $cnae->id,
+                'user_id' => Auth::id(),
+                'tipo_movimento' => 'Adição',
+                'data_movimento' => now(),
+                'descricao_movimento' => 'CNAE cadastrado',
+            ]);
+
             DB::commit();
 
             //LOG DO SISTEMA
@@ -134,7 +161,9 @@ class CnaeController extends Controller
 
         $perguntas = $cnae->perguntas()->paginate(env('PAGINACAO'));
 
-        return view('interno.cnae.show', ['menu' => 'cnaes', 'cnae' => $cnae, 'perguntas' => $perguntas]);
+        $movimentos = $cnae->movimentos()->paginate(env('PAGINACAO'));
+
+        return view('interno.cnae.show', ['menu' => 'cnaes', 'cnae' => $cnae, 'perguntas' => $perguntas, 'movimentos' => $movimentos]);
     }
 
     public function edit(Cnae $cnae)
@@ -167,6 +196,14 @@ class CnaeController extends Controller
                 'descricao_cnae' => $request->descricao_cnae,
                 'grau_cnae' => $request->grau_cnae,
                 'competencia' => $request->competencia,
+            ]);
+
+            Movimento::create([
+                'base_cnae_id' => $cnae->id,
+                'user_id' => Auth::id(),
+                'tipo_movimento' => 'Edição',
+                'data_movimento' => now(),
+                'descricao_movimento' => 'CNAE editado',
             ]);
 
             DB::commit();
@@ -211,7 +248,6 @@ class CnaeController extends Controller
 
     public function updateNotas(Request $request, Cnae $cnae)
     {
-
         DB::beginTransaction();
 
         try {
@@ -219,6 +255,14 @@ class CnaeController extends Controller
             $cnae->update([
                 'notas_s_compreende' => $request->notas_s_compreende,
                 'notas_n_compreende' => $request->notas_n_compreende
+            ]);
+
+            Movimento::create([
+                'base_cnae_id' => $cnae->id,
+                'user_id' => Auth::id(),
+                'tipo_movimento' => 'Edição',
+                'data_movimento' => now(),
+                'descricao_movimento' => 'Notas explicativas editadas',
             ]);
 
             DB::commit();
@@ -281,6 +325,14 @@ class CnaeController extends Controller
                 'grau_nao' => $request->grau_nao,
             ]);
 
+            Movimento::create([
+                'base_cnae_id' => $cnae->id,
+                'user_id' => Auth::id(),
+                'tipo_movimento' => 'Adição',
+                'data_movimento' => now(),
+                'descricao_movimento' => 'Pergunta cadastrada',
+            ]);
+
             DB::commit();
 
             //LOG DO SISTEMA
@@ -334,6 +386,14 @@ class CnaeController extends Controller
                 'competencia' => $request->competencia,
                 'grau_sim' => $request->grau_sim,
                 'grau_nao' => $request->grau_nao,
+            ]);
+
+            Movimento::create([
+                'base_cnae_id' => $pergunta->cnae->id,
+                'user_id' => Auth::id(),
+                'tipo_movimento' => 'Edição',
+                'data_movimento' => now(),
+                'descricao_movimento' => 'Pergunta editada',
             ]);
 
             DB::commit();
@@ -431,5 +491,77 @@ class CnaeController extends Controller
 
             return back()->withInput()->with('error', 'Pergunta da atividade econômica ' . $pergunta->cnae->codigo_cnae . ' não excluída!');
         }
+    }
+
+    public function gerarPDF(Request $request)
+    {
+        $codigo_pesquisa = $request->codigo_pesquisa;
+        $descricao_pesquisa = $request->descricao_pesquisa;
+        $grau_pesquisa = $request->grau_pesquisa;
+        $competencia_pesquisa = $request->competencia_pesquisa;
+        $revisao_pesquisa = $request->revisao_pesquisa;
+
+        $query = Cnae::orderBy('descricao_cnae');
+
+        if ($codigo_pesquisa) {
+            $query->where('codigo_cnae', 'like', '%' . $codigo_pesquisa . '%')->orWhere('codigo_limpo', 'like', '%' . $codigo_pesquisa . '%');
+        }
+
+        if ($descricao_pesquisa) {
+            $query->where('descricao_cnae', 'like', '%' . $descricao_pesquisa . '%');
+        }
+
+        if ($grau_pesquisa) {
+            $query->where('grau_cnae', $grau_pesquisa);
+        }
+
+        if ($competencia_pesquisa) {
+            $query->where('competencia', $competencia_pesquisa);
+        }
+
+        if ($revisao_pesquisa) {
+            if ($revisao_pesquisa == 1) {
+                // CNAEs que possuem pelo menos um movimento do tipo "Edição"
+                $query->whereHas('movimentos', function ($q) {
+                    $q->where('tipo_movimento', 'Edição');
+                });
+            } elseif ($revisao_pesquisa == 2) {
+                // CNAEs que NÃO possuem movimentos do tipo "Edição"
+                $query->whereDoesntHave('movimentos', function ($q) {
+                    $q->where('tipo_movimento', 'Edição');
+                });
+            }
+        }
+
+        $cnaes = $query->get();
+
+        //LOG DO SISTEMA
+        LogService::registrar([
+            'nivel' => '1',
+            'chave' => 'pg_cnaes',
+            'descricao' => 'Usuário gerou relatório dos CNAEs.',
+        ]);
+
+        $nomePdf = 'Relatório_CNAEs.pdf';
+
+        $pdf = Pdf::loadView('interno.relatorios.cnaes-1',[
+            'codigo_pesquisa' => $codigo_pesquisa,
+            'descricao_pesquisa' => $descricao_pesquisa,
+            'grau_pesquisa' => $grau_pesquisa,
+            'competencia_pesquisa' => $competencia_pesquisa,
+            'revisao_pesquisa' => $revisao_pesquisa,
+            'cnaes' => $cnaes
+        ]);
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+            'defaultFont' => 'sans-serif',
+            'dpi' => 96,
+            'isPhpEnabled' => true,
+        ]);
+
+        return $pdf->download($nomePdf);
+        //return $pdf->stream($nomePdf);
     }
 }

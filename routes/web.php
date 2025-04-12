@@ -51,6 +51,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/administrador/cnaes/{cnae}/excluir_cnae', [CnaeController::class, 'destroy'])->name('cnae.destroy');
     Route::delete('/administrador/cnaes/{pergunta}/excluir_pergunta', [CnaeController::class, 'destroyQuestion'])->name('cnae.destroy-question');
 
+    Route::get('/administrador/gerar_pdf', [CnaeController::class, 'gerarPDF'])->name('cnae.gerar-pdf');
+
+
     Route::get('/administrador/configuracao', [ConfigurationController::class, 'index'])->name('configuration.index');
     Route::get('/administrador/configuracao/editar_configuracao', [ConfigurationController::class, 'edit'])->name('configuration.edit');
     Route::post('/administrador/configuracao/editar_configuracao', [ConfigurationController::class, 'update'])->name('configuration.update');

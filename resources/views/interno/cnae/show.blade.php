@@ -274,7 +274,9 @@
 
                                                     <div class="col-sm-12 mb-3">
                                                         <div class="form-label fw-bold mb-0">Pergunta:</div>
-                                                        <div class="text-justify" style="text-align: justify; text-justify: inter-word;">{!! nl2br($pergunta->pergunta) !!}
+                                                        <div class="text-justify"
+                                                            style="text-align: justify; text-justify: inter-word;">
+                                                            {!! nl2br($pergunta->pergunta) !!}
                                                         </div>
                                                     </div>
 
@@ -285,7 +287,8 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <form method="POST" action="{{ route('cnae.destroy-question', ['pergunta' => $pergunta->id]) }}">
+                                                <form method="POST"
+                                                    action="{{ route('cnae.destroy-question', ['pergunta' => $pergunta->id]) }}">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
@@ -310,6 +313,39 @@
                     </div>
                 @endif
                 {{ $perguntas->onEachSide(0)->links() }}
+            </div>
+        </div>
+
+        <div class="card border-primary border-ligth shadow mb-3 mt-3 col-md-12">
+            <div
+                class="card-header d-flex justify-content-between align-items-center border-primary text-light bg-primary">
+                <span class="me-auto">Movimentos</span>
+            </div>
+
+            <div class="card-body">
+                @if ($movimentos->count() > 0)
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($movimentos as $movimento)
+                                <tr>
+                                    <td style="width: 150px;">{{ \Carbon\Carbon::parse($movimento->data_movimento)->format('d/m/Y H:i') }}</td>
+                                    <td>{{ $movimento->descricao_movimento }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <div class="d-flex justify-content-center align-items-center">
+                        <span class="text-center text-muted fst-italic">Nenhum movimento registrado</span>
+                    </div>
+                @endif
+                {{ $movimentos->onEachSide(0)->links() }}
             </div>
         </div>
     </div>

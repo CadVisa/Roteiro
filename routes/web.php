@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\externo\ConsentController;
+use App\Http\Controllers\externo\ConsultaCnaeControler;
 use App\Http\Controllers\externo\ContatoController;
 use App\Http\Controllers\Externo\EstabelecimentoController;
 use App\Http\Controllers\Externo\HomeController;
@@ -26,6 +27,9 @@ Route::post('/consultar_cnpj', [EstabelecimentoController::class, 'store'])->nam
 Route::get('/{estabelecimento}/{resultado}/dados_empresa', [EstabelecimentoController::class, 'show'])->name('estabelecimento.show');
 Route::get('/{estabelecimento}/{resultado}/gerar_roteiro', [EstabelecimentoController::class, 'gerarRoteiro'])->name('estabelecimento.gerarRoteiro');
 
+Route::get('/consultar_cnae', [ConsultaCnaeControler::class, 'index'])->name('consulta_cnae.index'); 
+Route::get('/{cnae}/visualizar_cnae', [ConsultaCnaeControler::class, 'show'])->name('consulta_cnae.show'); 
+
 Route::get('/contato', [ContatoController::class, 'index'])->name('contato.index');
 Route::post('/contato', [ContatoController::class, 'store'])->name('contato.store');
 
@@ -34,8 +38,10 @@ Route::post('/contato', [ContatoController::class, 'store'])->name('contato.stor
 // ROTAS PROTEGIDAS
 Route::group(['middleware' => 'auth'], function () {
 
+    // PAGINA PRINCIPAL DO ADMINISTRADOR
     Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador.index');
 
+    // ROTAS DE CNAES
     Route::get('/administrador/cnaes', [CnaeController::class, 'index'])->name('cnae.index');
     Route::get('/administrador/cnaes/novo_cnae', [CnaeController::class, 'create'])->name('cnae.create');
     Route::post('/administrador/cnaes/novo_cnae', [CnaeController::class, 'store'])->name('cnae.store');
@@ -50,16 +56,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/administrador/cnaes/{pergunta}/editar_pergunta', [CnaeController::class, 'updateQuestion'])->name('cnae.update-question');
     Route::delete('/administrador/cnaes/{cnae}/excluir_cnae', [CnaeController::class, 'destroy'])->name('cnae.destroy');
     Route::delete('/administrador/cnaes/{pergunta}/excluir_pergunta', [CnaeController::class, 'destroyQuestion'])->name('cnae.destroy-question');
-
     Route::get('/administrador/gerar_pdf', [CnaeController::class, 'gerarPDF'])->name('cnae.gerar-pdf');
 
-
+    // ROTAS DE CONFIGURACOES
     Route::get('/administrador/configuracao', [ConfigurationController::class, 'index'])->name('configuration.index');
     Route::get('/administrador/configuracao/editar_configuracao', [ConfigurationController::class, 'edit'])->name('configuration.edit');
     Route::post('/administrador/configuracao/editar_configuracao', [ConfigurationController::class, 'update'])->name('configuration.update');
     Route::post('/administrador/configuracao/{configuration}/ativa_sistema', [ConfigurationController::class, 'ativar'])->name('configuration.ativar');
     Route::post('/administrador/configuracao/{configuration}/suspender_sistema', [ConfigurationController::class, 'suspender'])->name('configuration.suspender');
 
+    // ROTAS DOS CARDS
     Route::get('/administrador/cards', [CardController::class, 'index'])->name('card.index');
     Route::get('/administrador/cards/novo_card', [CardController::class, 'create'])->name('card.create');
     Route::post('/administrador/cards/novo_card', [CardController::class, 'store'])->name('card.store');
@@ -68,11 +74,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/administrador/cards/{card}/editar_card', [CardController::class, 'update'])->name('card.update');
     Route::delete('/administrador/cards/{card}/excluir_card', [CardController::class, 'destroy'])->name('card.destroy');
 
+    // ROTAS DOS CONTATOS
     Route::get('/administrador/contatos', [ContactsController::class, 'index'])->name('contact.index');
     Route::get('/administrador/contatos/{contato}/visualizar_contato', [ContactsController::class, 'show'])->name('contact.show');
     Route::get('/administrador/contatos/{contato}/editar_contato', [ContactsController::class, 'edit'])->name('contact.edit');
     Route::post('/administrador/contatos/{contato}/editar_contato', [ContactsController::class, 'update'])->name('contact.update');
 
+    // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
 

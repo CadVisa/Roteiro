@@ -31,7 +31,7 @@
                                 href="{{ route('home') }}"><i class="fa-solid fa-file-pdf me-1"></i>Gerar roteiro</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="nav-link" href="#"><i
+                            <a class="nav-link @if (isset($menu) && $menu === 'consulta_cnaes') active @endif" href="{{ route('consulta_cnae.index') }}"><i
                                     class="fa-solid fa-magnifying-glass me-1"></i>Consultar
                                 CNAEs</a>
                         </li>
@@ -41,7 +41,7 @@
                                     class="fa-solid fa-table-list me-2"></i>Contato</a>
                         </li>
                     @endif
-
+                    
                     @if (auth()->check())
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards', 'contacts'])) active @endif"

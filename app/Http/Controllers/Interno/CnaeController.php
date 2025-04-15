@@ -398,8 +398,8 @@ class CnaeController extends Controller
 
             DB::commit();
 
-             //LOG DO SISTEMA
-             LogService::registrar([
+            //LOG DO SISTEMA
+            LogService::registrar([
                 'nivel' => '1',
                 'chave' => 'pg_cnaes',
                 'descricao' => 'Usuário editou as informações de uma pergunta de um CNAE.',
@@ -473,7 +473,7 @@ class CnaeController extends Controller
                 'nivel' => '1',
                 'chave' => 'pg_cnaes',
                 'descricao' => 'Usuário excluiu uma pergunta de um CNAE.',
-                'observacoes' => 'CNAE: ' . $pergunta->cnae->codigo_cnae . ' | Pergunta: '. $pergunta->pergunta,
+                'observacoes' => 'CNAE: ' . $pergunta->cnae->codigo_cnae . ' | Pergunta: ' . $pergunta->pergunta,
             ]);
 
             return redirect()->route('cnae.show', ['cnae' => $pergunta->cnae_id, 'menu' => 'cnaes'])->with('success', 'Pergunta da atividade econômica ' . $pergunta->cnae->codigo_cnae . ' excluída com sucesso!');
@@ -486,7 +486,7 @@ class CnaeController extends Controller
                 'nivel' => '3',
                 'chave' => 'pg_cnaes',
                 'descricao' => 'Erro ao excluir uma pergunta de um CNAE.',
-                'observacoes' => 'CNAE: ' . $pergunta->cnae->codigo_cnae .' | Pergunta: ' . $pergunta->pergunta . ' | Erro: ' . $e->getMessage(),
+                'observacoes' => 'CNAE: ' . $pergunta->cnae->codigo_cnae . ' | Pergunta: ' . $pergunta->pergunta . ' | Erro: ' . $e->getMessage(),
             ]);
 
             return back()->withInput()->with('error', 'Pergunta da atividade econômica ' . $pergunta->cnae->codigo_cnae . ' não excluída!');
@@ -535,6 +535,18 @@ class CnaeController extends Controller
 
         $cnaes = $query->get();
 
+        if ($cnaes->isEmpty()) {
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '2',
+                'chave' => 'pg_cnaes',
+                'descricao' => 'Tentou gerar o relatório sem informações.',
+            ]);
+
+            return back()->withInput()->with('error', 'Sem informações para gerar o relatório!');
+        }
+
         //LOG DO SISTEMA
         LogService::registrar([
             'nivel' => '1',
@@ -544,7 +556,7 @@ class CnaeController extends Controller
 
         $nomePdf = 'Relatório_CNAEs.pdf';
 
-        $pdf = Pdf::loadView('interno.relatorios.cnaes-1',[
+        $pdf = Pdf::loadView('interno.relatorios.cnaes-1', [
             'codigo_pesquisa' => $codigo_pesquisa,
             'descricao_pesquisa' => $descricao_pesquisa,
             'grau_pesquisa' => $grau_pesquisa,

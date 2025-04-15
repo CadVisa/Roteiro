@@ -128,66 +128,16 @@
                     <span>Lista de logs do sistema</span>
 
                     <div>
-                        <a href="{{ url('administrador/gerar_pdf?' . request()->getQueryString()) }}"
+                        <a href="{{ url('administrador/logs/gerar_pdf?' . request()->getQueryString()) }}"
                             class="btn btn-sm btn-outline-light">
                             <i class="fa-solid fa-file-pdf"></i>
                             <span class="d-none d-sm-inline"> Gerar PDF</span>
                         </a>
 
-                        <span>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-light btn-sm dropdown-toggle"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-regular fa-trash-can"></i>
-                                    <span class="d-none d-sm-inline">Excluir</span>
-                                </button>
-                                <form action="{{ route('logs.destroy') }}" method="POST"
-                                    onsubmit="return confirm('Tem certeza que deseja excluir os logs informados?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="hidden" name="periodo" id="periodo" value="">
-
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <button type="submit" class="dropdown-item text-danger"
-                                                onclick="setPeriodo('15')">
-                                                <i class="fas fa-trash-alt me-1"></i> Com mais de 15 dias
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="submit" class="dropdown-item text-danger"
-                                                onclick="setPeriodo('30')">
-                                                <i class="fas fa-trash-alt me-1"></i> Com mais de 30 dias
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="submit" class="dropdown-item text-danger"
-                                                onclick="setPeriodo('90')">
-                                                <i class="fas fa-trash-alt me-1"></i> Com mais de 3 meses
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="submit" class="dropdown-item text-danger"
-                                                onclick="setPeriodo('180')">
-                                                <i class="fas fa-trash-alt me-1"></i> Com mais de 6 meses
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="submit" class="dropdown-item text-danger"
-                                                onclick="setPeriodo('365')">
-                                                <i class="fas fa-trash-alt me-1"></i> Com mais de 12 meses
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="submit" class="dropdown-item text-danger fw-bold"
-                                                onclick="setPeriodo('all')">
-                                                <i class="fas fa-ban me-1"></i> Excluir todos os logs
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </form>
-                            </div>
-                        </span>
+                        <button type="button" class="btn btn-outline-light btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#deleteLogsModal">
+                            <i class="fa-regular fa-trash-can"></i> <span class="d-none d-sm-inline">Excluir Logs</span>
+                        </button>
 
                     </div>
                 </div>
@@ -211,9 +161,9 @@
                                 <tr>
                                     <th>Data</th>
                                     <th class="text-center">Nível</th>
-                                    <th>IP</th>
-                                    <th>Descrição</th>
-                                    <th>Grupo</th>
+                                    <th class="d-none d-md-table-cell">IP</th>
+                                    <th class="d-none d-sm-table-cell">Descrição</th>
+                                    <th class="d-none d-lg-table-cell">Grupo</th>
                                     <th class="text-end"></th>
                                 </tr>
                             </thead>
@@ -221,27 +171,34 @@
 
                                 @foreach ($logs as $log)
                                     <tr>
-                                        <td>{{ \Carbon\Carbon::parse($log->log_data)->format('d/m/Y H:i:s') }}</td>
+                                        <td style="max-width: 140px;">
+                                            {{ \Carbon\Carbon::parse($log->log_data)->format('d/m/Y H:i:s') }}</td>
 
-                                        <td class="text-center">
-                                            <span>
-                                                @if ($log->log_nivel == 4)
-                                                    <i class="fas fa-circle-check text-success" title="Resolvido"></i>
-                                                @elseif ($log->log_nivel == 1)
-                                                    <i class="fas fa-circle-info text-primary" title="Normal"></i>
-                                                @elseif ($log->log_nivel == 2)
-                                                    <i class="fas fa-exclamation-circle text-warning"
-                                                        title="Importante"></i>
-                                                @elseif ($log->log_nivel == 3)
-                                                    <i class="fas fa-triangle-exclamation text-danger"
-                                                        title="Crítico"></i>
-                                                @endif
-                                            </span>
-                                        </td>
+                                            <td class="text-center">
+                                                <form action="{{ route('logs.alterar', ['log' => $log->id]) }}" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <input type="hidden" name="log_nivel" value="{{ $log->log_nivel }}">
+                                                    <button type="submit" style="border: none; background: none;">
+                                                        @if ($log->log_nivel == 4)
+                                                            <i class="fas fa-circle-check text-success" title="Resolvido"></i>
+                                                        @elseif ($log->log_nivel == 1)
+                                                            <i class="fas fa-circle-info text-primary" title="Normal"></i>
+                                                        @elseif ($log->log_nivel == 2)
+                                                            <i class="fas fa-exclamation-circle text-warning" title="Importante"></i>
+                                                        @elseif ($log->log_nivel == 3)
+                                                            <i class="fas fa-triangle-exclamation text-danger" title="Crítico"></i>
+                                                        @endif
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            
 
-                                        <td>{{ $log->log_ip }}</td>
-                                        <td>{{ $log->log_descricao }}</td>
-                                        <td>
+                                        <td class="text-truncate d-none d-md-table-cell" style="max-width: 90px;">
+                                            {{ $log->log_ip }}</td>
+                                        <td class="text-truncate d-none d-sm-table-cell" style="max-width: 150px;">
+                                            {{ $log->log_descricao }}</td>
+                                        <td class="text-truncate d-none d-lg-table-cell" style="max-width: 60px;">
                                             <span>
                                                 @if ($log->log_chave == 'pg_consent')
                                                     Coockies
@@ -279,7 +236,7 @@
                                         <td class="text-end">
                                             <a href="#" class="spinner-light btn btn-outline-primary btn-sm"><i
                                                     class="fa-regular fa-folder-open"></i><span
-                                                    class="d-none d-sm-inline">
+                                                    class="d-none d-md-inline">
                                                     Abrir</span></a>
                                         </td>
                                     </tr>
@@ -291,5 +248,53 @@
                 </div>
             </div>
         </div>
+
+
+        {{-- MODAL EXCLUIR LOGS --}}
+        <div class="modal fade" id="deleteLogsModal" tabindex="-1" aria-labelledby="deleteLogsModalLabel"
+            data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header text-light bg-danger">
+                        <h6 class="modal-title" id="deleteLogsModalLabel">
+                            Deseja realmente excluir os logs?
+                        </h6>
+                    </div>
+                    <form method="POST" action="{{ route('logs.destroy') }}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="periodoSelect" class="form-label fw-bold">Período:</label>
+                                <select class="form-select" id="periodoSelect" name="periodo">
+                                    <option value="" disabled selected>Selecione</option>
+                                    <option value="15">Com mais de 15 dias</option>
+                                    <option value="30">Com mais de 30 dias</option>
+                                    <option value="90">Com mais de 3 meses</option>
+                                    <option value="180">Com mais de 6 meses</option>
+                                    <option value="365">Com mais de 12 meses</option>
+                                    <option value="all" class="text-danger fw-bold">Excluir todos os logs</option>
+                                </select>
+                            </div>
+                            <div class="text-center text-danger fw-bold">
+                                Essa ação é irreversível!
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="submitDeleteLogs"
+                                class="spinner-danger btn btn-sm btn-outline-danger">
+                                <i class="fa-regular fa-trash-can"></i> Excluir
+                            </button>
+                            <button type="button" id="closeModal"
+                                class="spinner-secondary btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">
+                                <i class="fa-solid fa-xmark"></i> Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 @endsection

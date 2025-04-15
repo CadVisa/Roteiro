@@ -20,7 +20,7 @@ class Log extends Model
         'user_id',
     ];
 
-    public function log()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

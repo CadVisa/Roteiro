@@ -44,7 +44,7 @@
                     
                     @if (auth()->check())
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards', 'contacts'])) active @endif"
+                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards', 'contacts', 'logs'])) active @endif"
                                 href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
 
@@ -75,6 +75,12 @@
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cnaes') active @endif"
                                         href="{{ route('cnae.index') }}">
                                         <i class="fa-brands fa-creative-commons-share me-1"></i>CNAEs
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'logs') active @endif"
+                                        href="{{ route('log.index') }}">
+                                        <i class="fa-solid fa-user-secret me-1"></i>Logs do sistema
                                     </a>
                                 </li>
                                 <li>

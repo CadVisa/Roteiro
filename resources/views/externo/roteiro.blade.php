@@ -401,7 +401,7 @@
 
     </div>
 
-    <div id="area-3">
+    <div id="area-3" style="page-break-inside: avoid;">
         <div class="subtitulo">
             <span>ATIVIDADE(S) QUE DEPENDE(M) DE INFORMAÇÃO</span>
         </div>

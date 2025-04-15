@@ -11,6 +11,7 @@ use App\Http\Controllers\interno\CardController;
 use App\Http\Controllers\Interno\CnaeController;
 use App\Http\Controllers\interno\ConfigurationController;
 use App\Http\Controllers\interno\ContactsController;
+use App\Http\Controllers\interno\LogController;
 use App\Models\Configuration;
 use Illuminate\Support\Facades\Route;
 
@@ -56,7 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/administrador/cnaes/{pergunta}/editar_pergunta', [CnaeController::class, 'updateQuestion'])->name('cnae.update-question');
     Route::delete('/administrador/cnaes/{cnae}/excluir_cnae', [CnaeController::class, 'destroy'])->name('cnae.destroy');
     Route::delete('/administrador/cnaes/{pergunta}/excluir_pergunta', [CnaeController::class, 'destroyQuestion'])->name('cnae.destroy-question');
-    Route::get('/administrador/gerar_pdf', [CnaeController::class, 'gerarPDF'])->name('cnae.gerar-pdf');
+    Route::get('/administrador/cnaes/gerar_pdf', [CnaeController::class, 'gerarPDF'])->name('cnae.gerar-pdf');
 
     // ROTAS DE CONFIGURACOES
     Route::get('/administrador/configuracao', [ConfigurationController::class, 'index'])->name('configuration.index');
@@ -79,6 +80,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/contatos/{contato}/visualizar_contato', [ContactsController::class, 'show'])->name('contact.show');
     Route::get('/administrador/contatos/{contato}/editar_contato', [ContactsController::class, 'edit'])->name('contact.edit');
     Route::post('/administrador/contatos/{contato}/editar_contato', [ContactsController::class, 'update'])->name('contact.update');
+
+    // ROTAS DOS LOGS
+    Route::get('/administrador/logs', [LogController::class, 'index'])->name('log.index');
+    Route::delete('/administrador/logs/excluir', [LogController::class, 'destroy'])->name('logs.destroy');    
 
     // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');

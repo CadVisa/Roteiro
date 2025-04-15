@@ -10,14 +10,16 @@
 
         <div class="card border-primary border-ligth shadow mb-3 mt-3 col-md-12">
 
-            <div class="card-header space-between-elements border-primary text-light bg-primary">
+            <div class="card-header d-flex justify-content-between align-items-center border-primary text-light bg-primary">
                 <span>Pesquisar</span>
+                <a href="{{ route('administrador.index') }}" class="spinner-light btn btn-sm btn-outline-light">
+                    <i class="fa-solid fa-gauge"></i>
+                    <span class="d-none d-sm-inline">Dashboard</span>
+                </a>
             </div>
 
             <div class="card-body">
-                <form action="{{ route('contact.index') }}" class="row g-3 mb-2 needs-validation" novalidate method="POST">
-                    @csrf
-                    @method('GET')
+                <form action="{{ route('contact.index') }}" class="row g-3 mb-2 needs-validation">
 
                     <div class="col-sm-4 col-md-3 col-lg-2 col-xl-2 mt-3">
                         <label for="data_pesquisa" class="form-label mb-1">Data: </label>

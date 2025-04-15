@@ -6,3 +6,4 @@ import './autosize';
 import './modal';
 import './consents';
 import './infoMarketing';
+import './destroy_logs';

@@ -10,8 +10,12 @@
 
         <div class="card border-primary border-ligth shadow mb-3 mt-3 col-md-12">
 
-            <div class="card-header space-between-elements border-primary text-light bg-primary">
+            <div class="card-header d-flex justify-content-between align-items-center border-primary text-light bg-primary">
                 <span>Pesquisar</span>
+                <a href="{{ route('administrador.index') }}" class="spinner-light btn btn-sm btn-outline-light">
+                    <i class="fa-solid fa-gauge"></i>
+                    <span class="d-none d-sm-inline">Dashboard</span>
+                </a>
             </div>
 
             <div class="card-body">
@@ -92,7 +96,7 @@
                     <span>Lista de atividades econômicas</span>
 
                     <div>
-                        <a href="{{ url('administrador/gerar_pdf?' . request()->getQueryString()) }}" class="btn btn-sm btn-outline-light">
+                        <a href="{{ url('administrador/cnaes/gerar_pdf?' . request()->getQueryString()) }}" class="btn btn-sm btn-outline-light">
                             <i class="fa-solid fa-file-pdf"></i>
                             <span class="d-none d-sm-inline"> Gerar PDF</span>
                         </a>

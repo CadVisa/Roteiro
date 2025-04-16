@@ -9,12 +9,12 @@
             </h4>
 
             @if ($statusSistema == 'Ativo')
-                <div class="alert alert-success py-1 px-2 mb-0 d-flex align-items-center">
+                <div class="alert alert-success py-1 px-2 mb-0 d-flex align-items-center" title="Sistema ativo">
                     <i class="fas fa-circle me-2 small"></i>
                     <span class="small">Normal</span>
                 </div>
             @else
-                <div class="alert alert-danger py-1 px-2 mb-0 d-flex align-items-center">
+                <div class="alert alert-danger py-1 px-2 mb-0 d-flex align-items-center" title="Sistema suspenso">
                     <i class="fas fa-circle-exclamation me-2 small"></i>
                     <span class="small">Suspenso</span>
                 </div>
@@ -24,20 +24,20 @@
 
         <div class="row g-3">
 
-            {{-- Logs do sistema --}}
+            {{-- OK Logs do sistema --}}
             <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card border-primary shadow-sm h-100 rounded-3">
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">Logs do sistema</span>
-                        <a href="#" class="text-decoration-none" title="Total de logs do sistema"><span
+                        <span class="fw-semibold">OK - Logs do sistema</span>
+                        <a href="{{ route('log.index') }}" class="text-decoration-none" title="Total de logs do sistema"><span
                                 class="badge bg-light text-primary fw-bold px-2 py-1">{{ number_format($logsSistema, 0, ',', '.') }}</span></a>
                     </div>
 
                     <div class="card-body px-4 py-3">
                         <div class="d-flex flex-wrap justify-content-between text-center gap-2">
                             <div class="flex-fill">
-                                <a href="#" class="text-decoration-none" title="Críticos">
+                                <a href="{{ route('log.index', ['nivel_pesquisa' => 3]) }}" class="text-decoration-none" title="Críticos">
                                     <div class="text-danger">
                                         <i class="fas fa-triangle-exclamation"></i>
                                         <span class="fw-semibold">{{ number_format($logs_3, 0, ',', '.') }}</span>
@@ -46,7 +46,7 @@
                             </div>
 
                             <div class="flex-fill">
-                                <a href="#" class="text-decoration-none" title="Importantes">
+                                <a href="{{ route('log.index', ['nivel_pesquisa' => 2]) }}" class="text-decoration-none" title="Importantes">
                                     <div class="text-warning">
                                         <i class="fas fa-exclamation-circle"></i>
                                         <span class="fw-semibold">{{ number_format($logs_2, 0, ',', '.') }}</span>
@@ -55,7 +55,7 @@
                             </div>
 
                             <div class="flex-fill">
-                                <a href="#" class="text-decoration-none" title="Normais">
+                                <a href="{{ route('log.index', ['nivel_pesquisa' => 1]) }}" class="text-decoration-none" title="Normais">
                                     <div class="text-primary">
                                         <i class="fas fa-circle-info"></i>
                                         <span class="fw-semibold">{{ number_format($logs_1, 0, ',', '.') }}</span>
@@ -64,7 +64,7 @@
                             </div>
 
                             <div class="flex-fill">
-                                <a href="#" class="text-decoration-none" title="Resolvidos">
+                                <a href="{{ route('log.index', ['nivel_pesquisa' => 4]) }}" class="text-decoration-none" title="Resolvidos">
                                     <div class="text-success">
                                         <i class="fas fa-circle-check"></i>
                                         <span class="fw-semibold">{{ number_format($logs_4, 0, ',', '.') }}</span>
@@ -156,12 +156,49 @@
                 </div>
             </div>
 
-            {{-- Roteiros gerados --}}
+            {{-- Empresas --}}
             <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card border-primary shadow-sm h-100 rounded-3">
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">Roteiros gerados</span>
+                        <span class="fw-semibold">Empresas</span>
+                        <a href="#" class="text-decoration-none" title="Total de empresas cadastradas"><span
+                                class="badge bg-light text-primary fw-bold px-2 py-1">{{ number_format($empresas, 0, ',', '.') }}</span></a>
+                    </div>
+
+                    <div class="card-body px-4 py-3">
+                        <div class="d-flex flex-wrap justify-content-between text-center gap-2">
+
+                            <div class="flex-fill">
+
+                                <a href="#" class="text-decoration-none" title="Empresas sem roteiro gerado">
+                                    <div class="text-danger">
+                                        <i class="fa-solid fa-file-circle-exclamation"></i>
+                                        <span
+                                            class="fw-semibold">{{ number_format($empresasSemRoteiro, 0, ',', '.') }}</span>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="flex-fill">
+                                <a href="#" class="text-decoration-none" title="Empresas com roteiro gerado">
+                                    <div class="text-success">
+                                        <i class="fa-solid fa-file-circle-check"></i>
+                                        <span class="fw-semibold">{{ number_format($empresasComRoteiro, 0, ',', '.') }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Gestão de arquivos --}}
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card border-primary shadow-sm h-100 rounded-3">
+                    <div
+                        class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
+                        <span class="fw-semibold">Gestão de arquivos</span>
                     </div>
 
                     <div class="card-body px-4 py-3">
@@ -220,44 +257,6 @@
                     </div>
                 </div>
             </div>
-
-            {{-- Empresas --}}
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="card border-primary shadow-sm h-100 rounded-3">
-                    <div
-                        class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">Empresas</span>
-                        <a href="#" class="text-decoration-none" title="Total de empresas cadastradas"><span
-                                class="badge bg-light text-primary fw-bold px-2 py-1">{{ number_format($empresas, 0, ',', '.') }}</span></a>
-                    </div>
-
-                    <div class="card-body px-4 py-3">
-                        <div class="d-flex flex-wrap justify-content-between text-center gap-2">
-
-                            <div class="flex-fill">
-
-                                <a href="#" class="text-decoration-none" title="Empresas sem roteiro gerado">
-                                    <div class="text-danger">
-                                        <i class="fa-solid fa-file-circle-exclamation"></i>
-                                        <span
-                                            class="fw-semibold">{{ number_format($empresasSemRoteiro, 0, ',', '.') }}</span>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="flex-fill">
-                                <a href="#" class="text-decoration-none" title="Empresas com roteiro gerado">
-                                    <div class="text-success">
-                                        <i class="fa-solid fa-file-circle-check"></i>
-                                        <span class="fw-semibold">{{ $accepted_1 }}</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <div class="row g-3 mt-3 mb-3">

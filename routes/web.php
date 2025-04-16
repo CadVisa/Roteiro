@@ -84,8 +84,10 @@ Route::group(['middleware' => 'auth'], function () {
     // ROTAS DOS LOGS
     Route::get('/administrador/logs', [LogController::class, 'index'])->name('log.index');
     Route::delete('/administrador/logs/excluir', [LogController::class, 'destroy'])->name('logs.destroy');
-    Route::get('/administrador/logs/gerar_pdf', [LogController::class, 'gerarPDF'])->name('logs.gerar-pdf'); 
-    Route::post('/administrador/logs/{log}/alterar', [LogController::class, 'alterar'])->name('logs.alterar'); 
+    Route::get('/administrador/logs/gerar_pdf', [LogController::class, 'gerarPDF'])->name('logs.gerar-pdf');
+    Route::get('/administrador/logs/{log}/visualizar_log', [LogController::class, 'show'])->name('logs.show');
+    Route::delete('/administrador/logs/{log}/excluir_log', [LogController::class, 'destroyLog'])->name('logs.destroyLog');
+    Route::get('/administrador/logs/{log}/alterar', [LogController::class, 'alterar'])->name('logs.alterar'); 
 
     // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');

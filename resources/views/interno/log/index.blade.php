@@ -174,25 +174,22 @@
                                         <td style="max-width: 140px;">
                                             {{ \Carbon\Carbon::parse($log->log_data)->format('d/m/Y H:i:s') }}</td>
 
-                                            <td class="text-center">
-                                                <form action="{{ route('logs.alterar', ['log' => $log->id]) }}" method="POST">
-                                                    @csrf
-                                                    @method('POST')
-                                                    <input type="hidden" name="log_nivel" value="{{ $log->log_nivel }}">
-                                                    <button type="submit" style="border: none; background: none;">
-                                                        @if ($log->log_nivel == 4)
-                                                            <i class="fas fa-circle-check text-success" title="Resolvido"></i>
-                                                        @elseif ($log->log_nivel == 1)
-                                                            <i class="fas fa-circle-info text-primary" title="Normal"></i>
-                                                        @elseif ($log->log_nivel == 2)
-                                                            <i class="fas fa-exclamation-circle text-warning" title="Importante"></i>
-                                                        @elseif ($log->log_nivel == 3)
-                                                            <i class="fas fa-triangle-exclamation text-danger" title="Crítico"></i>
-                                                        @endif
-                                                    </button>
-                                                </form>
-                                            </td>
-                                            
+                                        <td class="text-center">
+                                            <a href="{{ route('logs.alterar', ['log' => $log->id]) }}">
+                                                @if ($log->log_nivel == 4)
+                                                    <i class="fas fa-circle-check text-success" title="Resolvido"></i>
+                                                @elseif ($log->log_nivel == 1)
+                                                    <i class="fas fa-circle-info text-primary" title="Normal"></i>
+                                                @elseif ($log->log_nivel == 2)
+                                                    <i class="fas fa-exclamation-circle text-warning"
+                                                        title="Importante"></i>
+                                                @elseif ($log->log_nivel == 3)
+                                                    <i class="fas fa-triangle-exclamation text-danger"
+                                                        title="Crítico"></i>
+                                                @endif
+                                            </a>
+                                        </td>
+
 
                                         <td class="text-truncate d-none d-md-table-cell" style="max-width: 90px;">
                                             {{ $log->log_ip }}</td>
@@ -234,7 +231,7 @@
                                             </span>
                                         </td>
                                         <td class="text-end">
-                                            <a href="#" class="spinner-light btn btn-outline-primary btn-sm"><i
+                                            <a href="{{ route('logs.show', ['log' => $log->id] )}}" class="spinner-light btn btn-outline-primary btn-sm"><i
                                                     class="fa-regular fa-folder-open"></i><span
                                                     class="d-none d-md-inline">
                                                     Abrir</span></a>

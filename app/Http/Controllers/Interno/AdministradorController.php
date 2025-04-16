@@ -58,13 +58,6 @@ class AdministradorController extends Controller
             ->limit(10)
             ->get();
 
-        //LOG DO SISTEMA
-        LogService::registrar([
-            'nivel' => '1',
-            'chave' => 'pg_adm',
-            'descricao' => 'Usuário acessou a página inicial do administrador.',
-        ]);
-
         $logsSistema = Log::count();
         $logs_4 = Log::where('log_nivel', 4)->count();
         $logs_1 = Log::where('log_nivel', 1)->count();
@@ -86,6 +79,7 @@ class AdministradorController extends Controller
         })->distinct('id')->count('id');
 
         $arquivos = File::files(storage_path('app/public/roteiros'));
+
         $quantidadeArquivos = count($arquivos);
         $tamanhoTotalBytes = collect($arquivos)->sum(function ($arquivo) {
             return $arquivo->getSize();
@@ -99,6 +93,13 @@ class AdministradorController extends Controller
         $empresas = Estabelecimento::count();
         $empresasSemRoteiro = Estabelecimento::whereNull('path_roteiro')->count();
         $empresasComRoteiro = Estabelecimento::whereNotNull('path_roteiro')->count();
+
+        //LOG DO SISTEMA
+        LogService::registrar([
+            'nivel' => '1',
+            'chave' => 'pg_adm',
+            'descricao' => 'Acessou a página inicial do administrador.',
+        ]);
 
         return view('interno.adm.index', [
             'menu' => 'dashboard',

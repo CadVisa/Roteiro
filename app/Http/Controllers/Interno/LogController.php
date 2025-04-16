@@ -8,7 +8,9 @@ use App\Models\Log;
 use App\Services\LogService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LogController extends Controller
 {
@@ -212,77 +214,159 @@ class LogController extends Controller
         //return $pdf->stream($nomePdf);
     }
 
-    public function alterar(Request $request, Log $log)
+    public function alterar(Log $log)
     {
-        // dd($request->log_nivel);
+        DB::beginTransaction();
 
-        if ($request->log_nivel == 1) {
-            $log->update([
-                'log_nivel' => 2
-            ]);
+        $logAnterior = $log->log_nivel;
 
-            //LOG DO SISTEMA
-            LogService::registrar([
-                'nivel' => '1',
-                'chave' => 'pg_logs',
-                'descricao' => 'Alterou o nível do log.',
-                'observacoes' => 'De: ' . $request->log_nivel . ' para ' . $log->log_nivel . '. Log: ' . $log->id . '.',
-            ]);
+        try {
 
-            return back()->withInput()->with('success', 'Nível do log alterado com sucesso!');
-        } elseif ($request->log_nivel == 2) {
-            $log->update([
-                'log_nivel' => 3
-            ]);
+            
 
-            //LOG DO SISTEMA
-            LogService::registrar([
-                'nivel' => '1',
-                'chave' => 'pg_logs',
-                'descricao' => 'Alterou o nível do log.',
-                'observacoes' => 'De: ' . $request->log_nivel . ' para ' . $log->log_nivel . '. Log: ' . $log->id . '.',
-            ]);
+            if ($log->log_nivel == 1) {
+                $log->update([
+                    'log_nivel' => 2
+                ]);
 
-            return back()->withInput()->with('success', 'Nível do log alterado com sucesso!');
-        } elseif ($request->log_nivel == 3) {
-            $log->update([
-                'log_nivel' => 4
-            ]);
+                //LOG DO SISTEMA
+                LogService::registrar([
+                    'nivel' => '1',
+                    'chave' => 'pg_logs',
+                    'descricao' => 'Alterou o nível do log.',
+                    'observacoes' => 'De: ' . $logAnterior . ' para ' . $log->log_nivel . '. Log: ' . $log->id . '.',
+                ]);
 
-            //LOG DO SISTEMA
-            LogService::registrar([
-                'nivel' => '1',
-                'chave' => 'pg_logs',
-                'descricao' => 'Alterou o nível do log.',
-                'observacoes' => 'De: ' . $request->log_nivel . ' para ' . $log->log_nivel . '. Log: ' . $log->id . '.',
-            ]);
+                DB::commit();
 
-            return back()->withInput()->with('success', 'Nível do log alterado com sucesso!');
-        } elseif ($request->log_nivel == 4) {
-            $log->update([
-                'log_nivel' => 1
-            ]);
+                return back()->with('success', 'Nível do log alterado com sucesso!');
 
-            //LOG DO SISTEMA
-            LogService::registrar([
-                'nivel' => '1',
-                'chave' => 'pg_logs',
-                'descricao' => 'Alterou o nível do log.',
-                'observacoes' => 'De: ' . $request->log_nivel . ' para ' . $log->log_nivel . '. Log: ' . $log->id . '.',
-            ]);
+            } elseif ($log->log_nivel == 2) {
+                $log->update([
+                    'log_nivel' => 3
+                ]);
 
-            return back()->withInput()->with('success', 'Nível do log alterado com sucesso!');
-        } else {
+                //LOG DO SISTEMA
+                LogService::registrar([
+                    'nivel' => '1',
+                    'chave' => 'pg_logs',
+                    'descricao' => 'Alterou o nível do log.',
+                    'observacoes' => 'De: ' . $logAnterior . ' para ' . $log->log_nivel . '. Log: ' . $log->id . '.',
+                ]);
+
+                DB::commit();
+
+                return back()->with('success', 'Nível do log alterado com sucesso!');
+
+            } elseif ($log->log_nivel == 3) {
+                $log->update([
+                    'log_nivel' => 4
+                ]);
+
+                //LOG DO SISTEMA
+                LogService::registrar([
+                    'nivel' => '1',
+                    'chave' => 'pg_logs',
+                    'descricao' => 'Alterou o nível do log.',
+                    'observacoes' => 'De: ' . $logAnterior . ' para ' . $log->log_nivel . '. Log: ' . $log->id . '.',
+                ]);
+
+                DB::commit();
+
+                return back()->with('success', 'Nível do log alterado com sucesso!');
+
+            } elseif ($log->log_nivel == 4) {
+                $log->update([
+                    'log_nivel' => 1
+                ]);
+
+                //LOG DO SISTEMA
+                LogService::registrar([
+                    'nivel' => '1',
+                    'chave' => 'pg_logs',
+                    'descricao' => 'Alterou o nível do log.',
+                    'observacoes' => 'De: ' . $logAnterior . ' para ' . $log->log_nivel . '. Log: ' . $log->id . '.',
+                ]);
+
+                DB::commit();
+
+                return back()->with('success', 'Nível do log alterado com sucesso!');
+
+            } else {
+
+                //LOG DO SISTEMA
+                LogService::registrar([
+                    'nivel' => '3',
+                    'chave' => 'pg_logs',
+                    'descricao' => 'Informou um nível de log que não existe.',
+                    'observacoes' => 'Nível de log informado: ' . $logAnterior . '.',
+                ]);
+
+                DB::commit();
+
+                return back()->with('error', 'Algo deu errado!');
+            }
+        } catch (Exception $e) {
+
+            DB::rollBack();
 
             //LOG DO SISTEMA
             LogService::registrar([
                 'nivel' => '3',
                 'chave' => 'pg_logs',
-                'descricao' => 'Informou um nível de log que não existe.',
-                'observacoes' => 'Nível de log informado: ' . $request->log_nivel . '.',
+                'descricao' => 'Erro ao alterar o nível do log.',
+                'observacoes' => 'Nível de log informado: ' . $logAnterior . ' | Erro: ' . $e->getMessage(),
             ]);
 
             return back()->withInput()->with('error', 'Algo deu errado!');
+        }
+    }
+
+    public function show(Log $log)
+    {
+        //LOG DO SISTEMA
+        LogService::registrar([
+            'nivel' => '1',
+            'chave' => 'pg_logs',
+            'descricao' => 'Acessou a página para visualizar um log.',
+            'observacoes' => 'Log: ' . $log->id,
+        ]);
+
+        return view('interno.log.show', ['menu' => 'logs', 'log' => $log]);
+    }
+
+    public function destroyLog(Log $log)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $log->delete();
+
+            DB::commit();
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '1',
+                'chave' => 'pg_logs',
+                'descricao' => 'Excluiu um log.',
+                'observacoes' => 'Log: ' . $log->id,
+            ]);
+
+            return redirect()->route('log.index', ['menu' => 'logs'])->with('success', 'Log excluído com sucesso!');
+        } catch (Exception $e) {
+
+            DB::rollBack();
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '3',
+                'chave' => 'pg_logs',
+                'descricao' => 'Erro ao excluir um log.',
+                'observacoes' => 'Log: ' . $log->id . ' | Erro: ' . $e->getMessage(),
+            ]);
+
+            return back()->withInput()->with('error', 'Log não excluído!');
         }
     }
 }

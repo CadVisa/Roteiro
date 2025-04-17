@@ -11,8 +11,8 @@ use App\Http\Controllers\interno\CardController;
 use App\Http\Controllers\Interno\CnaeController;
 use App\Http\Controllers\interno\ConfigurationController;
 use App\Http\Controllers\interno\ContactsController;
+use App\Http\Controllers\interno\EmpresaController;
 use App\Http\Controllers\interno\LogController;
-use App\Models\Configuration;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -88,6 +88,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/logs/{log}/visualizar_log', [LogController::class, 'show'])->name('logs.show');
     Route::delete('/administrador/logs/{log}/excluir_log', [LogController::class, 'destroyLog'])->name('logs.destroyLog');
     Route::get('/administrador/logs/{log}/alterar', [LogController::class, 'alterar'])->name('logs.alterar'); 
+
+    // ROTAS DOS CONTATOS
+    Route::get('/administrador/empresas', [EmpresaController::class, 'index'])->name('empresa.index');
+    Route::get('/administrador/empresas/gerar_pdf', [EmpresaController::class, 'gerarPDF'])->name('empresa.gerar-pdf');
+    Route::delete('/administrador/empresas/excluir', [EmpresaController::class, 'destroy'])->name('empresa.destroy');
+    Route::get('/administrador/empresas/{estabelecimento}/visualizar_empresa', [EmpresaController::class, 'show'])->name('empresa.show');
+    Route::delete('/administrador/empresas/{estabelecimento}/excluir_empresa', [EmpresaController::class, 'destroyEmpresa'])->name('empresa.destroyEmpresa');
 
     // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');

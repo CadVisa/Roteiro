@@ -43,9 +43,9 @@ $(document).ready(function () {
 
             // Adiciona alerta
             $(this).prepend(`
-                <div id="logModalError" class="alert alert-danger alert-dismissible  mt-2 m-auto fade show" role="alert" style="max-width: 400px;">
+                <div id="logModalError" class="alert alert-danger alert-dismissible text-center mt-2 m-auto fade show" role="alert" style="max-width: 400px;">
                     <i class="fa-solid fa-triangle-exclamation me-2 fs-5"></i>
-                    <small>Selecione um período para exclusão dos logs.</small>
+                    <small>Selecione um período para exclusão.</small>
                 </div>
             `);
         }

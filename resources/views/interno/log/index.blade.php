@@ -5,7 +5,7 @@
     <div class="container-fluid">
 
         <div class="mb-1 space-between-elements text-primary">
-            <h4 class="ms-2 mt-3 me-3"><i class="fa-solid fa-user-secret me-1"></i>Logs do sistema</h4>
+            <h4 class="ms-2 mt-3 me-3"><i class="fa-solid fa-user-secret me-1"></i>Auditoria</h4>
         </div>
 
         <div class="card border-primary border-ligth shadow mb-3 mt-3 col-md-12">
@@ -98,6 +98,8 @@
                                         Consulta CNAEs
                                     @elseif ($grupo == 'pg_logs')
                                         Logs do sistema
+                                    @elseif ($grupo == 'pg_empresas')
+                                        Página de empresas
                                     @endif
                                 </option>
                             @endforeach
@@ -227,6 +229,8 @@
                                                     Consulta CNAEs
                                                 @elseif ($log->log_chave == 'pg_logs')
                                                     Logs do sistema
+                                                @elseif ($log->log_chave == 'pg_empresas')
+                                                    Página de empresas
                                                 @endif
                                             </span>
                                         </td>

@@ -31,7 +31,8 @@
                                 href="{{ route('home') }}"><i class="fa-solid fa-file-pdf me-1"></i>Gerar roteiro</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="nav-link @if (isset($menu) && $menu === 'consulta_cnaes') active @endif" href="{{ route('consulta_cnae.index') }}"><i
+                            <a class="nav-link @if (isset($menu) && $menu === 'consulta_cnaes') active @endif"
+                                href="{{ route('consulta_cnae.index') }}"><i
                                     class="fa-solid fa-magnifying-glass me-1"></i>Consultar
                                 CNAEs</a>
                         </li>
@@ -41,10 +42,10 @@
                                     class="fa-solid fa-table-list me-2"></i>Contato</a>
                         </li>
                     @endif
-                    
+
                     @if (auth()->check())
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['dashboard', 'cnaes', 'configuracao', 'cards', 'contacts', 'logs'])) active @endif"
+                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['coockies', 'arquivos', 'dashboard', 'cnaes', 'configuracao', 'cards', 'contacts', 'logs', 'empresas'])) active @endif"
                                 href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
 
@@ -59,34 +60,17 @@
                             </a>
 
                             <ul class="dropdown-menu p-0 mb-0" aria-labelledby="navbarDropdownMenuLink">
-                                <li>
+                                <li class="border-top">
                                     <a class="dropdown-item dashboard-item @if (isset($menu) && $menu === 'dashboard') active @endif"
                                         href="{{ route('administrador.index') }}">
                                         <i class="fa-solid fa-gauge me-1"></i>Dashboard
                                     </a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cards') active @endif"
-                                        href="{{ route('card.index') }}">
-                                        <i class="fa-solid fa-server me-1"></i>Cards
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cnaes') active @endif"
-                                        href="{{ route('cnae.index') }}">
-                                        <i class="fa-brands fa-creative-commons-share me-1"></i>CNAEs
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'logs') active @endif"
-                                        href="{{ route('log.index') }}">
-                                        <i class="fa-solid fa-user-secret me-1"></i>Logs do sistema
-                                    </a>
-                                </li>
-                                <li>
+
+                                <li class="border-top">
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'contacts') active @endif"
                                         href="{{ route('contact.index') }}">
-                                        <i class="fa-solid fa-table-list me-1"></i>Painel de contatos
+                                        <i class="fa-solid fa-table-list me-1"></i>Contatos
 
                                         @if (session('news_contacts') > 0)
                                             <span class="badge rounded-pill bg-danger"
@@ -94,7 +78,51 @@
                                         @endif
                                     </a>
                                 </li>
-                                <li>
+
+                                <li class="border-top">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'empresas') active @endif"
+                                        href="{{ route('empresa.index') }}">
+                                        <i class="fa-solid fa-building me-1"></i>Empresas
+                                    </a>
+                                </li>
+                                
+                               
+                                <li class="border-top">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cnaes') active @endif"
+                                        href="{{ route('cnae.index') }}">
+                                        <i class="fa-brands fa-creative-commons-share me-1"></i>CNAEs
+                                    </a>
+                                </li>
+
+                                <li class="border-top">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'logs') active @endif"
+                                        href="{{ route('log.index') }}">
+                                        <i class="fa-solid fa-user-secret me-1"></i>Auditoria
+                                    </a>
+                                </li>
+
+                                <li class="border-top">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'arquivos') active @endif"
+                                        href="#">
+                                        <i class="fa-solid fa-database me-1"></i>Arquivos
+                                    </a>
+                                </li>
+
+                                <li class="border-top">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cookies') active @endif"
+                                        href="#">
+                                        <i class="fa-solid fa-cookie-bite me-1"></i>Cookies
+                                    </a>
+                                </li>
+                                                               
+                                <li class="border-top">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cards') active @endif"
+                                        href="{{ route('card.index') }}">
+                                        <i class="fa-solid fa-server me-1"></i>Cards
+                                    </a>
+                                </li>
+
+                                <li class="border-top">
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'configuracao') active @endif"
                                         href="{{ route('configuration.index') }}">
                                         <i class="fa-solid fa-gear me-1"></i>Configurações
@@ -153,7 +181,8 @@
                             uso</a>.
                     </div>
                     <div class="col-12 col-sm-4 text-center text-md-end">
-                        <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-sm-end gap-2">
+                        <div
+                            class="d-flex flex-column flex-sm-row justify-content-center justify-content-sm-end gap-2">
                             <button class="btn btn-secondary btn-sm " id="declineCookies">Recusar</button>
                             <button class="btn btn-primary btn-sm" id="acceptCookies">Aceitar</button>
                         </div>

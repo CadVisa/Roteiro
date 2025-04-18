@@ -209,29 +209,34 @@
                 </div>
             </div>
 
-            {{-- Gestão de arquivos --}}
+            {{-- OK Gestão de arquivos --}}
             <div class="col-12 col-sm-6 col-lg-4">
                 <div class="card border-primary shadow-sm h-100 rounded-3">
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">Gestão de arquivos</span>
+                        <span class="fw-semibold">OK - Gestão de arquivos</span>
                     </div>
 
                     <div class="card-body px-4 py-3">
                         <div class="d-flex flex-wrap justify-content-between text-center gap-2">
 
                             <div class="flex-fill" title="Nº de roteiros no servidor">
-                                <div class="text-primary">
-                                    <i class="fa-solid fa-copy"></i>
-                                    <span class="fw-semibold">{{ number_format($quantidadeArquivos, 0, ',', '.') }}</span>
-                                </div>
+                                <a href="{{ route('arquivo.index') }}" class="text-decoration-none">
+                                    <div class="text-primary">
+                                        <i class="fa-solid fa-copy"></i>
+                                        <span
+                                            class="fw-semibold">{{ number_format($quantidadeArquivos, 0, ',', '.') }}</span>
+                                    </div>
+                                </a>
                             </div>
 
                             <div class="flex-fill" title="Espaço ocupado no servidor">
-                                <div class="text-primary">
-                                    <i class="fa-solid fa-database"></i>
-                                    <span class="fw-semibold">{{ $tamanhoTotalMB }}</span>
-                                </div>
+                                <a href="{{ route('arquivo.index') }}" class="text-decoration-none">
+                                    <div class="text-primary">
+                                        <i class="fa-solid fa-database"></i>
+                                        <span class="fw-semibold">{{ $tamanhoTotalMB }}</span>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -309,9 +314,10 @@
 
                                     @if ($acesso['total'] > 0)
                                         <a href="{{ route('log.index', [
-                                                'data_inicio' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d\\T00:00'),
-                                                'data_fim' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d\\T23:59'),
-                                            ]) }}" class="text-decoration-none"><span
+                                            'data_inicio' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d\\T00:00'),
+                                            'data_fim' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d\\T23:59'),
+                                        ]) }}"
+                                            class="text-decoration-none"><span
                                                 class="badge bg-primary rounded-3 ms-2">{{ number_format($acesso['total'], 0, ',', '.') }}</span></a>
                                     @else
                                         <span
@@ -334,8 +340,10 @@
                         <ul class="list-group">
                             @foreach ($cidadesMaisFrequentes as $cidade)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{{ route('empresa.index', ['cidade_pesquisa' => $cidade->cidade]) }}" class="text-decoration-none">{{ $cidade->cidade }}</a>
-                                    <a href="{{ route('empresa.index', ['cidade_pesquisa' => $cidade->cidade]) }}" class="text-decoration-none"><span
+                                    <a href="{{ route('empresa.index', ['cidade_pesquisa' => $cidade->cidade]) }}"
+                                        class="text-decoration-none">{{ $cidade->cidade }}</a>
+                                    <a href="{{ route('empresa.index', ['cidade_pesquisa' => $cidade->cidade]) }}"
+                                        class="text-decoration-none"><span
                                             class="badge bg-primary rounded-3">{{ number_format($cidade->total, 0, ',', '.') }}</span></a>
                                 </li>
                             @endforeach
@@ -354,9 +362,11 @@
                         <ul class="list-group">
                             @foreach ($ipsMaisFrequentes as $cliente)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a href="{{ route('empresa.index', ['ip_pesquisa' => $cliente->criado_por]) }}" class="text-truncate text-decoration-none"
+                                    <a href="{{ route('empresa.index', ['ip_pesquisa' => $cliente->criado_por]) }}"
+                                        class="text-truncate text-decoration-none"
                                         title="{{ $cliente->criado_por }}">{{ $cliente->criado_por }}</a>
-                                    <a href="{{ route('empresa.index', ['ip_pesquisa' => $cliente->criado_por]) }}" class="text-decoration-none"><span
+                                    <a href="{{ route('empresa.index', ['ip_pesquisa' => $cliente->criado_por]) }}"
+                                        class="text-decoration-none"><span
                                             class="badge bg-primary rounded-3 ms-2">{{ number_format($cliente->total, 0, ',', '.') }}</span></a>
                                 </li>
                             @endforeach

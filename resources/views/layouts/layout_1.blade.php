@@ -7,7 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @php
+        $documentoAtual = \App\Models\DocumentoLegal::latest()->first();
+    @endphp
+    <meta name="versao-termo" content="{{ $documentoAtual->id ?? 0 }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
 
     <title>CadVisa</title>
 
@@ -45,7 +52,18 @@
 
                     @if (auth()->check())
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @if (isset($menu) && in_array($menu, ['coockies', 'arquivos', 'dashboard', 'cnaes', 'configuracao', 'cards', 'contacts', 'logs', 'empresas'])) active @endif"
+                            <a class="nav-link dropdown-toggle @if (isset($menu) &&
+                                    in_array($menu, [
+                                        'coockies',
+                                        'arquivos',
+                                        'dashboard',
+                                        'cnaes',
+                                        'configuracao',
+                                        'cards',
+                                        'contacts',
+                                        'logs',
+                                        'empresas',
+                                    ])) active @endif"
                                 href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
 
@@ -85,8 +103,8 @@
                                         <i class="fa-solid fa-building me-1"></i>Empresas
                                     </a>
                                 </li>
-                                
-                               
+
+
                                 <li class="border-top">
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cnaes') active @endif"
                                         href="{{ route('cnae.index') }}">
@@ -103,7 +121,7 @@
 
                                 <li class="border-top">
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'arquivos') active @endif"
-                                        href="#">
+                                        href="{{ route('arquivo.index') }}">
                                         <i class="fa-solid fa-database me-1"></i>Arquivos
                                     </a>
                                 </li>
@@ -114,7 +132,7 @@
                                         <i class="fa-solid fa-cookie-bite me-1"></i>Cookies
                                     </a>
                                 </li>
-                                                               
+
                                 <li class="border-top">
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cards') active @endif"
                                         href="{{ route('card.index') }}">

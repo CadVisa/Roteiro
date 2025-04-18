@@ -7,6 +7,7 @@ use App\Http\Controllers\Externo\EstabelecimentoController;
 use App\Http\Controllers\Externo\HomeController;
 use App\Http\Controllers\Externo\LoginController;
 use App\Http\Controllers\Interno\AdministradorController;
+use App\Http\Controllers\interno\ArquivoController;
 use App\Http\Controllers\interno\CardController;
 use App\Http\Controllers\Interno\CnaeController;
 use App\Http\Controllers\interno\ConfigurationController;
@@ -89,12 +90,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/administrador/logs/{log}/excluir_log', [LogController::class, 'destroyLog'])->name('logs.destroyLog');
     Route::get('/administrador/logs/{log}/alterar', [LogController::class, 'alterar'])->name('logs.alterar'); 
 
-    // ROTAS DOS CONTATOS
+    // ROTAS DAS EMPRESAS
     Route::get('/administrador/empresas', [EmpresaController::class, 'index'])->name('empresa.index');
     Route::get('/administrador/empresas/gerar_pdf', [EmpresaController::class, 'gerarPDF'])->name('empresa.gerar-pdf');
     Route::delete('/administrador/empresas/excluir', [EmpresaController::class, 'destroy'])->name('empresa.destroy');
     Route::get('/administrador/empresas/{estabelecimento}/visualizar_empresa', [EmpresaController::class, 'show'])->name('empresa.show');
     Route::delete('/administrador/empresas/{estabelecimento}/excluir_empresa', [EmpresaController::class, 'destroyEmpresa'])->name('empresa.destroyEmpresa');
+
+    //ROTAS DOS ARQUIVOS
+    Route::get('/administrador/arquivos', [ArquivoController::class, 'index'])->name('arquivo.index');
+    Route::get('/administrador/arquivos/gerar_pdf', [ArquivoController::class, 'gerarPDF'])->name('arquivo.gerar-pdf');
+    Route::delete('/administrador/arquivos/excluir', [ArquivoController::class, 'destroy'])->name('arquivo.destroy');
+    Route::delete('/administrador/arquivos/excluirArquivo/{arquivo}', [ArquivoController::class, 'destroyArquivo'])->name('arquivo.destroyArquivo');
 
     // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');

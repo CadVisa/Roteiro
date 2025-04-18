@@ -4,6 +4,7 @@ namespace App\Http\Controllers\externo;
 
 use App\Http\Controllers\Controller;
 use App\Models\Consent;
+use App\Models\DocumentoLegal;
 use App\Services\LogService;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class ConsentController extends Controller
             'ip'          => $request->ip(),
             'user_agent'  => $request->userAgent(),
             'accepted'    => $data['accepted'],
+            'documento_legal_id' => DocumentoLegal::latest()->value('id'),
         ]);
 
         if ($data['accepted']) {

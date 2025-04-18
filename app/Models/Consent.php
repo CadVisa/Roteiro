@@ -13,6 +13,12 @@ class Consent extends Model
         'ip',
         'user_agent',
         'accepted',
+        'documento_legal_id',
     ];
+
+    public function documentoLegal()
+    {
+        return $this->belongsTo(DocumentoLegal::class);
+    }
 
 }

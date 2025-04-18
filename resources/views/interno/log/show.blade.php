@@ -99,6 +99,10 @@
                                 Consulta CNAEs
                             @elseif ($log->log_chave == 'pg_logs')
                                 Logs do sistema
+                            @elseif ($log->log_chave == 'pg_empresas')
+                                Página de empresas
+                            @elseif ($log->log_chave == 'pg_arquivos')
+                                Página de arquivos
                             @endif
                         </span>
                     </div>

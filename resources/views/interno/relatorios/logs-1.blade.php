@@ -168,6 +168,8 @@
                             LOGS DO SISTEMA
                         @elseif ($grupo_pesquisa == 'pg_empresas')
                             PÁGINA DE EMPRESAS
+                        @elseif ($grupo_pesquisa == 'pg_arquivos')
+                            PÁGINA DE ARQUIVOS
                         @else
                             TODOS
                         @endif

@@ -81,10 +81,11 @@ class AdministradorController extends Controller
         $arquivos = File::files(storage_path('app/public/roteiros'));
 
         $quantidadeArquivos = count($arquivos);
-        $tamanhoTotalBytes = collect($arquivos)->sum(function ($arquivo) {
-            return $arquivo->getSize();
+        $tamanhoTotalBytes = collect($arquivos)->sum(function ($file) {
+            return $file->getSize();
         });
-        $tamanhoTotalMB = round($tamanhoTotalBytes / 1048576, 2) . ' Mb';
+
+        $tamanhoTotalMB = $this->formatarTamanho($tamanhoTotalBytes);
 
         $consents = Consent::count();
         $accepted_0 = Consent::where('accepted', 0)->count();
@@ -128,5 +129,13 @@ class AdministradorController extends Controller
             'empresasSemRoteiro' => $empresasSemRoteiro,
             'empresasComRoteiro' => $empresasComRoteiro,
         ]);
+    }
+
+    // Método auxiliar para formatar o tamanho do arquivo em KB, MB, etc.
+    private function formatarTamanho($bytes)
+    {
+        $size = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $factor = floor((strlen($bytes) - 1) / 3);
+        return round($bytes / pow(1024, $factor)) . ' ' . $size[$factor];
     }
 }

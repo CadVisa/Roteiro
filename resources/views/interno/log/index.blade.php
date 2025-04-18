@@ -100,6 +100,8 @@
                                         Logs do sistema
                                     @elseif ($grupo == 'pg_empresas')
                                         Página de empresas
+                                    @elseif ($grupo == 'pg_arquivos')
+                                        Página de arquivos
                                     @endif
                                 </option>
                             @endforeach
@@ -231,6 +233,8 @@
                                                     Logs do sistema
                                                 @elseif ($log->log_chave == 'pg_empresas')
                                                     Página de empresas
+                                                @elseif ($log->log_chave == 'pg_arquivos')
+                                                    Página de arquivos
                                                 @endif
                                             </span>
                                         </td>

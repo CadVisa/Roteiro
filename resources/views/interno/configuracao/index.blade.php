@@ -63,8 +63,7 @@
                 </div>
             </div>
             <div class="card-footer d-flex align-items-center">
-                <a href="{{ route('configuration.edit') }}"
-                    class="spinner_branco btn btn-outline-primary btn-sm">
+                <a href="{{ route('configuration.edit') }}" class="spinner_branco btn btn-outline-primary btn-sm">
                     <i class="fa-regular fa-pen-to-square"></i><span class="d-none d-sm-inline"> Editar</span>
                 </a>
 
@@ -87,6 +86,29 @@
                         </button>
                     </form>
                 @endif
+            </div>
+        </div>
+
+        <div class="card border-primary border-ligth shadow mb-3 mt-3 col-md-12">
+
+            <div class="card-header d-flex justify-content-between align-items-center border-primary text-light bg-primary">
+                <span class="me-auto">Notas de versão</span>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-12 mb-1">
+                        <div>
+                            {!! nl2br($configuration->notas_versao) !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center">
+                <a href="{{ route('configuration.editNotas') }}" class="spinner_branco btn btn-outline-primary btn-sm">
+                    <i class="fa-regular fa-pen-to-square"></i><span class="d-none d-sm-inline"> Editar</span>
+                </a>
             </div>
         </div>
     </div>

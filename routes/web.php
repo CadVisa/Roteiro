@@ -1,21 +1,21 @@
 <?php
 
-use App\Http\Controllers\externo\ConsentController;
-use App\Http\Controllers\externo\ConsultaCnaeControler;
-use App\Http\Controllers\externo\ContatoController;
+use App\Http\Controllers\Externo\ConsentController;
+use App\Http\Controllers\Externo\ConsultaCnaeControler;
+use App\Http\Controllers\Externo\ContatoController;
 use App\Http\Controllers\Externo\EstabelecimentoController;
 use App\Http\Controllers\Externo\HomeController;
 use App\Http\Controllers\Externo\LoginController;
 use App\Http\Controllers\Interno\AdministradorController;
-use App\Http\Controllers\interno\ArquivoController;
-use App\Http\Controllers\interno\CardController;
+use App\Http\Controllers\Interno\ArquivoController;
+use App\Http\Controllers\Interno\CardController;
 use App\Http\Controllers\Interno\CnaeController;
-use App\Http\Controllers\interno\ConfigurationController;
-use App\Http\Controllers\interno\ContactsController;
-use App\Http\Controllers\interno\CookieController;
-use App\Http\Controllers\interno\DocumentoLegalController;
-use App\Http\Controllers\interno\EmpresaController;
-use App\Http\Controllers\interno\LogController;
+use App\Http\Controllers\Interno\ConfigurationController;
+use App\Http\Controllers\Interno\ContactsController;
+use App\Http\Controllers\Interno\CookieController;
+use App\Http\Controllers\Interno\DocumentoLegalController;
+use App\Http\Controllers\Interno\EmpresaController;
+use App\Http\Controllers\Interno\LogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/administrador/configuracao/editar_configuracao', [ConfigurationController::class, 'update'])->name('configuration.update');
     Route::post('/administrador/configuracao/{configuration}/ativa_sistema', [ConfigurationController::class, 'ativar'])->name('configuration.ativar');
     Route::post('/administrador/configuracao/{configuration}/suspender_sistema', [ConfigurationController::class, 'suspender'])->name('configuration.suspender');
+    Route::get('/administrador/configuracao/editar_notas', [ConfigurationController::class, 'editNotas'])->name('configuration.editNotas');
+    Route::post('/administrador/configuracao/editar_notas', [ConfigurationController::class, 'updateNotas'])->name('configuration.updateNotas');
 
     // ROTAS DOS CARDS
     Route::get('/administrador/cards', [CardController::class, 'index'])->name('card.index');

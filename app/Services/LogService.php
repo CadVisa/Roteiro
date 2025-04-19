@@ -13,9 +13,9 @@ class LogService
         $userId = $dados['user_id'] ?? Auth::id();
 
         // Ignora o log se o usuário autenticado for o ID 1
-        // if ($userId === 1) {
-        //     return null;
-        // }
+        if ($userId === 1) {
+            return null;
+        }
         
         return Log::create([
             'log_data' => now(),

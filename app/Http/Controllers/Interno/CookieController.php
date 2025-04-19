@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\interno;
+namespace App\Http\Controllers\Interno;
 
 use App\Http\Controllers\Controller;
 use App\Models\Consent;

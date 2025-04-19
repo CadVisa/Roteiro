@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\externo;
+namespace App\Http\Controllers\Externo;
 
 use App\Http\Controllers\Controller;
 use App\Models\Consent;

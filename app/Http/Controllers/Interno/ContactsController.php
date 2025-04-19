@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\interno;
+namespace App\Http\Controllers\Interno;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
 use App\Models\Contato;
 use App\Models\Estabelecimento;
+use App\Models\EstabelecimentoAcesso;
 use App\Services\LogService;
 use Carbon\Carbon;
 use Exception;
@@ -77,6 +78,12 @@ class ContactsController extends Controller
         $n_sem_roteiro = $n_empresas - $n_roteiros;
         $cidades = Estabelecimento::where('criado_por', $contato->ip)->orderBy('cidade')->distinct()->pluck('cidade');
 
+        // Consulta acessos reais nesses dias
+        $acessos = EstabelecimentoAcesso::selectRaw('DATE(data) as data, COUNT(*) as total')
+            ->where('ip', $contato->ip)
+            ->groupBy('data')
+            ->pluck('total', 'data');
+
         //LOG DO SISTEMA
         LogService::registrar([
             'nivel' => '1',
@@ -92,6 +99,7 @@ class ContactsController extends Controller
             'n_roteiros' => $n_roteiros,
             'n_sem_roteiro' => $n_sem_roteiro,
             'cidades' => $cidades,
+            'acessos' => $acessos
         ]);
     }
 

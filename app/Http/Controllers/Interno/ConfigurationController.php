@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\interno;
+namespace App\Http\Controllers\Interno;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ConfigurationRequest;
@@ -165,6 +165,59 @@ class ConfigurationController extends Controller
             ]);
 
             return back()->withInput()->with('error', 'O sistema não pôde ser suspenso!');
+        }
+    }
+
+    public function editNotas()
+    {
+        $configuration = Configuration::first();
+
+        //LOG DO SISTEMA
+        LogService::registrar([
+            'nivel' => '1',
+            'chave' => 'pg_configuracoes',
+            'descricao' => 'Usuário acessou a página para editar as notas de versão.',
+        ]);
+
+        return view('interno.configuracao.editNotas', ['menu' => 'configuracao', 'configuration' => $configuration]);
+    }
+
+    public function updateNotas(Request $request)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $configuration = Configuration::first();
+
+            $configuration->update([
+                'notas_versao' => $request->notas_versao,
+            ]);
+
+            DB::commit();
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '1',
+                'chave' => 'pg_configuracoes',
+                'descricao' => 'Usuário editou as notas de versão.',
+            ]);
+
+            return redirect()->route('configuration.index', ['menu' => 'configuracao', 'configuration' => $configuration])->with('success', 'As notas de versão foram atualizadas com sucesso!');
+        } catch (Exception $e) {
+
+            DB::rollBack();
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '3',
+                'chave' => 'pg_configuracoes',
+                'descricao' => 'Notas de versão não editadas.',
+                'observacoes' => 'Erro: ' . $e->getMessage(),
+            ]);
+
+            return back()->withInput()->with('error', 'As notas de versão não puderam ser editadas!' . $e->getMessage());
         }
     }
 }

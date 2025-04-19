@@ -16,6 +16,7 @@ class Configuration extends Model
         'status_sistema',
         'email_sistema',
         'exibe_card',
-        'exibe_info_rodape'
+        'exibe_info_rodape',
+        'notas_versao'
     ];
 }

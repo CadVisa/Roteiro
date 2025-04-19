@@ -152,38 +152,70 @@
                         @endif
                     </div>
 
-                    @php
-                        $cidadesArray = $cidades->toArray();
-                        $count = count($cidadesArray);
+                    <div class="row mt-3">
 
-                        $cidadesLinks = collect($cidadesArray)
-                            ->map(function ($cidade) use ($contato) {
-                                return '<a class="text-decoration-none" href="' .
-                                    route('empresa.index', [
-                                        'ip_pesquisa' => $contato->ip,
-                                        'cidade_pesquisa' => $cidade,
-                                    ]) .
-                                    '">' .
-                                    e($cidade) .
-                                    '</a>';
-                            })
-                            ->toArray();
-                    @endphp
+                        <div class="col-sm-12 col-md-6 mb-1">
+                            <span class="fw-medium">Cidades consultadas: </span>
+                            <ul class="list-group">
+                                @forelse ($cidades as $cidade)
+                                    <li class="list-group-item">
+                                        <a href="{{ route('empresa.index', [
+                                            'ip_pesquisa' => $contato->ip,
+                                            'cidade_pesquisa' => $cidade,
+                                        ]) }}"
+                                            class="text-decoration-none">
+                                            {{ $cidade }}
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li class="list-group-item"><span class="text-muted">Nenhuma cidade consultada.</span>
+                                    </li>
+                                @endforelse
+                            </ul>
+                        </div>
 
-                    <div class="col-12 mb-1">
-                        <span class="fw-medium">Cidades consultadas: </span>
 
-                        @if ($count === 1)
-                            {!! $cidadesLinks[0] !!}.
-                        @elseif ($count === 2)
-                            {!! $cidadesLinks[0] . ' e ' . $cidadesLinks[1] !!}.
-                        @elseif ($count > 2)
-                            {!! implode(', ', array_slice($cidadesLinks, 0, -1)) . ' e ' . $cidadesLinks[$count - 1] !!}.
-                        @else
-                            Nenhuma cidade consultada.
-                        @endif
+                        <div class="col-sm-12 col-md-6 mb-1 mt-sm-3 mt-md-0">
+                            <span class="fw-medium">Acessos únicos: </span>
+                            <ul class="list-group">
+                                @forelse ($acessos as $data => $total)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        @if ($total > 0)
+                                            <a href="{{ route('log.index', [
+                                                'data_inicio' => \Carbon\Carbon::parse($data)->format('Y-m-d\\T00:00'),
+                                                'data_fim' => \Carbon\Carbon::parse($data)->format('Y-m-d\\T23:59'),
+                                                'ip_pesquisa' => $contato->ip,
+                                            ]) }}"
+                                                class="text-decoration-none">
+                                                {{ \Carbon\Carbon::parse($data)->format('d/m') }}
+                                                <small style="font-size: 0.7rem">
+                                                    ({{ ucfirst(\Carbon\Carbon::parse($data)->translatedFormat('l')) }})
+                                                </small>
+                                            </a>
+                                            <a href="{{ route('log.index', [
+                                                'data_inicio' => \Carbon\Carbon::parse($data)->format('Y-m-d\\T00:00'),
+                                                'data_fim' => \Carbon\Carbon::parse($data)->format('Y-m-d\\T23:59'),
+                                                'ip_pesquisa' => $contato->ip,
+                                            ]) }}"
+                                                class="text-decoration-none">
+                                                <span
+                                                    class="badge bg-primary rounded-3 ms-2">{{ number_format($total, 0, ',', '.') }}</span>
+                                            </a>
+                                        @else
+                                            {{ \Carbon\Carbon::parse($data)->format('d/m') }}
+                                            <small style="font-size: 0.7rem">
+                                                ({{ ucfirst(\Carbon\Carbon::parse($data)->translatedFormat('l')) }})
+                                            </small>
+                                            <span class="badge bg-secondary rounded-3 ms-2">Sem acessos</span>
+                                        @endif
+                                    </li>
+                                @empty
+                                    <li class="list-group-item"><span class="text-muted">Nenhum acesso registrado.</span>
+                                    </li>
+                                @endforelse
+                            </ul>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>

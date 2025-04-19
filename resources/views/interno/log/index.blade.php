@@ -102,6 +102,10 @@
                                         Página de empresas
                                     @elseif ($grupo == 'pg_arquivos')
                                         Página de arquivos
+                                    @elseif ($grupo == 'pg_documentos')
+                                        Página de documentos
+                                    @elseif ($grupo == 'pg_cookies')
+                                        Página de coockies
                                     @endif
                                 </option>
                             @endforeach
@@ -235,6 +239,10 @@
                                                     Página de empresas
                                                 @elseif ($log->log_chave == 'pg_arquivos')
                                                     Página de arquivos
+                                                @elseif ($log->log_chave == 'pg_documentos')
+                                                    Página de documentos
+                                                @elseif ($log->log_chave == 'pg_cookies')
+                                                    Página de coockies
                                                 @endif
                                             </span>
                                         </td>

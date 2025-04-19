@@ -16,55 +16,22 @@
 
         <div class="card-body">
 
-            <div class="card-body">
-                <h5 class="card-title">Termos de Uso</h5>
-                <p class="card-text">
-                    Este sistema é oferecido de forma <strong>aberta, gratuita e sem necessidade de cadastro</strong>. Ao
-                    utilizar o sistema, você concorda com os presentes Termos de Uso:
-                </p>
+            <div class="row">
 
-                <h6 class="mt-4">Objetivo do sistema</h6>
-                <p>
-                    O sistema tem como objetivo principal facilitar o acesso a informações públicas de empresas por meio do
-                    número de CNPJ fornecido pelo usuário. Além disso, permite a consulta às atividades econômicas
-                    registradas no banco de dados, com o propósito de auxiliar na classificação de risco sanitário.
-                </p>
-                <p>
-                    Essa classificação segue os critérios estabelecidos pela Resolução SES/RJ nº 2.191, de 2 de dezembro de
-                    2020, da Secretaria de Estado de Saúde do Rio de Janeiro, que define os níveis de risco sanitário para
-                    as atividades econômicas no estado.
-                </p>
-                <p>
-                    O sistema também disponibiliza notas explicativas que detalham, em tópicos, as atividades econômicas
-                    conforme a Comissão Nacional de Classificação (CONCLA).
-                </p>
+                <div class="col-12 mb-3">
+                    <span> {!! $documento->termos_uso !!}</span>
+                </div>
 
-                <h6 class="mt-4">Uso permitido</h6>
-                <p>
-                    O sistema deve ser utilizado apenas para fins legais e compatíveis com sua finalidade. É vedado o uso
-                    para fins fraudulentos, automatizados ou que sobrecarreguem os recursos do serviço.
-                </p>
-                <p>
-                    Fica permitido o uso do arquivo em PDF gerado pelo sistema, desde que respeitadas as normas de
-                    atribuição de autoria e a integridade do conteúdo, por agentes públicos atuantes nos órgãos de vigilância sanitária. O uso comercial ou a reprodução em outros sistemas
-                    sem autorização prévia e expressa do responsável pelo sistema é proibido.
-                </p>
+                <div class="col-sm-6 mb-3">
+                    <span class="fw-bold">Versão:</span><span> {{ $documento->id }}</span>
+                </div>
 
-                <h6 class="mt-4">Isenção de responsabilidade</h6>
-                <p>
-                    As informações exibidas são obtidas de fontes públicas e podem não refletir os dados mais atualizados.
-                    Não garantimos a veracidade, precisão ou disponibilidade contínua das informações fornecidas.
-                </p>
-
-                <h6 class="mt-4">Alterações no sistema</h6>
-                <p>
-                    Este sistema pode ser modificado, atualizado, interrompido ou encerrado a qualquer momento, sem aviso
-                    prévio.
-                </p>
-
-                <p class="text-muted small">Última atualização: 05/04/2025.</p>
+                <div class="col-sm-6 mb-3">
+                    <span class="fw-bold">Data da versão:</span><span>
+                        {{ \Carbon\Carbon::parse($documento->created_at)->format('d/m/Y') }}</span>
+                </div>
+                
             </div>
-
         </div>
     </div>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\interno;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
 use App\Models\Contato;
+use App\Models\Estabelecimento;
 use App\Services\LogService;
 use Carbon\Carbon;
 use Exception;
@@ -71,17 +72,26 @@ class ContactsController extends Controller
             Session::put('news_contacts', $news_contacts);
         }
 
+        $n_empresas = Estabelecimento::where('criado_por', $contato->ip)->count();
+        $n_roteiros = Estabelecimento::where('criado_por', $contato->ip)->where('path_roteiro', '!=', null)->count();
+        $n_sem_roteiro = $n_empresas - $n_roteiros;
+        $cidades = Estabelecimento::where('criado_por', $contato->ip)->orderBy('cidade')->distinct()->pluck('cidade');
+
         //LOG DO SISTEMA
         LogService::registrar([
             'nivel' => '1',
             'chave' => 'pg_contacts',
-            'descricao' => 'Usuário acessou a página para visualizar as informações de um contato.',
+            'descricao' => 'Acessou a página para visualizar as informações de um contato.',
             'observacoes' => 'Contato: ' . $contato->ip,
         ]);
 
         return view('interno.contact.show', [
             'menu' => 'contacts',
             'contato' => $contato,
+            'n_empresas' => $n_empresas,
+            'n_roteiros' => $n_roteiros,
+            'n_sem_roteiro' => $n_sem_roteiro,
+            'cidades' => $cidades,
         ]);
     }
 

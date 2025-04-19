@@ -8,8 +8,6 @@ class DocumentoLegal extends Model
 {
     protected $table = 'documentos_legais';
 
-    public $timestamps = false;
-
     protected $fillable = [
         'termos_uso',
         'politica_privacidade',

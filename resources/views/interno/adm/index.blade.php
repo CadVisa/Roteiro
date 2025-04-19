@@ -29,7 +29,7 @@
                 <div class="card border-primary shadow-sm h-100 rounded-3">
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">OK - Logs do sistema</span>
+                        <span class="fw-semibold">Logs do sistema</span>
                         <a href="{{ route('log.index') }}" class="text-decoration-none"
                             title="Total de logs do sistema"><span
                                 class="badge bg-light text-primary fw-bold px-2 py-1">{{ number_format($logsSistema, 0, ',', '.') }}</span></a>
@@ -86,7 +86,7 @@
                 <div class="card border-primary shadow-sm h-100 rounded-3">
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">OK - Contatos</span>
+                        <span class="fw-semibold">Contatos</span>
                         <a href="{{ route('contact.index') }}" class="text-decoration-none"
                             title="Total de contatos recebidos"><span
                                 class="badge bg-light text-primary fw-bold px-2 py-1">{{ number_format($contatos, 0, ',', '.') }}</span></a>
@@ -135,7 +135,7 @@
                 <div class="card border-primary shadow-sm h-100 rounded-3">
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">OK - Atividades econômicas</span>
+                        <span class="fw-semibold">Atividades econômicas</span>
                         <a href="{{ route('cnae.index') }}" class="text-decoration-none"
                             title="Total de atividades econômicas"><span
                                 class="badge bg-light text-primary fw-bold px-2 py-1">{{ number_format($cnaes, 0, ',', '.') }}</span></a>
@@ -173,7 +173,7 @@
                 <div class="card border-primary shadow-sm h-100 rounded-3">
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">OK - Empresas</span>
+                        <span class="fw-semibold">Empresas</span>
                         <a href="{{ route('empresa.index') }}" class="text-decoration-none"
                             title="Total de empresas cadastradas"><span
                                 class="badge bg-light text-primary fw-bold px-2 py-1">{{ number_format($empresas, 0, ',', '.') }}</span></a>
@@ -214,7 +214,7 @@
                 <div class="card border-primary shadow-sm h-100 rounded-3">
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
-                        <span class="fw-semibold">OK - Gestão de arquivos</span>
+                        <span class="fw-semibold">Gestão de arquivos</span>
                     </div>
 
                     <div class="card-body px-4 py-3">
@@ -249,7 +249,7 @@
                     <div
                         class="card-header bg-primary text-light d-flex justify-content-between align-items-center rounded-top-3">
                         <span class="fw-semibold">Cookies</span>
-                        <a href="#" class="text-decoration-none" title="Total de cookies"><span
+                        <a href="{{ route('cookie.index', ['situacao_pesquisa' => 'Todas']) }}" class="text-decoration-none" title="Total de cookies"><span
                                 class="badge bg-light text-primary fw-bold px-2 py-1">{{ number_format($consents, 0, ',', '.') }}</span></a>
                     </div>
 
@@ -258,7 +258,7 @@
 
                             <div class="flex-fill">
 
-                                <a href="#" class="text-decoration-none" title="Recusados">
+                                <a href="{{ route('cookie.index', ['situacao_pesquisa' => 'Recusado']) }}" class="text-decoration-none" title="Recusados">
                                     <div class="text-danger">
                                         <i class="fa-solid fa-xmark"></i>
                                         <span class="fw-semibold">{{ $accepted_0 }}</span>
@@ -267,7 +267,7 @@
                             </div>
 
                             <div class="flex-fill">
-                                <a href="#" class="text-decoration-none" title="Aceitos">
+                                <a href="{{ route('cookie.index', ['situacao_pesquisa' => 'Aceito']) }}" class="text-decoration-none" title="Aceitos">
                                     <div class="text-success">
                                         <i class="fas fa-circle-check"></i>
                                         <span class="fw-semibold">{{ $accepted_1 }}</span>

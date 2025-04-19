@@ -12,6 +12,8 @@ use App\Http\Controllers\interno\CardController;
 use App\Http\Controllers\Interno\CnaeController;
 use App\Http\Controllers\interno\ConfigurationController;
 use App\Http\Controllers\interno\ContactsController;
+use App\Http\Controllers\interno\CookieController;
+use App\Http\Controllers\interno\DocumentoLegalController;
 use App\Http\Controllers\interno\EmpresaController;
 use App\Http\Controllers\interno\LogController;
 use Illuminate\Support\Facades\Route;
@@ -102,6 +104,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/arquivos/gerar_pdf', [ArquivoController::class, 'gerarPDF'])->name('arquivo.gerar-pdf');
     Route::delete('/administrador/arquivos/excluir', [ArquivoController::class, 'destroy'])->name('arquivo.destroy');
     Route::delete('/administrador/arquivos/excluirArquivo/{arquivo}', [ArquivoController::class, 'destroyArquivo'])->name('arquivo.destroyArquivo');
+
+    //ROTAS DOS DOCUMENTOS
+    Route::get('/administrador/documentos', [DocumentoLegalController::class, 'index'])->name('documento.index');
+    Route::get('/administrador/documentos/novo_documento', [DocumentoLegalController::class, 'create'])->name('documento.create');
+    Route::post('/administrador/documentos/novo_documento', [DocumentoLegalController::class, 'store'])->name('documento.store');
+    Route::get('/administrador/documentos/{documento}/visualizar_termos', [DocumentoLegalController::class, 'showTermos'])->name('documento.showTermos');
+    Route::get('/administrador/documentos/{documento}/editar_termos', [DocumentoLegalController::class, 'editTermos'])->name('documento.editTermos');
+    Route::post('/administrador/documentos/{documento}/editar_termos', [DocumentoLegalController::class, 'updateTermos'])->name('documento.updateTermos');
+    Route::get('/administrador/documentos/{documento}/visualizar_politica', [DocumentoLegalController::class, 'showPolitica'])->name('documento.showPolitica');
+    Route::get('/administrador/documentos/{documento}/editar_politica', [DocumentoLegalController::class, 'editPolitica'])->name('documento.editPolitica');
+    Route::post('/administrador/documentos/{documento}/editar_politica', [DocumentoLegalController::class, 'updatePolitica'])->name('documento.updatePolitica');
+
+    // ROTAS DOS COOKIES
+    Route::get('/administrador/cookies', [CookieController::class, 'index'])->name('cookie.index');
+    Route::get('/administrador/cookies/{cookie}/visualizar_cookie', [CookieController::class, 'show'])->name('cookie.show');
 
     // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');

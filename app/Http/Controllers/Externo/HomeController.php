@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Externo;
 
 use App\Http\Controllers\Controller;
+use App\Models\DocumentoLegal;
 use App\Models\EstabelecimentoAcesso;
 use App\Services\LogService;
 use Illuminate\Support\Facades\Request;
@@ -19,7 +20,7 @@ class HomeController extends Controller
             'ip' => $ip,
             'data' => $hoje
         ]);
-        
+
         //LOG DO SISTEMA
         LogService::registrar([
             'nivel' => '1',
@@ -34,25 +35,55 @@ class HomeController extends Controller
 
     public function politicaPrivacidade()
     {
-        //LOG DO SISTEMA
-        LogService::registrar([
-            'nivel' => '1',
-            'chave' => 'pg_politica',
-            'descricao' => 'Usuário acessou a página de política de privacidade',
-        ]);
+        $documento = DocumentoLegal::latest()->first();
 
-        return view('externo.politica_privacidade', ['menu' => 'home']);
+        if ($documento) {
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '1',
+                'chave' => 'pg_politica',
+                'descricao' => 'Acessou a página de política de privacidade',
+            ]);
+
+            return view('externo.politica_privacidade', ['menu' => 'home', 'documento' => $documento]);
+        } else {
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '3',
+                'chave' => 'pg_politica',
+                'descricao' => 'Página de poiltica de privacidade não encontrada.',
+            ]);
+
+            return back()->with('error', 'Página de poiltica de privacidade não encontrada.');
+        }
     }
 
     public function termosUso()
     {
-        //LOG DO SISTEMA
-        LogService::registrar([
-            'nivel' => '1',
-            'chave' => 'pg_termos',
-            'descricao' => 'Usuário acessou a página de termos de uso.',
-        ]);
+        $documento = DocumentoLegal::latest()->first();
 
-        return view('externo.termos_uso', ['menu' => 'home']);
+        if ($documento) {
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '1',
+                'chave' => 'pg_termos',
+                'descricao' => 'Acessou a página de termos de uso.',
+            ]);
+
+            return view('externo.termos_uso', ['menu' => 'home', 'documento' => $documento]);
+        } else {
+
+            //LOG DO SISTEMA
+            LogService::registrar([
+                'nivel' => '3',
+                'chave' => 'pg_politica',
+                'descricao' => 'Página de termos de uso não encontrada.',
+            ]);
+
+            return back()->with('error', 'Página de termos de uso não encontrada.');
+        }
     }
 }

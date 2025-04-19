@@ -3,6 +3,10 @@
     --secondary-color: #5094fa;
 }
 
+.ck-editor__editable_inline {
+    min-height: 300px;
+}
+
 .hero-section {
     background: linear-gradient(to bottom,
             var(--primary-color) 0%,

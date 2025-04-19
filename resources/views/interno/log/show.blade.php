@@ -103,6 +103,8 @@
                                 Página de empresas
                             @elseif ($log->log_chave == 'pg_arquivos')
                                 Página de arquivos
+                            @elseif ($log->log_chave == 'pg_cookies')
+                                Página de coockies
                             @endif
                         </span>
                     </div>

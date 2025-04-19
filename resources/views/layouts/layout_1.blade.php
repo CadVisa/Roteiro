@@ -63,6 +63,8 @@
                                         'contacts',
                                         'logs',
                                         'empresas',
+                                        'documentos',
+                                        'cookies',
                                     ])) active @endif"
                                 href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -128,7 +130,7 @@
 
                                 <li class="border-top">
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cookies') active @endif"
-                                        href="#">
+                                        href="{{ route('cookie.index') }}">
                                         <i class="fa-solid fa-cookie-bite me-1"></i>Cookies
                                     </a>
                                 </li>
@@ -137,6 +139,13 @@
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cards') active @endif"
                                         href="{{ route('card.index') }}">
                                         <i class="fa-solid fa-server me-1"></i>Cards
+                                    </a>
+                                </li>
+
+                                <li class="border-top">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'documentos') active @endif"
+                                        href="{{ route('documento.index') }}">
+                                        <i class="fa-solid fa-file-lines me-1"></i>Documentos
                                     </a>
                                 </li>
 
@@ -219,15 +228,16 @@
             </div>
             @if (session('config')->status_sistema === 'Ativo')
                 <div class="small ps-2 me-3">
-                    <a href="{{ route('politica_privacidade') }}" class="text-decoration-none me-2">
-                        <span class="d-none d-md-inline">Política de privacidade</span>
-                        <span class="d-inline d-md-none">Privacidade</span>
+                    <a href="{{ route('termos_uso') }}" class="text-decoration-none">
+                        <span class="d-inline d-md-none">Termos</span>
+                        <span class="d-none d-md-inline">Termos de uso</span>
                     </a>
                     <span class="me-2">|</span>
-                    <a href="{{ route('termos_uso') }}" class="text-decoration-none">
-                        <span class="d-none d-md-inline">Termos de uso</span>
-                        <span class="d-inline d-md-none">Termos</span>
+                    <a href="{{ route('politica_privacidade') }}" class="text-decoration-none me-2">
+                        <span class="d-inline d-md-none">Privacidade</span>
+                        <span class="d-none d-md-inline">Política de privacidade</span>
                     </a>
+
                 </div>
             @endif
         </div>

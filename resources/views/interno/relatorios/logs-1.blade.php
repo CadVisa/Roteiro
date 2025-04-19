@@ -170,6 +170,10 @@
                             PÁGINA DE EMPRESAS
                         @elseif ($grupo_pesquisa == 'pg_arquivos')
                             PÁGINA DE ARQUIVOS
+                        @elseif ($grupo_pesquisa == 'pg_documentos')
+                            PÁGINA DE DOCUMENTOS
+                        @elseif ($grupo_pesquisa == 'pg_cookies')
+                            PÁGINA DE COOKIES
                         @else
                             TODOS
                         @endif

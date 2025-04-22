@@ -15,7 +15,9 @@ use App\Http\Controllers\Interno\ContactsController;
 use App\Http\Controllers\Interno\CookieController;
 use App\Http\Controllers\Interno\DocumentoLegalController;
 use App\Http\Controllers\Interno\EmpresaController;
+use App\Http\Controllers\Interno\EstabelecimentoAcessoController;
 use App\Http\Controllers\Interno\LogController;
+use App\Models\EstabelecimentoAcesso;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -123,6 +125,9 @@ Route::group(['middleware' => 'auth'], function () {
     // ROTAS DOS COOKIES
     Route::get('/administrador/cookies', [CookieController::class, 'index'])->name('cookie.index');
     Route::get('/administrador/cookies/{cookie}/visualizar_cookie', [CookieController::class, 'show'])->name('cookie.show');
+
+    //ROTAS DOS ACESSOS UNICOS
+    Route::get('/administrador/acessos', [EstabelecimentoAcessoController::class, 'index'])->name('acesso.index');
 
     // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');

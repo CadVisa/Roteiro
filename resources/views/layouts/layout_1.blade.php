@@ -65,6 +65,7 @@
                                         'empresas',
                                         'documentos',
                                         'cookies',
+                                        'acessos',
                                     ])) active @endif"
                                 href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -111,6 +112,13 @@
                                     <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'cnaes') active @endif"
                                         href="{{ route('cnae.index') }}">
                                         <i class="fa-brands fa-creative-commons-share me-1"></i>CNAEs
+                                    </a>
+                                </li>
+
+                                <li class="border-top">
+                                    <a class="dropdown-item cnae-item @if (isset($menu) && $menu === 'acessos') active @endif"
+                                        href="{{ route('acesso.index') }}">
+                                        <i class="fa-solid fa-eye me-1"></i>Acessos
                                     </a>
                                 </li>
 

@@ -105,6 +105,8 @@
                                 Página de arquivos
                             @elseif ($log->log_chave == 'pg_cookies')
                                 Página de coockies
+                            @elseif ($log->log_chave == 'pg_acessos')
+                                Página de acessos
                             @endif
                         </span>
                     </div>

@@ -294,10 +294,8 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     @if ($acesso['total'] > 0)
                                         <div>
-                                            <a href="{{ route('log.index', [
-                                                'data_inicio' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d\\T00:00'),
-                                                'data_fim' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d\\T23:59'),
-                                            ]) }}"
+                                            <a href="{{ route('acesso.index', [
+                                                'data_pesquisa' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d')]) }}"
                                                 class="text-decoration-none">{{ \Carbon\Carbon::parse($acesso['data'])->format('d/m') }}
                                                 <small style="font-size: 0.7rem">
                                                     ({{ ucfirst(\Carbon\Carbon::parse($acesso['data'])->translatedFormat('l')) }})
@@ -313,10 +311,8 @@
                                     @endif
 
                                     @if ($acesso['total'] > 0)
-                                        <a href="{{ route('log.index', [
-                                            'data_inicio' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d\\T00:00'),
-                                            'data_fim' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d\\T23:59'),
-                                        ]) }}"
+                                        <a href="{{ route('acesso.index', [
+                                            'data_pesquisa' => \Carbon\Carbon::parse($acesso['data'])->format('Y-m-d')]) }}"
                                             class="text-decoration-none"><span
                                                 class="badge bg-primary rounded-3 ms-2">{{ number_format($acesso['total'], 0, ',', '.') }}</span></a>
                                     @else

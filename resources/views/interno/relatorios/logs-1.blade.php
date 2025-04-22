@@ -174,6 +174,8 @@
                             PÁGINA DE DOCUMENTOS
                         @elseif ($grupo_pesquisa == 'pg_cookies')
                             PÁGINA DE COOKIES
+                        @elseif ($grupo_pesquisa == 'pg_acessos')
+                            PÁGINA DE ACESSOS
                         @else
                             TODOS
                         @endif

@@ -106,6 +106,8 @@
                                         Página de documentos
                                     @elseif ($grupo == 'pg_cookies')
                                         Página de coockies
+                                    @elseif ($grupo == 'pg_acessos')
+                                        Página de acessos
                                     @endif
                                 </option>
                             @endforeach
@@ -243,6 +245,8 @@
                                                     Página de documentos
                                                 @elseif ($log->log_chave == 'pg_cookies')
                                                     Página de coockies
+                                                @elseif ($log->log_chave == 'pg_acessos')
+                                                    Página de acessos
                                                 @endif
                                             </span>
                                         </td>

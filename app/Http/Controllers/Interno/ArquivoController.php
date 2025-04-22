@@ -21,21 +21,20 @@ class ArquivoController extends Controller
         $ordenar_por = $request->ordenar_por ?? 'data';
         $ordem = $request->ordem ?? 'asc';
 
-        $path = storage_path('app/public/roteiros');
+        $diretorio = public_path('roteiros');
         $arquivos = collect();
 
-        if (File::exists($path)) {
-            $files = File::files($path);
+        if (File::exists($diretorio)) {
+            $files = File::files($diretorio);
 
-            // Mapeia os arquivos com os dados necessários
             $arquivos = collect($files)->map(function ($file) {
                 return [
                     'nome' => $file->getFilename(),
                     'tamanho' => $this->formatarTamanho($file->getSize()),
                     'tamanho_bytes' => $file->getSize(),
                     'data_timestamp' => $file->getMTime(),
-                    'data' => Carbon::createFromTimestamp($file->getMTime())->format('d/m/Y H:i'),
-                    'url' => asset('storage/roteiros/' . $file->getFilename()),
+                    'data' => \Carbon\Carbon::createFromTimestamp($file->getMTime())->format('d/m/Y H:i'),
+                    'url' => asset('roteiros/' . $file->getFilename()),
                 ];
             });
 
@@ -137,7 +136,7 @@ class ArquivoController extends Controller
         $ordenar_por = $request->ordenar_por ?? 'data';
         $ordem = $request->ordem ?? 'asc';
 
-        $path = storage_path('app/public/roteiros');
+        $path = File::files(public_path('roteiros'));
         $arquivos = collect();
 
         if (File::exists($path)) {
@@ -151,7 +150,7 @@ class ArquivoController extends Controller
                     'tamanho_bytes' => $file->getSize(),
                     'data_timestamp' => $file->getMTime(),
                     'data' => Carbon::createFromTimestamp($file->getMTime())->format('d/m/Y H:i'),
-                    'url' => asset('storage/roteiros/' . $file->getFilename()),
+                    'url' => asset('roteiros/' . $file->getFilename()),
                 ];
             });
 
@@ -264,7 +263,7 @@ class ArquivoController extends Controller
             $periodo = $request->periodo;
             $descricaoPeriodo = '';
 
-            $path = storage_path('app/public/roteiros');
+            $path = File::files(public_path('roteiros'));
 
             // Verifica se o diretório existe
             if (!File::exists($path)) {
@@ -324,7 +323,7 @@ class ArquivoController extends Controller
 
         try {
 
-            $path = storage_path('app/public/roteiros/' . $arquivo);
+            $path = public_path('roteiros/' . $arquivo);
             if (File::exists($path)) {
                 File::delete($path);
 
@@ -362,5 +361,19 @@ class ArquivoController extends Controller
 
             return back()->with('error', 'Erro ao excluir o arquivo.');
         }
+    }
+
+    public function mostrarArquivo($nome)
+    {
+        $path = public_path('roteiros/' . $nome);
+
+        if (!file_exists($path)) {
+            abort(404, 'Arquivo não encontrado.');
+        }
+
+        return response()->file($path); // para abrir no navegador
+
+        // ou se quiser forçar download:
+        // return response()->download($path);
     }
 }

@@ -78,7 +78,7 @@ class AdministradorController extends Controller
             $query->where('tipo_movimento', 'Edição');
         })->distinct('id')->count('id');
 
-        $arquivos = File::files(storage_path('app/public/roteiros'));
+        $arquivos = File::files(public_path('roteiros'));
 
         $quantidadeArquivos = count($arquivos);
         $tamanhoTotalBytes = collect($arquivos)->sum(function ($file) {

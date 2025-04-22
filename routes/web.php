@@ -16,11 +16,12 @@ use App\Http\Controllers\Interno\CookieController;
 use App\Http\Controllers\Interno\DocumentoLegalController;
 use App\Http\Controllers\Interno\EmpresaController;
 use App\Http\Controllers\Interno\LogController;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/politica_privacidade', [HomeController::class,'politicaPrivacidade'])->name('politica_privacidade');
-Route::get('/termos_uso', [HomeController::class,'termosUso'])->name('termos_uso');
+Route::get('/politica_privacidade', [HomeController::class, 'politicaPrivacidade'])->name('politica_privacidade');
+Route::get('/termos_uso', [HomeController::class, 'termosUso'])->name('termos_uso');
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'loginProcess'])->name('login.process');
@@ -31,11 +32,21 @@ Route::post('/consultar_cnpj', [EstabelecimentoController::class, 'store'])->nam
 Route::get('/{estabelecimento}/{resultado}/dados_empresa', [EstabelecimentoController::class, 'show'])->name('estabelecimento.show');
 Route::get('/{estabelecimento}/{resultado}/gerar_roteiro', [EstabelecimentoController::class, 'gerarRoteiro'])->name('estabelecimento.gerarRoteiro');
 
-Route::get('/consultar_cnae', [ConsultaCnaeControler::class, 'index'])->name('consulta_cnae.index'); 
-Route::get('/{cnae}/visualizar_cnae', [ConsultaCnaeControler::class, 'show'])->name('consulta_cnae.show'); 
+Route::get('/consultar_cnae', [ConsultaCnaeControler::class, 'index'])->name('consulta_cnae.index');
+Route::get('/{cnae}/visualizar_cnae', [ConsultaCnaeControler::class, 'show'])->name('consulta_cnae.show');
 
 Route::get('/contato', [ContatoController::class, 'index'])->name('contato.index');
 Route::post('/contato', [ContatoController::class, 'store'])->name('contato.store');
+
+Route::get('/download/roteiro/{file}', function ($file) {
+    $path = public_path('roteiros/' . $file);
+
+    if (!file_exists($path)) {
+        abort(404, 'Arquivo não encontrado.');
+    }
+
+    return response()->download($path);
+})->name('roteiro.download');
 
 
 
@@ -92,7 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/logs/gerar_pdf', [LogController::class, 'gerarPDF'])->name('logs.gerar-pdf');
     Route::get('/administrador/logs/{log}/visualizar_log', [LogController::class, 'show'])->name('logs.show');
     Route::delete('/administrador/logs/{log}/excluir_log', [LogController::class, 'destroyLog'])->name('logs.destroyLog');
-    Route::get('/administrador/logs/{log}/alterar', [LogController::class, 'alterar'])->name('logs.alterar'); 
+    Route::get('/administrador/logs/{log}/alterar', [LogController::class, 'alterar'])->name('logs.alterar');
 
     // ROTAS DAS EMPRESAS
     Route::get('/administrador/empresas', [EmpresaController::class, 'index'])->name('empresa.index');
@@ -106,6 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/arquivos/gerar_pdf', [ArquivoController::class, 'gerarPDF'])->name('arquivo.gerar-pdf');
     Route::delete('/administrador/arquivos/excluir', [ArquivoController::class, 'destroy'])->name('arquivo.destroy');
     Route::delete('/administrador/arquivos/excluirArquivo/{arquivo}', [ArquivoController::class, 'destroyArquivo'])->name('arquivo.destroyArquivo');
+    Route::get('/administrador/arquivoa/roteiro/{nome}', [ArquivoController::class, 'mostrarArquivo'])->name('arquivo.roteiro');
 
     //ROTAS DOS DOCUMENTOS
     Route::get('/administrador/documentos', [DocumentoLegalController::class, 'index'])->name('documento.index');
@@ -122,8 +134,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/cookies', [CookieController::class, 'index'])->name('cookie.index');
     Route::get('/administrador/cookies/{cookie}/visualizar_cookie', [CookieController::class, 'show'])->name('cookie.show');
 
+    Route::get('/baixar-roteiro/{nome}', function ($nome) {
+        $caminho = public_path('roteiros/' . $nome);
+
+        if (!file_exists($caminho)) {
+            abort(404, 'Arquivo não encontrado.');
+        }
+
+        return Response::download($caminho);
+    })->name('baixar.roteiro');
+
     // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
-
-

@@ -11,6 +11,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        outDir: 'public_html/build',
+        manifest: true,
+    },
     resolve: {
         alias: {
             '@fortawesome': '/node_modules/@fortawesome',

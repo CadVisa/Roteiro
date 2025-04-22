@@ -394,9 +394,9 @@ class EstabelecimentoController extends Controller
             'isPhpEnabled' => true,
         ]);
 
-        // Salva o PDF em storage
-        $pdf->save(storage_path("app/public/roteiros/{$namePdf}"));
-
+        // Salva o PDF na pasta pública
+        $pdf->save(public_path("roteiros/{$namePdf}"));
+        
         // Atualiza o estabelecimento com o nome do arquivo do roteiro
         $estabelecimento->update(['path_roteiro' => $namePdf]);
 

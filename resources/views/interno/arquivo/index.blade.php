@@ -156,14 +156,30 @@
                             <tbody>
                                 @foreach ($paginated as $arquivo)
                                     <tr>
-                                        <td class="text-truncate"
-                                            style="max-width: 200px;" title="{{ $arquivo['nome'] }}"><a
-                                                class="text-decoration-none" href="{{ $arquivo['url'] }}"
-                                                target="_blank">{{ $arquivo['nome'] }}</a></td>
-                                        <td class="d-none d-md-table-cell"><a class="text-decoration-none" href="{{ $arquivo['url'] }}"
-                                                target="_blank">{{ $arquivo['data'] }}</a></td>
-                                        <td><a class="text-decoration-none d-none d-sm-table-cell" href="{{ $arquivo['url'] }}"
-                                                target="_blank">{{ $arquivo['tamanho'] }}</a></td>
+                                        <td class="text-truncate" style="max-width: 200px;"
+                                            title="{{ $arquivo['url'] }}">
+                                            <a class="text-decoration-none"
+                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['nome']]) }}"
+                                                target="_blank">
+                                                {{ $arquivo['nome'] }}
+                                            </a>
+                                        </td>
+
+                                        <td class="d-none d-md-table-cell">
+                                            <a class="text-decoration-none"
+                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['url']]) }}"
+                                                target="_blank">
+                                                {{ $arquivo['data'] }}
+                                            </a>
+                                        </td>
+
+                                        <td>
+                                            <a class="d-none d-sm-table-cell text-decoration-none"
+                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['url']]) }}"
+                                                target="_blank">
+                                                {{ $arquivo['tamanho'] }}
+                                            </a>
+                                        </td>
                                         <td class="text-center">
                                             <a class="dropdown-item text-danger" href="#" data-bs-toggle="modal"
                                                 data-bs-target="#deleteModal-{{ Str::slug($arquivo['nome']) }}-arquivo">
@@ -253,7 +269,7 @@
                                     <option value="90">Com mais de 3 meses</option>
                                     <option value="180">Com mais de 6 meses</option>
                                     <option value="365">Com mais de 12 meses</option>
-                                    <option value="all" class="text-danger fw-bold">Excluir todos os logs</option>
+                                    <option value="all" class="text-danger fw-bold">Excluir todos os arquivos</option>
                                 </select>
                             </div>
                             <div class="text-center text-danger fw-bold">

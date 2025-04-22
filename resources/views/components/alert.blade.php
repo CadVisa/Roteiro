@@ -42,7 +42,7 @@
         <script>
             window.onload = function() {
                 const link = document.createElement('a');
-                link.href = "{{ asset('storage/roteiros/' . session('pdf_file')) }}";
+                link.href = "{{ route('roteiro.download', ['file' => session('pdf_file')]) }}";
                 link.download = "{{ session('pdf_file') }}";
                 document.body.appendChild(link);
                 link.click();

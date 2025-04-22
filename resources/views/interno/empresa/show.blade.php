@@ -100,27 +100,29 @@
                             {{ $estabelecimento->id }}</span>
                     </div>
 
-                    @inject('storage', 'Illuminate\Support\Facades\Storage')
+                    @php
+                        $arquivo = $estabelecimento->path_roteiro;
 
-                    @if ($estabelecimento->path_roteiro && $storage::disk('public')->exists('roteiros/' . $estabelecimento->path_roteiro))
-                        <div class="col-sm-12 col-md-4 mb-1">
-                            <span class="fw-medium">Roteiro: </span>
-                            <span>
-                                <a class="text-decoration-none"
-                                    href="{{ asset('storage/roteiros/' . $estabelecimento->path_roteiro) }}"
-                                    target="_blank">
-                                    Baixar
-                                </a>
-                            </span>
-                        </div>
-                    @else
-                        <div class="col-sm-12 col-md-4 mb-1">
-                            <span class="fw-medium">Roteiro: </span>
-                            <span>
+                        $caminhoRelativo = $arquivo ? 'roteiros/' . ltrim($arquivo, '/') : null;
+
+                        $caminhoAbsoluto = $caminhoRelativo ? public_path($caminhoRelativo) : null;
+
+                        $arquivoExiste = $caminhoAbsoluto && file_exists($caminhoAbsoluto);
+                    @endphp
+
+                    <div class="col-sm-12 col-md-4 mb-1">
+                        <span class="fw-medium">Roteiro: </span>
+                        <span>
+                            @if ($arquivoExiste)
+                            <a class="text-decoration-none" href="{{ route('baixar.roteiro', ['nome' => $arquivo]) }}">
+                                Baixar
+                            </a>
+                            @else
                                 Não encontrado
-                            </span>
-                        </div>
-                    @endif
+                            @endif
+                        </span>
+                    </div>
+
                 </div>
 
                 <div class="row">
@@ -133,9 +135,8 @@
                         @foreach ($estabelecimento->cnaes->sortBy('codigo_limpo') as $cnae)
                             <div class="accordion-item">
                                 <h4 class="accordion-header" id="headingMaisCampos-{{ $cnae->id }}">
-                                    <button class="accordion-button collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapseMaisCampos-{{ $cnae->id }}"
-                                        aria-expanded="false"
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseMaisCampos-{{ $cnae->id }}" aria-expanded="false"
                                         aria-controls="collapseMaisCampos-{{ $cnae->id }}">
                                         <div class="w-100 d-flex justify-content-between align-items-center">
                                             <div>
@@ -180,8 +181,7 @@
 
                                     </button>
                                 </h4>
-                                <div id="collapseMaisCampos-{{ $cnae->id }}"
-                                    class="accordion-collapse collapse"
+                                <div id="collapseMaisCampos-{{ $cnae->id }}" class="accordion-collapse collapse"
                                     aria-labelledby="headingMaisCampos-{{ $cnae->id }}"
                                     data-bs-parent="#accordionMaisCampos">
                                     <div class="accordion-body row">

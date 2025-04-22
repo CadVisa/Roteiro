@@ -31,6 +31,7 @@ Route::post('/consent', [ConsentController::class, 'store'])->name('consent.stor
 Route::post('/consultar_cnpj', [EstabelecimentoController::class, 'store'])->name('estabelecimento.store');
 Route::get('/{estabelecimento}/{resultado}/dados_empresa', [EstabelecimentoController::class, 'show'])->name('estabelecimento.show');
 Route::get('/{estabelecimento}/{resultado}/gerar_roteiro', [EstabelecimentoController::class, 'gerarRoteiro'])->name('estabelecimento.gerarRoteiro');
+Route::get('/download/roteiro/{file}', [EstabelecimentoController::class, 'download'])->name('roteiro.download');
 
 Route::get('/consultar_cnae', [ConsultaCnaeControler::class, 'index'])->name('consulta_cnae.index');
 Route::get('/{cnae}/visualizar_cnae', [ConsultaCnaeControler::class, 'show'])->name('consulta_cnae.show');
@@ -38,15 +39,15 @@ Route::get('/{cnae}/visualizar_cnae', [ConsultaCnaeControler::class, 'show'])->n
 Route::get('/contato', [ContatoController::class, 'index'])->name('contato.index');
 Route::post('/contato', [ContatoController::class, 'store'])->name('contato.store');
 
-Route::get('/download/roteiro/{file}', function ($file) {
-    $path = public_path('roteiros/' . $file);
+// Route::get('/download/roteiro/{file}', function ($file) {
+//     $path = public_path('roteiros/' . $file);
 
-    if (!file_exists($path)) {
-        abort(404, 'Arquivo não encontrado.');
-    }
+//     if (!file_exists($path)) {
+//         abort(404, 'Arquivo não encontrado.');
+//     }
 
-    return response()->download($path);
-})->name('roteiro.download');
+//     return response()->download($path);
+// })->name('roteiro.download');
 
 
 

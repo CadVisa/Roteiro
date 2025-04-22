@@ -396,7 +396,7 @@ class EstabelecimentoController extends Controller
 
         // Salva o PDF na pasta pública
         $pdf->save(public_path("roteiros/{$namePdf}"));
-        
+
         // Atualiza o estabelecimento com o nome do arquivo do roteiro
         $estabelecimento->update(['path_roteiro' => $namePdf]);
 
@@ -418,5 +418,16 @@ class EstabelecimentoController extends Controller
 
         //return $pdf->download($namePdf);
         //return $pdf->stream($namePdf);
+    }
+
+    public function download($file)
+    {
+        $path = public_path('roteiros/' . $file);
+
+        if (!file_exists($path)) {
+            abort(404, 'Arquivo não encontrado.');
+        }
+
+        return response()->download($path);
     }
 }

@@ -117,7 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/arquivos/gerar_pdf', [ArquivoController::class, 'gerarPDF'])->name('arquivo.gerar-pdf');
     Route::delete('/administrador/arquivos/excluir', [ArquivoController::class, 'destroy'])->name('arquivo.destroy');
     Route::delete('/administrador/arquivos/excluirArquivo/{arquivo}', [ArquivoController::class, 'destroyArquivo'])->name('arquivo.destroyArquivo');
-    Route::get('/administrador/arquivoa/roteiro/{nome}', [ArquivoController::class, 'mostrarArquivo'])->name('arquivo.roteiro');
+    Route::get('/administrador/arquivos/roteiro/{nome}', [ArquivoController::class, 'mostrarArquivo'])->name('arquivo.roteiro');
 
     //ROTAS DOS DOCUMENTOS
     Route::get('/administrador/documentos', [DocumentoLegalController::class, 'index'])->name('documento.index');

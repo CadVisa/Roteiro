@@ -159,7 +159,7 @@
                                         <td class="text-truncate" style="max-width: 200px;"
                                             title="{{ $arquivo['url'] }}">
                                             <a class="text-decoration-none"
-                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['nome']]) }}"
+                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['url']]) }}"
                                                 target="_blank">
                                                 {{ $arquivo['nome'] }}
                                             </a>

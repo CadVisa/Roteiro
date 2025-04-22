@@ -263,15 +263,15 @@ class ArquivoController extends Controller
             $periodo = $request->periodo;
             $descricaoPeriodo = '';
 
-            $path = File::files(public_path('roteiros'));
+            $dirPath = public_path('roteiros');
 
             // Verifica se o diretório existe
-            if (!File::exists($path)) {
+            if (!File::exists($dirPath)) {
                 return back()->with('error', 'A pasta de roteiros não foi encontrada.');
             }
 
             // Recupera todos os arquivos na pasta
-            $files = File::files($path);
+            $files = File::files($dirPath);
 
             // Se o período for 'all', exclui todos os arquivos
             if ($periodo === 'all') {
@@ -294,6 +294,7 @@ class ArquivoController extends Controller
 
                 $descricaoPeriodo = "Arquivos com mais de {$dias} dias foram excluídos.";
             }
+
 
             // LOG DO SISTEMA
             LogService::registrar([
@@ -371,9 +372,6 @@ class ArquivoController extends Controller
             abort(404, 'Arquivo não encontrado.');
         }
 
-        return response()->file($path); // para abrir no navegador
-
-        // ou se quiser forçar download:
-        // return response()->download($path);
+        return response()->file($path);
     }
 }

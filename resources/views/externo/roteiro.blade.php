@@ -352,116 +352,120 @@
         </div>
     @endif
 
-    <div id="area-2">
-        <div class="subtitulo">
-            <span>ATIVIDADE(S) COM GRAU DE RISCO DEFINIDO</span>
-        </div>
-
-        @foreach ($grausDefinidos as $item)
-            <div id="quadro_bloco" style="page-break-inside: avoid;">
-                <table id="tabela_roteiro">
-                    <tr>
-                        <td class="row_cnae" style="width: 76%;" rowspan="2">
-                            {{ $item->codigo_cnae . ' - ' . $item->descricao_cnae }}</td>
-                        {{-- <td class="titulo_cnae" style="width: 10%;">Competência</td> --}}
-                        <td class="titulo_cnae" style="width: 12%;">Grau de risco</td>
-                        <td class="titulo_cnae" style="width: 12%;">Exerce?</td>
-                    </tr>
-                    <tr>
-
-                        {{-- <td class="row_cnae" style="width: 10%; text-align: center;">{{ $item->competencia }}</td> --}}
-                        <td class="row_cnae" style="width: 17%; text-align: center;">{{ $item->grau_cnae }}</td>
-                        <td class="row_cnae" style="width: 17%;">
-                            <div id="sim_nao">
-                                <span class="cx_sim_nao">Sim</span>
-                                <span class="cx_sim_nao">Não</span>
-                            </div>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td class="compreende" colspan="3">
-                            <span class="titulo_compreende">Compreende: </span>
-                            @if ($item->notas_s_compreende == 'NI')
-                                Sem informação
-                            @else
-                                {{ $item->notas_s_compreende }}
-                            @endif
-                            <span class="titulo_compreende"> / Não compreende: </span>
-                            @if ($item->notas_n_compreende == 'NI')
-                                Sem informação
-                            @else
-                                {{ $item->notas_n_compreende }}
-                            @endif
-                        </td>
-                    </tr>
-                </table>
+    @if ($grausDefinidos->count() > 0)
+        <div id="area-2">
+            <div class="subtitulo">
+                <span>ATIVIDADE(S) COM GRAU DE RISCO DEFINIDO</span>
             </div>
-        @endforeach
 
-    </div>
-
-    <div id="area-3" style="page-break-inside: avoid;">
-        <div class="subtitulo">
-            <span>ATIVIDADE(S) QUE DEPENDE(M) DE INFORMAÇÃO</span>
-        </div>
-
-        @foreach ($grausDepende as $item)
-            <div id="quadro_bloco" style="page-break-inside: avoid;">
-                <table id="tabela_roteiro">
-                    <tr>
-                        <td class="row_cnae" style="width: 88%;" rowspan="2">
-                            {{ $item->codigo_cnae . ' - ' . $item->descricao_cnae }}</td>
-                        <td class="titulo_cnae" style="width: 12%;">Exerce?</td>
-                    </tr>
-                    <tr>
-
-                        <td class="row_cnae" style="width: 12%;">
-                            <div id="sim_nao">
-                                <span class="cx_sim_nao">Sim</span>
-                                <span class="cx_sim_nao">Não</span>
-                            </div>
-                        </td>
-
-                    </tr>
-                    @foreach ($item->perguntas as $pergunta)
+            @foreach ($grausDefinidos as $item)
+                <div id="quadro_bloco" style="page-break-inside: avoid;">
+                    <table id="tabela_roteiro">
                         <tr>
-                            <td class="pergunta" colspan="2">
-                                <span class="titulo_pergunta">Pergunta: </span><span
-                                    class="texto_pergunta">{{ $pergunta->pergunta }}</span>
-                            </td>
+                            <td class="row_cnae" style="width: 76%;" rowspan="2">
+                                {{ $item->codigo_cnae . ' - ' . $item->descricao_cnae }}</td>
+                            {{-- <td class="titulo_cnae" style="width: 10%;">Competência</td> --}}
+                            <td class="titulo_cnae" style="width: 12%;">Grau de risco</td>
+                            <td class="titulo_cnae" style="width: 12%;">Exerce?</td>
                         </tr>
                         <tr>
-                            <td class="resposta" colspan="2">
-                                <span>Resposta: </span>
-                                <span class="cx_sim">Sim</span>
-                                <span>{{ $pergunta->grau_sim }}</span>
-                                <span class="cx_nao">Não</span>
-                                <span>{{ $pergunta->grau_nao }}</span>
 
+                            {{-- <td class="row_cnae" style="width: 10%; text-align: center;">{{ $item->competencia }}</td> --}}
+                            <td class="row_cnae" style="width: 17%; text-align: center;">{{ $item->grau_cnae }}</td>
+                            <td class="row_cnae" style="width: 17%;">
+                                <div id="sim_nao">
+                                    <span class="cx_sim_nao">Sim</span>
+                                    <span class="cx_sim_nao">Não</span>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="compreende" colspan="3">
+                                <span class="titulo_compreende">Compreende: </span>
+                                @if ($item->notas_s_compreende == 'NI')
+                                    Sem informação
+                                @else
+                                    {{ $item->notas_s_compreende }}
+                                @endif
+                                <span class="titulo_compreende"> / Não compreende: </span>
+                                @if ($item->notas_n_compreende == 'NI')
+                                    Sem informação
+                                @else
+                                    {{ $item->notas_n_compreende }}
+                                @endif
                             </td>
                         </tr>
-                    @endforeach
-                    <tr>
-                        <td class="compreende" colspan="2">
-                            <span class="titulo_compreende">Compreende: </span>
-                            @if ($item->notas_s_compreende == 'NI')
-                                Sem informação
-                            @else
-                                {{ $item->notas_s_compreende }}
-                            @endif
-                            <span class="titulo_compreende"> / Não compreende: </span>
-                            @if ($item->notas_n_compreende == 'NI')
-                                Sem informação
-                            @else
-                                {{ $item->notas_n_compreende }}
-                            @endif
-                        </td>
-                    </tr>
-                </table>
+                    </table>
+                </div>
+            @endforeach
+
+        </div>
+    @endif
+
+    @if ($grausDepende->count() > 0)
+        <div id="area-3" style="page-break-inside: avoid;">
+            <div class="subtitulo">
+                <span>ATIVIDADE(S) QUE DEPENDE(M) DE INFORMAÇÃO</span>
             </div>
-        @endforeach
-    </div>
+
+            @foreach ($grausDepende as $item)
+                <div id="quadro_bloco" style="page-break-inside: avoid;">
+                    <table id="tabela_roteiro">
+                        <tr>
+                            <td class="row_cnae" style="width: 88%;" rowspan="2">
+                                {{ $item->codigo_cnae . ' - ' . $item->descricao_cnae }}</td>
+                            <td class="titulo_cnae" style="width: 12%;">Exerce?</td>
+                        </tr>
+                        <tr>
+
+                            <td class="row_cnae" style="width: 12%;">
+                                <div id="sim_nao">
+                                    <span class="cx_sim_nao">Sim</span>
+                                    <span class="cx_sim_nao">Não</span>
+                                </div>
+                            </td>
+
+                        </tr>
+                        @foreach ($item->perguntas as $pergunta)
+                            <tr>
+                                <td class="pergunta" colspan="2">
+                                    <span class="titulo_pergunta">Pergunta: </span><span
+                                        class="texto_pergunta">{{ $pergunta->pergunta }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="resposta" colspan="2">
+                                    <span>Resposta: </span>
+                                    <span class="cx_sim">Sim</span>
+                                    <span>{{ $pergunta->grau_sim }}</span>
+                                    <span class="cx_nao">Não</span>
+                                    <span>{{ $pergunta->grau_nao }}</span>
+
+                                </td>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td class="compreende" colspan="2">
+                                <span class="titulo_compreende">Compreende: </span>
+                                @if ($item->notas_s_compreende == 'NI')
+                                    Sem informação
+                                @else
+                                    {{ $item->notas_s_compreende }}
+                                @endif
+                                <span class="titulo_compreende"> / Não compreende: </span>
+                                @if ($item->notas_n_compreende == 'NI')
+                                    Sem informação
+                                @else
+                                    {{ $item->notas_n_compreende }}
+                                @endif
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            @endforeach
+        </div>
+    @endif
 
     <div style="page-break-inside: avoid;">
         <div class="subtitulo">

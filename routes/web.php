@@ -39,18 +39,6 @@ Route::get('/{cnae}/visualizar_cnae', [ConsultaCnaeControler::class, 'show'])->n
 Route::get('/contato', [ContatoController::class, 'index'])->name('contato.index');
 Route::post('/contato', [ContatoController::class, 'store'])->name('contato.store');
 
-// Route::get('/download/roteiro/{file}', function ($file) {
-//     $path = public_path('roteiros/' . $file);
-
-//     if (!file_exists($path)) {
-//         abort(404, 'Arquivo não encontrado.');
-//     }
-
-//     return response()->download($path);
-// })->name('roteiro.download');
-
-
-
 // ROTAS PROTEGIDAS
 Route::group(['middleware' => 'auth'], function () {
 
@@ -112,6 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/administrador/empresas/excluir', [EmpresaController::class, 'destroy'])->name('empresa.destroy');
     Route::get('/administrador/empresas/{estabelecimento}/visualizar_empresa', [EmpresaController::class, 'show'])->name('empresa.show');
     Route::delete('/administrador/empresas/{estabelecimento}/excluir_empresa', [EmpresaController::class, 'destroyEmpresa'])->name('empresa.destroyEmpresa');
+    Route::get('/administrador/empresas/download/{nome}', [EmpresaController::class, 'baixar'])->name('baixar.roteiro');
 
     //ROTAS DOS ARQUIVOS
     Route::get('/administrador/arquivos', [ArquivoController::class, 'index'])->name('arquivo.index');
@@ -134,16 +123,6 @@ Route::group(['middleware' => 'auth'], function () {
     // ROTAS DOS COOKIES
     Route::get('/administrador/cookies', [CookieController::class, 'index'])->name('cookie.index');
     Route::get('/administrador/cookies/{cookie}/visualizar_cookie', [CookieController::class, 'show'])->name('cookie.show');
-
-    Route::get('/baixar-roteiro/{nome}', function ($nome) {
-        $caminho = public_path('roteiros/' . $nome);
-
-        if (!file_exists($caminho)) {
-            abort(404, 'Arquivo não encontrado.');
-        }
-
-        return Response::download($caminho);
-    })->name('baixar.roteiro');
 
     // ROTA DE LOGOUT
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');

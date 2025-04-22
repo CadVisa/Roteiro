@@ -321,4 +321,15 @@ class EmpresaController extends Controller
             return back()->withInput()->with('error', 'Empresa não excluída!');
         }
     }
+
+    public function baixar($nome)
+    {
+        $caminho = public_path('roteiros/' . $nome);
+
+        if (!file_exists($caminho)) {
+            abort(404, 'Arquivo não encontrado.');
+        }
+
+        return response()->download($caminho);
+    }
 }

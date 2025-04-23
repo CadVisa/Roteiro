@@ -44,8 +44,6 @@ class EstabelecimentoController extends Controller
                 // Faz a consulta na API
                 $dadosEmpresa = $this->cnpjWSService->consultarCNPJ($cnpjLimpo);
 
-                //dd($dadosEmpresa);
-
                 // Verifica se a API retornou vazia
                 if (empty($dadosEmpresa)) {
 
@@ -140,7 +138,7 @@ class EstabelecimentoController extends Controller
                     'razao_social' => $dadosEmpresa['razao_social'],
                     'nome_fantasia' => $dadosEmpresa['estabelecimento']['nome_fantasia'] ?? 'Não informado',
                     'cnpj' => $cnpj,
-                    'atualizado_em' => $dadosEmpresa["estabelecimento"]["atualizado_em"],
+                    'atualizado_em' => $dadosEmpresa["atualizado_em"],
                     'logradouro' => $logradouro,
                     'numero' => $dadosEmpresa['estabelecimento']['numero'],
                     'complemento' => $dadosEmpresa['estabelecimento']['complemento'],
@@ -336,7 +334,7 @@ class EstabelecimentoController extends Controller
         LogService::registrar([
             'nivel' => '1',
             'chave' => 'pg_resultado',
-            'descricao' => 'Usuário acessou a página de resultado da consulta.',
+            'descricao' => 'Acessou a página de resultado da consulta.',
             'observacoes' => 'CNPJ: ' . $estabelecimento->cnpj,
         ]);
 
@@ -355,7 +353,7 @@ class EstabelecimentoController extends Controller
             LogService::registrar([
                 'nivel' => '3',
                 'chave' => 'pg_resultado',
-                'descricao' => 'Usuário tentou gerar o roteiro de uma empresa sem atividade passível de licenciamento.',
+                'descricao' => 'Tentou gerar o roteiro de uma empresa sem atividade passível de licenciamento.',
                 'observacoes' => 'CNPJ: ' . $estabelecimento->cnpj,
             ]);
 
@@ -409,7 +407,7 @@ class EstabelecimentoController extends Controller
         LogService::registrar([
             'nivel' => '1',
             'chave' => 'pg_resultado',
-            'descricao' => 'Usuário gerou o roteiro.',
+            'descricao' => 'Gerou o roteiro.',
             'observacoes' => 'CNPJ: ' . $estabelecimento->cnpj . ' | Arquivo: ' . $namePdf,
         ]);
 

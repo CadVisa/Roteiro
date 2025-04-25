@@ -136,7 +136,8 @@ class ArquivoController extends Controller
         $ordenar_por = $request->ordenar_por ?? 'data';
         $ordem = $request->ordem ?? 'asc';
 
-        $path = File::files(public_path('roteiros'));
+        $path = public_path('roteiros');
+
         $arquivos = collect();
 
         if (File::exists($path)) {
@@ -208,16 +209,16 @@ class ArquivoController extends Controller
             return back()->withInput()->with('error', 'Sem informações para gerar o relatório!');
         }
 
-        if ($arquivos->count() > 1000) {
+        if ($arquivos->count() > 500) {
 
             //LOG DO SISTEMA
             LogService::registrar([
                 'nivel' => '2',
                 'chave' => 'pg_arquivos',
-                'descricao' => 'Tentou gerar o relatório com mais de 1000 registros.',
+                'descricao' => 'Tentou gerar o relatório com mais de 500 registros.',
             ]);
 
-            return back()->withInput()->with('error', 'A consulta retornou mais de 1000 registros! Redefina os parâmetros da consulta.');
+            return back()->withInput()->with('error', 'A consulta retornou mais de 500 registros! Redefina os parâmetros da consulta.');
         }
 
         //LOG DO SISTEMA

@@ -156,26 +156,25 @@
                             <tbody>
                                 @foreach ($paginated as $arquivo)
                                     <tr>
-                                        <td class="text-truncate" style="max-width: 200px;"
-                                            title="{{ $arquivo['url'] }}">
+                                        <td class="text-truncate" style="max-width: 200px;" title="{{ $arquivo['nome'] }}">
                                             <a class="text-decoration-none"
-                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['url']]) }}"
+                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['nome']]) }}"
                                                 target="_blank">
                                                 {{ $arquivo['nome'] }}
                                             </a>
                                         </td>
 
-                                        <td class="d-none d-md-table-cell">
+                                        <td class="d-none d-md-table-cell" title="{{ $arquivo['data'] }}">
                                             <a class="text-decoration-none"
-                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['url']]) }}"
+                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['nome']]) }}"
                                                 target="_blank">
                                                 {{ $arquivo['data'] }}
                                             </a>
                                         </td>
 
-                                        <td>
+                                        <td title="{{ $arquivo['tamanho'] }}">
                                             <a class="d-none d-sm-table-cell text-decoration-none"
-                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['url']]) }}"
+                                                href="{{ route('arquivo.roteiro', ['nome' => $arquivo['nome']]) }}"
                                                 target="_blank">
                                                 {{ $arquivo['tamanho'] }}
                                             </a>

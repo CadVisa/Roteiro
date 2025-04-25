@@ -104,7 +104,7 @@
                                         <td>
                                             {{ \Carbon\Carbon::parse($acesso->data)->format('d/m/Y') }}</td>
 
-                                        <td class="text-truncate">
+                                        <td class="text-truncate" style="max-width: 170px;">
                                             {{ $acesso->ip }}</td>
                                     </tr>
                                 @endforeach

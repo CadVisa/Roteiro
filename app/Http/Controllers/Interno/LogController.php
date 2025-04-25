@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Interno;
 
 use App\Http\Controllers\Controller;
-use App\Models\Estabelecimento;
 use App\Models\Log;
 use App\Services\LogService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -51,7 +50,7 @@ class LogController extends Controller
 
         $logs = $query->paginate(env('PAGINACAO'))->withQueryString();
 
-        $ips = Estabelecimento::orderBy('criado_por')->distinct()->pluck('criado_por');
+        $ips = Log::orderBy('log_ip')->distinct()->pluck('log_ip');
 
         $grupos = Log::select('log_chave')
             ->groupBy('log_chave')
@@ -62,7 +61,7 @@ class LogController extends Controller
         LogService::registrar([
             'nivel' => '1',
             'chave' => 'pg_logs',
-            'descricao' => 'Usuário acessou a página de logs.',
+            'descricao' => 'Acessou a página de logs.',
         ]);
 
         return view('interno.log.index', [
@@ -171,16 +170,16 @@ class LogController extends Controller
             return back()->withInput()->with('error', 'Sem informações para gerar o relatório!');
         }
 
-        if ($logs->count() > 1000) {
+        if ($logs->count() > 500) {
 
             //LOG DO SISTEMA
             LogService::registrar([
                 'nivel' => '2',
                 'chave' => 'pg_logs',
-                'descricao' => 'Tentou gerar o relatório com mais de 1000 registros.',
+                'descricao' => 'Tentou gerar o relatório com mais de 500 registros.',
             ]);
 
-            return back()->withInput()->with('error', 'A consulta retornou mais de 1000 registros! Redefina os parâmetros da consulta.');
+            return back()->withInput()->with('error', 'A consulta retornou mais de 500 registros! Redefina os parâmetros da consulta.');
         }
 
         //LOG DO SISTEMA
@@ -220,9 +219,7 @@ class LogController extends Controller
 
         $logAnterior = $log->log_nivel;
 
-        try {
-
-            
+        try {            
 
             if ($log->log_nivel == 1) {
                 $log->update([

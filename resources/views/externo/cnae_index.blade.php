@@ -56,12 +56,12 @@
 
                     <div class="col-sm-6 col-md-4 col-lg-3 mt-3 d-flex align-items-end p-sm-1">
                         <div class="d-flex justify-content-start">
-                            <button class="spinner-primary btn btn-outline-primary btn-sm me-1" type="submit">
-                                <i class="fa-solid fa-magnifying-glass"></i><span class="d-none d-sm-inline">
+                            <button class="spinner-primary btn btn-outline-primary btn-sm me-1" type="submit" onclick="mostrarPreload()">
+                                <i class="fa-solid fa-magnifying-glass"></i><span>
                                     Pesquisar</span>
                             </button>
-                            <a href="{{ route('consulta_cnae.index') }}" class="spinner-secondary btn btn-outline-secondary btn-sm">
-                                <i class="fa-solid fa-broom"></i><span class="d-none d-sm-inline"> Limpar</span>
+                            <a href="{{ route('consulta_cnae.index') }}" class="spinner-secondary btn btn-outline-secondary btn-sm" onclick="mostrarPreload()">
+                                <i class="fa-solid fa-broom"></i><span> Limpar</span>
                             </a>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
             
                                         <td class="text-end">
                                             <a href="{{ route('consulta_cnae.show', ['cnae' => $cnae]) }}"
-                                                class="spinner-light btn btn-outline-primary btn-sm"><i
+                                                class="btn btn-outline-primary btn-sm" onclick="mostrarPreload()"><i
                                                     class="fa-regular fa-folder-open"></i><span class="d-none d-sm-inline">
                                                     Abrir</span></a>
                                         </td>

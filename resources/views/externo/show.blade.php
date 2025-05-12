@@ -40,7 +40,7 @@
                     <i class="fa-solid fa-file-pdf me-2"></i>Gerar roteiro
                 </a>
             @endif
-            <a href="{{ route('home') }}" class="btn btn-sm btn-warning spinner-warning-cv">
+            <a href="{{ route('home') }}" class="btn btn-sm btn-warning spinner-warning-cv" onclick="mostrarPreload()">
                 <i class="fas fa-search me-2"></i>Nova consulta
             </a>
         </div>

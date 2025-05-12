@@ -24,7 +24,7 @@
 
     <!-- Spinner full screen oculto por padrão -->
     <div id="preloadOverlay"
-        class="d-none position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-black bg-opacity-75"
+        class="d-none position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-75"
         style="z-index: 1050;">
         <div class="spinner-border text-warning" role="status">
             <span class="visually-hidden">Carregando...</span>

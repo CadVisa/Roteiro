@@ -25,13 +25,9 @@
 
                 <div class="d-flex justify-content-between align-items-center gap-2">
                     <span>
-                        <a href="{{ route('consulta_cnae.index') }}" class="spinner-light btn btn-sm btn-outline-light">
+                        <a href="{{ route('consulta_cnae.index') }}" class="btn btn-sm btn-outline-light" onclick="mostrarPreload()">
                             <i class="fa-solid fa-rotate-left"></i>
-                            <span class="d-none d-sm-inline">Voltar</span>
-                        </a>
-                        <a href="{{ route('consulta_cnae.index') }}" class="spinner-light btn btn-sm btn-outline-light">
-                            <i class="fa-solid fa-house"></i>
-                            <span class="d-none d-sm-inline">Página inicial</span>
+                            <span>Voltar</span>
                         </a>
                     </span>
                 </div>

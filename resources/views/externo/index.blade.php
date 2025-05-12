@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="col-12 mb-2">
-                            <button type="submit" class="w-100 spinner-light-cv btn btn-sm btn-primary">
+                            <button type="submit" onclick="mostrarPreload()" class="w-100 spinner-light-cv btn btn-sm btn-primary">
                                 <i class="fas fa-search me-1"></i>Consultar empresa
                             </button>
                         </div>

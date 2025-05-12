@@ -21,6 +21,17 @@
 </head>
 
 <body>
+
+    <!-- Spinner full screen oculto por padrão -->
+    <div id="preloadOverlay"
+        class="d-none position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-black bg-opacity-75"
+        style="z-index: 1050;">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+        <span class="ms-2 text-warning">Aguarde...</span>
+    </div>
+
     <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-primary mb-5">
         <div class="container-fluid">
             <span class="navbar-brand mb-1 h1">CadVisa</span>
@@ -197,6 +208,9 @@
     </nav>
 
     <main class="flex-grow-1">
+
+
+
         <div class="container-fluid" style="margin-top: 70px">
             @yield('content')
         </div>

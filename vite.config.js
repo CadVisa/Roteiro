@@ -12,14 +12,9 @@ export default defineConfig({
         }),
     ],
     build: {
-        outDir: 'public_html/build',
+        outDir: 'public/build', // <-- Gera os arquivos corretamente na pasta que Laravel usa
         manifest: true,
     },
-    resolve: {
-        alias: {
-            '@fortawesome': '/node_modules/@fortawesome',
-            '$': 'jquery',
-            'jQuery': 'jquery',
-        },
-    },
 });
+
+

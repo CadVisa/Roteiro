@@ -69,7 +69,7 @@
                     <div class="col-md-12 d-flex justify-content-between align-items-center">
                         <small><span class="text-danger">* Campo obrigatório</span></small>
                         <div>
-                            <button class="spinner-light-email btn btn-success btn-sm" type="submit">
+                            <button class="spinner-light-email btn btn-success btn-sm" type="submit" onclick="mostrarPreload()">
                                 <i class="fa-solid fa-envelope-circle-check"></i> Enviar mensagem
                             </button>
                         </div>

@@ -36,7 +36,7 @@
     <div class="d-flex justify-content-center align-items-center">
         <div>
             @if ($resultado != 0)
-                <a href="{{ route('estabelecimento.gerarRoteiro', ['estabelecimento' => $estabelecimento->id, 'resultado' => $resultado]) }}" class="btn btn-sm btn-success spinner-light-cv">
+                <a href="{{ route('estabelecimento.gerarRoteiro', ['estabelecimento' => $estabelecimento->id, 'resultado' => $resultado]) }}" class="btn btn-sm btn-success spinner-light-cv"  onclick="mostrarPreload()">
                     <i class="fa-solid fa-file-pdf me-2"></i>Gerar roteiro
                 </a>
             @endif

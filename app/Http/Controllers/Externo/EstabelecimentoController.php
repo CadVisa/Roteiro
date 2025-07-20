@@ -74,7 +74,7 @@ class EstabelecimentoController extends Controller
 
                 if (in_array($situacao, $situacoesInvalidas)) {
                     $razaoSocial = ucwords(strtolower($dadosEmpresa["razao_social"] ?? 'Não informada'));
-                    $dataAtualizacao = Carbon::parse($dadosEmpresa['atualizado_em'] ?? now())->format('d/m/Y H:i');
+                    $dataAtualizacao = Carbon::parse($dadosEmpresa['atualizado_em'] ?? now())->format('d/m/Y');
 
                     DB::rollBack();
 
@@ -86,11 +86,23 @@ class EstabelecimentoController extends Controller
                         'observacoes' => 'CNPJ: ' . $cnpj . ' | Razão Social: ' . $razaoSocial . ' | Situação: ' . $situacao,
                     ]);
 
+                    // return back()
+                    //     ->withInput()
+                    //     ->with('error', "A empresa {$razaoSocial} encontra-se com a situação cadastral '{$situacao}' 
+                    //         junto à Receita Federal. A última atualização no banco de dados ocorreu em $dataAtualizacao");
+
                     return back()
-                        ->withInput()
-                        ->with('error', "A empresa {$razaoSocial} encontra-se com a situação cadastral '{$situacao}' 
-                            junto à Receita Federal. A última atualização no banco de dados ocorreu em $dataAtualizacao");
+                    ->withInput()
+                    ->with('error', "A consulta retornou que a empresa <strong>{$razaoSocial}</strong> 
+                    encontra-se com a situação cadastral <strong>'{$situacao}'</strong>.<br><br>
+                    A última atualização disponível em nossa base de dados ocorreu em <strong>{$dataAtualizacao}</strong>.<br><br>
+                    <strong>Importante:</strong> Caso tenha ocorrido alguma alteração recente no cadastro da empresa junto à Receita Federal, pode haver um atraso de até <strong>45 dias</strong> na atualização dessas informações em nossa base.<br><br>
+                    Para verificar o CNPJ diretamente no site da Receita Federal, <a 
+                    href=\"https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp\" 
+                    target=\"_blank\" 
+                    class=\"text-decoration-none\">clique aqui</a>.");
                 }
+
 
 
                 // Concatena o tipo de logradouro com logradouro
@@ -281,7 +293,7 @@ class EstabelecimentoController extends Controller
                     'observacoes' => 'Erro: ' . $e->getMessage(),
                 ]);
 
-                return back()->withInput()->with('error', 'CNPJ não encontrado!');
+                return back()->withInput()->with('error', '<strong>CNPJ não encontrado!</strong><br><br>Se esta empresa foi cadastrada recentemente na Receita Federal, pode haver um atraso de até 45 dias na atualização dos dados em nossa base.<br><br>Para verificar o CNPJ diretamente no site da Receita Federal, <a href="https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp" target="_blank" class="text-decoration-none">clique aqui</a>.');
             } elseif ($statusCode === 429) {
 
                 //LOG DO SISTEMA
